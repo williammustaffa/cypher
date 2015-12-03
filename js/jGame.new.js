@@ -121,7 +121,7 @@ function Jgame( config ) {
     this.viewports = [];
     /* viewport settings */
     this.add_viewport = function( options ) {
-      var def = { width: this.dimensions.width, height: this.dimensions.height, x: 0, y: 0 };
+      var def = { width: this.dimensions.width, height: this.dimensions.height, x: 0, y: 0 , active: false };
       for(var key in options){
         if (def.hasOwnProperty(key)) def[key] = options[key];
       }
@@ -135,15 +135,23 @@ function Jgame( config ) {
       var index = this.instances.push( new_instance );
       return this.instances[ index - 1 ];
     }
+    /* Cloning function, there is some kind of sorcery here */
+    this.clone = function() {
+      var obj_clone = new Room();
+      obj_clone.prototype = this;
+      return obj_clone;
+    };
     /* add a default viewport */
-    this.add_viewport();
+    this.add_viewport({active: true});
+
     /* return room object */
     return this;
   }
 
   /* VARIABLES */
   this.rooms = [];
-
+  this.sorcery = { fake_room: false, current_room: -1 };
+  this.ready = false;
   /* GAME FUNCTIONS */
 
   /* object creation function */
@@ -154,13 +162,62 @@ function Jgame( config ) {
   /* room creation function */
   this.room_add = function() {
     var new_room = new Room();
-    var index = this.rooms.push( new_room );
-    return this.rooms[ index - 1 ];
+    var index = this.rooms.push( new_room ) - 1;
+    if ( this.sorcery.current_room == -1 ) {
+      this.sorcery.current_room = index;
+    }
+    return this.rooms[ index ];
   }
 
+  /* GAME RUN SETUP */
+  this.start = function() {
+    /* variables */
+    var Error = false;
+    /* run check */
+    if ( this.ready == true ) {
+      this.step();
+      this.draw();
+    } else {
+      if ( this.sorcery.current_room >= 0 ) {
+        if ( Room.prototype.isPrototypeOf( this.rooms[ this.sorcery.current_room ] ) ) {
+          this.ready = true;
+          this.sorcery.fake_room = this.rooms[ this.sorcery.current_room ];
+        } else {
+          Error = "[jGame] Invalid room object";
+        }
+      } else {
+        Error = "[Jgame] You have to create at least one room";
+      }
+    }
+    /* if there is no error, we do the animation */
+    if ( Error == false ) {
+      var me = this;
+      setTimeout( function() {
+        me.start();
+      }, 1000/30);
+    } else {
+      console.log( Error );
+    }
+  }
+  /* step functions, more mechanical things */
+  this.step = function() {
+    var instances = this.sorcery.fake_room.instances;
+    instances.forEach( function( instance ) {
+      instance.y += instance.vspeed + ( instance.speed * Math.sin( instance.direction * Math.PI / 180 ) );
+      instance.x += instance.hspeed + ( instance.speed * Math.cos( instance.direction * Math.PI / 180 ) );
+      instance.vspeed += instance.gravity * ( Math.sin( instance.gravity_direction * Math.PI / 180 ) );
+      instance.hspeed += instance.gravity * ( Math.cos( instance.gravity_direction * Math.PI / 180 ) );
+      instance.step();
+    });
+  }
+  /* draw function, what you'll see on screen */
+  this.draw = function() {
+
+  }
+  /* init events organizer */
   this.run = function() {
-    var key = new Keyboard();
-    console.log( key );
+    key = new Keyboard();
+    this.start();
   }
   /* RETURN THE GAME OBJECT */
   return this;
