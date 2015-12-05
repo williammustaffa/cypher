@@ -3,7 +3,7 @@ var fs = require( "fs" );
 var srcDir = "src/"
 var entryPoint = srcDir + "main.js";
 // regex to serach @include("file"); declarations
-var searchRegex = /include\(\"[\w._-]*\"\)/;
+var searchRegex = /include\(\"[^\)]*\"\)/;
 // Parse entry point
 var content = parseInclude(entryPoint);
 // write the parsed/replaced content into a single file
@@ -46,3 +46,4 @@ function insertFileInfo(src, content) {
   //
   return  prefix + "\n" + content + "\n" + sufix;
 }
+console.log("js compiled.");
