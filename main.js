@@ -1,6 +1,6 @@
 var express = require('express'), app = express();
 
-app.use("/js", express.static(__dirname + '/js'));
+app.use("/dist", express.static(__dirname + '/dist'));
 app.use("/assets", express.static(__dirname + '/assets'));
 
 app.get('/', function(req, res){
