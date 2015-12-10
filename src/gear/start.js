@@ -2,34 +2,23 @@
 this.start = function() {
   /* variables */
   var Error = false;
-  /* run check */
-  if ( this.ready == true ) {
-    this.step();
-    this.draw();
-  } else {
-    if ( this.sorcery.current_room >= 0 ) {
-      if ( Room.prototype.isPrototypeOf( this.rooms[ this.sorcery.current_room ] ) ) {
-        this.ready = true;
-        this.sorcery.fake_room = this.rooms[ this.sorcery.current_room ];
-      } else {
-        Error = "[jGame] Invalid room object";
-      }
-    } else {
-      Error = "[Jgame] You have to create at least one room";
-    }
+  var game_instance = this;
+  if  ( this.debug ) {
+    console.log("UPDATED:")
+    console.log( game_instance );
   }
+  /* run gear */
+  game_instance.step();
+  game_instance.draw();
+  game_instance.keyboard.reset();
   /* if there is no error, we do the animation */
-  if ( Error == false ) {
-    var me = this;
-    setTimeout( function() {
-      me.start();
-    }, 1000/30);
-  } else {
-    console.log( Error );
-  }
+  setTimeout( function() {
+    game_instance.start();
+  } , 2000);
 }
 /* init events organizer */
 this.run = function() {
-  key = new Keyboard();
+  /* unique settings */
+  this.keyboard = new Keyboard();
   this.start();
 }

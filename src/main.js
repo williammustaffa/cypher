@@ -3,8 +3,8 @@
 * AUTHOR: William Lima / williammustaffa
 * DATE:  12/01/2015
 */
-
 function Jgame( config ) {
+  include("lib/global.js")
 
   /* OBJECT */
   include("objects/keyboard.js")
@@ -13,16 +13,18 @@ function Jgame( config ) {
 
   /* VARIABLES */
   this.rooms = [];
-  this.sorcery = { fake_room: false, current_room: -1 };
-  this.ready = false;
-
+  this.current_room = false;
+  this.ready = true;
+  this.debug = true;
+  this.keyboard = false;
+  this.context = new_canvas();
   /* GAME FUNCTIONS */
   include("lib/functions.js")
 
   /* GEAR */
-  include("gear/start.js")
   include("gear/step.js")
   include("gear/draw.js")
+  include("gear/start.js")
 
   /* RETURN THE GAME OBJECT */
   return this;

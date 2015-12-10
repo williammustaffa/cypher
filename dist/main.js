@@ -3,8 +3,84 @@
 * AUTHOR: William Lima / williammustaffa
 * DATE:  12/01/2015
 */
-
 function Jgame( config ) {
+  /* Math functions */
+function distance_to_point(x, y, xx, yy) {
+    return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
+}
+function random(){
+    return Math.random();
+}
+function round(num) {
+    return Math.round(num);
+}
+function floor(num) {
+    return Math.floor(num);
+}
+function ceil(num) {
+    return Math.ceil(num);
+}
+function sqrt(num) {
+    return Math.sqrt(num);
+}
+function power(num, num2) {
+    return Math.pow(num,num2);
+}
+function new_canvas() {
+  var canvas = document.createElement('canvas');//getElementById('canvas');
+  var canvasStyle = canvas.style;
+  var canvasId = '_' + Math.random().toString(36).substr(2, 9);
+  canvas.setAttribute("id", canvasId);
+  canvasStyle.margin = 'auto';
+  canvasStyle.display = 'block';
+  canvasStyle.position = 'absolute';
+  canvasStyle.left = '0';
+  canvasStyle.right = '0';
+  canvasStyle.top = '0';
+  canvasStyle.bottom = '0';
+  canvasStyle.background = "#000";
+  /* end of canvas style */
+  document.body.appendChild(canvas);
+  context=canvas.getContext('2d');
+  return context;
+}
+/* Draw Functions */
+function draw_circle( x , y , radius, outline){
+    context.beginPath();
+    context.arc(x,y,radius,0,2*Math.PI);
+    if (!outline){
+        context.fill()
+    }else{
+        context.stroke();
+    }
+    context.closePath();
+}
+function draw_rectangle( x , y , x2 , y2 ){
+    context.fillRect(x,y,x2-x,y2-y);
+}
+function draw_line(x,y,xx,yy) {
+    context.beginPath();
+    context.moveTo(x,y);
+    context.lineTo(xx,yy);
+    context.stroke();
+}
+function draw_rectangle_color( x , y , x2 , y2 , color ){
+    context.fillStyle=color;
+    context.fillRect(x,y,x2-x,y2-y);
+}
+function draw_set_color( color ){
+    context.fillStyle=color;
+}
+function draw_sprite( sprite , x , y ){
+    context.drawImage(sprite.image,x,y);
+}
+function draw_text(text , x , y){
+    context.fillText(text,x,y);
+}
+function font_style(style)  {
+    context.font = style;
+};
+
 
   /* OBJECT */
   /*  KEYBOARD */
@@ -23,7 +99,7 @@ function Keyboard() {
       }
   }
   /* Reset function for step */
-  this.reset_keyboard = function() {
+  this.reset = function() {
       for (var prop in keys){
           if (keys.hasOwnProperty(prop)) {
               keyPressed[prop]=0;
@@ -150,9 +226,11 @@ function Room() {
 
   /* VARIABLES */
   this.rooms = [];
-  this.sorcery = { fake_room: false, current_room: -1 };
-  this.ready = false;
-
+  this.current_room = false;
+  this.ready = true;
+  this.debug = true;
+  this.keyboard = false;
+  this.context = new_canvas();
   /* GAME FUNCTIONS */
   /* object creation function */
 this.object_create = function() {
@@ -162,54 +240,17 @@ this.object_create = function() {
 /* room creation function */
 this.room_add = function() {
   var new_room = new Room();
-  var index = this.rooms.push( new_room ) - 1;
-  if ( this.sorcery.current_room == -1 ) {
-    this.sorcery.current_room = index;
+  if ( !this.current_room ) {
+    this.current_room = new_room;
   }
-  return this.rooms[ index ];
+  return new_room;
 }
 
 
   /* GEAR */
-  /* GAME RUN SETUP */
-this.start = function() {
-  /* variables */
-  var Error = false;
-  /* run check */
-  if ( this.ready == true ) {
-    this.step();
-    this.draw();
-  } else {
-    if ( this.sorcery.current_room >= 0 ) {
-      if ( Room.prototype.isPrototypeOf( this.rooms[ this.sorcery.current_room ] ) ) {
-        this.ready = true;
-        this.sorcery.fake_room = this.rooms[ this.sorcery.current_room ];
-      } else {
-        Error = "[jGame] Invalid room object";
-      }
-    } else {
-      Error = "[Jgame] You have to create at least one room";
-    }
-  }
-  /* if there is no error, we do the animation */
-  if ( Error == false ) {
-    var me = this;
-    setTimeout( function() {
-      me.start();
-    }, 1000/30);
-  } else {
-    console.log( Error );
-  }
-}
-/* init events organizer */
-this.run = function() {
-  key = new Keyboard();
-  this.start();
-}
-
   /* step functions, more mechanical things */
 this.step = function() {
-  var instances = this.sorcery.fake_room.instances;
+  var instances = this.current_room.instances;
   instances.forEach( function( instance ) {
     instance.y += instance.vspeed + ( instance.speed * Math.sin( instance.direction * Math.PI / 180 ) );
     instance.x += instance.hspeed + ( instance.speed * Math.cos( instance.direction * Math.PI / 180 ) );
@@ -221,7 +262,86 @@ this.step = function() {
 
   /* draw function, what you'll see on screen */
 this.draw = function() {
+  var instances = this.current_room.instances;
+  /*draw every instance*/
+  instances.forEach(function(instance,value){
+      this.context.save();
+      this.context.translate(instance.x+instance.xOffset,instance.y+instance.yOffset);
+      this.context.rotate(instance.image_angle*Math.PI/180);//ROTATION
+      this.context.scale(instance.xscale,instance.yscale);//X-Y-SCALE
+      this.context.translate(-instance.x,-instance.y);
+      this.context.fillStyle=instance.color;//COLOR
+      this.context.strokeStyle=instance.color;//COLOR
+      if (instance.sprite_index!=0){
+      /*controle de sprite*/
+          if (instance.sprite_index.ready==1){
+              var hLevel, wLevel,imgIndex;
+              imgIndex=0;
+              wLevel=0;
+              hLevel=0;
+              //set object box
+              instance.height=instance.sprite_index.frameHeight;
+              instance.width=instance.sprite_index.frameWidth;
+              //end of set objectbox
+              if (instance.sprite_index.image_number>1){
+                  instance.image_index+=instance.image_speed;
+                  if (instance.image_index>instance.sprite_index.image_number){instance.image_index=0;}
+                  if (instance.image_index<0){instance.image_index=instance.sprite_index.image_number-1;}
+                  while(imgIndex<Math.round(instance.image_index)){
+                      imgIndex++;
+                      wLevel++;
+                      if (wLevel>(instance.sprite_index.wFrames)-1){
+                          wLevel=0;hLevel++;
+                      }
+                      if (hLevel>(instance.sprite_index.hFrames)-1){
+                          hLevel=0;
+                          wLevel=0;
+                      }
+                  }
+              }
+              /*controle de animação*/
+              if (instance.clip_type == 1) {
+                  this.context.save();
+                  draw_circle(instance.x, instance.y, instance.width / 2, 1);
+                  this.context.clip();
+                  this.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
+                  this.context.restore();
+              } else {
+                  this.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
+              }
+          }
+      }
+      instance.draw();//DRAW EVENT
 
+      this.context.restore();
+      this.context.scale(1,1);//RESET SCALE
+      this.context.rotate(0);//RESET ROTATION
+  });
+}
+
+  /* GAME RUN SETUP */
+this.start = function() {
+  /* variables */
+  var Error = false;
+  var game_instance = this;
+  if  ( this.debug ) {
+    console.log("UPDATED:")
+    console.log( game_instance );
+  }
+  /* run gear */
+  game_instance.step();
+  game_instance.draw();
+  game_instance.keyboard.reset();
+  /* if there is no error, we do the animation */
+  setTimeout( function() {
+    game_instance.start();
+  } , 2000);
+}
+/* init events organizer */
+this.run = function() {
+  /* unique settings */
+  this.keyboard = new Keyboard();
+  this.start();
 }
 
 

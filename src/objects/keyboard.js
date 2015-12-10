@@ -14,7 +14,7 @@ function Keyboard() {
       }
   }
   /* Reset function for step */
-  this.reset_keyboard = function() {
+  this.reset = function() {
       for (var prop in keys){
           if (keys.hasOwnProperty(prop)) {
               keyPressed[prop]=0;

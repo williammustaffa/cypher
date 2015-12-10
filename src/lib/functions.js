@@ -6,9 +6,8 @@ this.object_create = function() {
 /* room creation function */
 this.room_add = function() {
   var new_room = new Room();
-  var index = this.rooms.push( new_room ) - 1;
-  if ( this.sorcery.current_room == -1 ) {
-    this.sorcery.current_room = index;
+  if ( !this.current_room ) {
+    this.current_room = new_room;
   }
-  return this.rooms[ index ];
+  return new_room;
 }
