@@ -4,29 +4,8 @@
 * DATE:  12/01/2015
 */
 function Jgame( config ) {
-  /* Math functions */
-function distance_to_point(x, y, xx, yy) {
-    return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
-}
-function random(){
-    return Math.random();
-}
-function round(num) {
-    return Math.round(num);
-}
-function floor(num) {
-    return Math.floor(num);
-}
-function ceil(num) {
-    return Math.ceil(num);
-}
-function sqrt(num) {
-    return Math.sqrt(num);
-}
-function power(num, num2) {
-    return Math.pow(num,num2);
-}
-function new_canvas() {
+  /* BASE */
+  function new_canvas() {
   var canvas = document.createElement('canvas');//getElementById('canvas');
   var canvasStyle = canvas.style;
   var canvasId = '_' + Math.random().toString(36).substr(2, 9);
@@ -44,42 +23,6 @@ function new_canvas() {
   context=canvas.getContext('2d');
   return context;
 }
-/* Draw Functions */
-function draw_circle( x , y , radius, outline){
-    context.beginPath();
-    context.arc(x,y,radius,0,2*Math.PI);
-    if (!outline){
-        context.fill()
-    }else{
-        context.stroke();
-    }
-    context.closePath();
-}
-function draw_rectangle( x , y , x2 , y2 ){
-    context.fillRect(x,y,x2-x,y2-y);
-}
-function draw_line(x,y,xx,yy) {
-    context.beginPath();
-    context.moveTo(x,y);
-    context.lineTo(xx,yy);
-    context.stroke();
-}
-function draw_rectangle_color( x , y , x2 , y2 , color ){
-    context.fillStyle=color;
-    context.fillRect(x,y,x2-x,y2-y);
-}
-function draw_set_color( color ){
-    context.fillStyle=color;
-}
-function draw_sprite( sprite , x , y ){
-    context.drawImage(sprite.image,x,y);
-}
-function draw_text(text , x , y){
-    context.fillText(text,x,y);
-}
-function font_style(style)  {
-    context.font = style;
-};
 
 
   /* OBJECT */
@@ -231,6 +174,7 @@ function Room() {
   this.debug = true;
   this.keyboard = false;
   this.context = new_canvas();
+
   /* GAME FUNCTIONS */
   /* object creation function */
 this.object_create = function() {
@@ -245,6 +189,71 @@ this.room_add = function() {
   }
   return new_room;
 }
+
+  /* Math functions */
+function distance_to_point(x, y, xx, yy) {
+    return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
+}
+function random(){
+    return Math.random();
+}
+function round(num) {
+    return Math.round(num);
+}
+function floor(num) {
+    return Math.floor(num);
+}
+function ceil(num) {
+    return Math.ceil(num);
+}
+function sqrt(num) {
+    return Math.sqrt(num);
+}
+function power(num, num2) {
+    return Math.pow(num,num2);
+}
+
+
+  /* DRAWING FUNCTIONS */
+  /* GET ACTUAL CANVAS CONTEXT */
+var Context = this.Context;
+
+/* Drawing Functions */
+function draw_circle( x , y , radius, outline){
+    Context.beginPath();
+    Context.arc(x,y,radius,0,2*Math.PI);
+    if (!outline){
+        Context.fill()
+    }else{
+        Context.stroke();
+    }
+    Context.closePath();
+}
+function draw_rectangle( x , y , x2 , y2 ){
+    Context.fillRect(x,y,x2-x,y2-y);
+}
+function draw_line(x,y,xx,yy) {
+    Context.beginPath();
+    Context.moveTo(x,y);
+    Context.lineTo(xx,yy);
+    Context.stroke();
+}
+function draw_rectangle_color( x , y , x2 , y2 , color ){
+    Context.fillStyle=color;
+    Context.fillRect(x,y,x2-x,y2-y);
+}
+function draw_set_color( color ){
+    Context.fillStyle=color;
+}
+function draw_sprite( sprite , x , y ){
+    Context.drawImage(sprite.image,x,y);
+}
+function draw_text(text , x , y){
+    Context.fillText(text,x,y);
+}
+function font_style(style)  {
+    Context.font = style;
+};
 
 
   /* GEAR */

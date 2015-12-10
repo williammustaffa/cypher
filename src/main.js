@@ -4,7 +4,8 @@
 * DATE:  12/01/2015
 */
 function Jgame( config ) {
-  include("lib/global.js")
+  /* BASE */
+  include("lib/base.js")
 
   /* OBJECT */
   include("objects/keyboard.js")
@@ -18,8 +19,13 @@ function Jgame( config ) {
   this.debug = true;
   this.keyboard = false;
   this.context = new_canvas();
+
   /* GAME FUNCTIONS */
   include("lib/functions.js")
+  include("lib/math.js")
+
+  /* DRAWING FUNCTIONS */
+  include("lib/surface.js")
 
   /* GEAR */
   include("gear/step.js")
