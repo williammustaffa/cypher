@@ -1,5 +1,5 @@
 /* Objects */
-function Object() {
+function ObjectJG() {
   /* Instance local variables */
   this.id = undefined;
   this.class = undefined;
@@ -35,8 +35,7 @@ function Object() {
   this.draw = function() {};
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
-    var obj_clone = new Object();
-    obj_clone.prototype = this;
+    var obj_clone =  Object.create(this);
     return obj_clone;
   };
   /* Return object */

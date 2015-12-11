@@ -21,6 +21,8 @@ function Jgame( config ) {
   /* end of canvas style */
   document.body.appendChild(canvas);
   context=canvas.getContext('2d');
+  /* initial style settings */
+  context.font = 'italic 40pt Calibri';
   return context;
 }
 
@@ -87,7 +89,7 @@ function Keyboard() {
 }
 
   /* Objects */
-function Object() {
+function ObjectJG() {
   /* Instance local variables */
   this.id = undefined;
   this.class = undefined;
@@ -123,8 +125,7 @@ function Object() {
   this.draw = function() {};
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
-    var obj_clone = new Object();
-    obj_clone.prototype = this;
+    var obj_clone =  Object.create(this);
     return obj_clone;
   };
   /* Return object */
@@ -148,10 +149,15 @@ function Room() {
   }
   this.instances = [];
   /* room function */
-  this.instance_create = function( obj ) {
+  this.instance_create = function( obj, x, y ) {
     var new_instance = obj.clone();
     var index = this.instances.push( new_instance );
-    return this.instances[ index - 1 ];
+    /* initial settings */
+    new_instance.create();
+    new_instance.x = x;
+    new_instance.y = y;
+    /* return array */
+    return new_instance;
   }
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
@@ -178,7 +184,7 @@ function Room() {
   /* GAME FUNCTIONS */
   /* object creation function */
 this.object_create = function() {
-  var new_object = new Object();
+  var new_object = new ObjectJG();
   return new_object;
 }
 /* room creation function */
@@ -194,8 +200,8 @@ this.room_add = function() {
 function distance_to_point(x, y, xx, yy) {
     return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
 }
-function random(){
-    return Math.random();
+function random(range){
+    return Math.round(Math.random()*range);
 }
 function round(num) {
     return Math.round(num);

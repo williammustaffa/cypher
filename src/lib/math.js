@@ -2,8 +2,8 @@
 function distance_to_point(x, y, xx, yy) {
     return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
 }
-function random(){
-    return Math.random();
+function random(range){
+    return Math.round(Math.random()*range);
 }
 function round(num) {
     return Math.round(num);

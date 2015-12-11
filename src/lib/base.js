@@ -14,5 +14,7 @@ function new_canvas() {
   /* end of canvas style */
   document.body.appendChild(canvas);
   context=canvas.getContext('2d');
+  /* initial style settings */
+  context.font = 'italic 40pt Calibri';
   return context;
 }

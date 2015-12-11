@@ -15,10 +15,15 @@ function Room() {
   }
   this.instances = [];
   /* room function */
-  this.instance_create = function( obj ) {
+  this.instance_create = function( obj, x, y ) {
     var new_instance = obj.clone();
     var index = this.instances.push( new_instance );
-    return this.instances[ index - 1 ];
+    /* initial settings */
+    new_instance.create();
+    new_instance.x = x;
+    new_instance.y = y;
+    /* return array */
+    return new_instance;
   }
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {

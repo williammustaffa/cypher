@@ -1,6 +1,6 @@
 /* object creation function */
 this.object_create = function() {
-  var new_object = new Object();
+  var new_object = new ObjectJG();
   return new_object;
 }
 /* room creation function */
