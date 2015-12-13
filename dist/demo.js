@@ -5,6 +5,8 @@ var Game = new Jgame();
 var room_1 = Game.room_add();
 var room_2 = Game.room_add();
 
+
+
 /* object creation */
 var obj_player = Game.object_create();
 obj_player.create = function() {
@@ -17,10 +19,27 @@ obj_player.step = function() {
   if (Game.keyboard.check("left")) {
     this.x -= 5;
   }
+  if (Game.keyboard.check("up")) {
+    this.y -= 5;
+  }
+  if (Game.keyboard.check("down")) {
+    this.y += 5;
+  }
 };
 obj_player.draw = function() {
   Game.draw_text(this.incognita, this.x, this.y);
 };
+
+
+
+
+
+
+
+
+
+
+
 /* control object */
 var control = Game.object_create();
 control.step = function() {
@@ -31,14 +50,12 @@ control.step = function() {
 }
 /* instance creation */
 var instance = room_1.instance_create( obj_player, 100, 80);
-var instance = room_1.instance_create( obj_player, 200, 80);
 room_1.instance_create( control, 0, 0);
 
 /* control object */
 var control2 = Game.object_create();
 control2.step = function() {
   if (Game.keyboard.pressed("enter")) {
-    console.log(Game.rooms);
     Game.room_goto(room_1);
   }
 }

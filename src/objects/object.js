@@ -30,9 +30,9 @@ function ObjectJG() {
   this.image_angle = 0;
   this.color = "#FFFFFF";
   /* Instance step functions */
-  this.create = function( func ) {};
-  this.step = function( func ) {};
-  this.draw = function( func ) {};
+  this.create = function() {};
+  this.step = function() {};
+  this.draw = function() {};
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
     var me = this;

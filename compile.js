@@ -46,4 +46,4 @@ function insertFileInfo(src, content) {
   //
   return  prefix + "\n" + content + "\n" + sufix;
 }
-console.log("js compiled.");
+console.log("JS compiled!");
