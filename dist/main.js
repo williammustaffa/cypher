@@ -3,13 +3,41 @@
 * AUTHOR: William Lima / williammustaffa
 * DATE:  12/01/2015
 */
+/* Math functions */
+function distance_to_point(x, y, xx, yy) {
+    return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
+}
+function random(range){
+    return Math.round(Math.random()*range);
+}
+function round(num) {
+    return Math.round(num);
+}
+function floor(num) {
+    return Math.floor(num);
+}
+function ceil(num) {
+    return Math.ceil(num);
+}
+function sqrt(num) {
+    return Math.sqrt(num);
+}
+function power(num, num2) {
+    return Math.pow(num,num2);
+}
+
 function Jgame( config ) {
+  /* CONFIG SETUP */
+  var def = {width: 640, height: 480}
+  var CS = Object.assign(def, config);
   /* BASE */
-  function new_canvas() {
+  function Canvas(w, h) {
   var canvas = document.createElement('canvas');//getElementById('canvas');
   var canvasStyle = canvas.style;
   var canvasId = '_' + Math.random().toString(36).substr(2, 9);
   canvas.setAttribute("id", canvasId);
+  canvas.setAttribute("width", w);
+  canvas.setAttribute("height", h);
   canvasStyle.margin = 'auto';
   canvasStyle.display = 'block';
   canvasStyle.position = 'absolute';
@@ -22,10 +50,9 @@ function Jgame( config ) {
   document.body.appendChild(canvas);
   context=canvas.getContext('2d');
   /* initial style settings */
-  context.font = 'italic 40pt Calibri';
+  context.font = 'normal 20px Arial';
   return context;
 }
-
 
   /* OBJECT */
   /*  KEYBOARD */
@@ -82,7 +109,7 @@ function Keyboard() {
   this.released = function( key ) {
       return keyReleased[key];
   }
-  this.press = function( key ) {
+  this.check = function( key ) {
       return keyPress[key];
   }
   return this;
@@ -118,14 +145,15 @@ function ObjectJG() {
   this.image_speed = 1;
   this.image_number = 0;
   this.image_angle = 0;
-  this.color = "#000000";
+  this.color = "#FFFFFF";
   /* Instance step functions */
-  this.create = function() {};
-  this.step = function() {};
-  this.draw = function() {};
+  this.create = function( func ) {};
+  this.step = function( func ) {};
+  this.draw = function( func ) {};
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
-    var obj_clone =  Object.create(this);
+    var me = this;
+    var obj_clone =  Object.assign({}, me);
     return obj_clone;
   };
   /* Return object */
@@ -147,22 +175,30 @@ function Room() {
     var index = this.viewports.push( def );
     return this.viewports[ index - 1 ]
   }
+  this.objects = [];
   this.instances = [];
   /* room function */
   this.instance_create = function( obj, x, y ) {
     var new_instance = obj.clone();
-    var index = this.instances.push( new_instance );
-    /* initial settings */
-    new_instance.create();
     new_instance.x = x;
     new_instance.y = y;
+    var index = this.objects.push( new_instance );
     /* return array */
     return new_instance;
   }
+  this.start = function() {
+    var newInstances = [];
+    this.objects.forEach(function( index, value ) {
+      var instance_copy = Object.assign({}, index);
+      instance_copy.create();
+      newInstances.push( instance_copy );
+    });
+    this.instances = newInstances;
+  }
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
-    var obj_clone = new Room();
-    obj_clone.prototype = this;
+    var me = this;
+    var obj_clone =  Object.assign({}, me);
     return obj_clone;
   };
   /* add a default viewport */
@@ -177,9 +213,10 @@ function Room() {
   this.rooms = [];
   this.current_room = false;
   this.ready = true;
-  this.debug = true;
+  this.debug = false;
   this.keyboard = false;
-  this.context = new_canvas();
+  /* canvas setup */
+  this.context = new Canvas(CS.width, CS.height);
 
   /* GAME FUNCTIONS */
   /* object creation function */
@@ -191,74 +228,58 @@ this.object_create = function() {
 this.room_add = function() {
   var new_room = new Room();
   if ( !this.current_room ) {
-    this.current_room = new_room;
+    this.current_room = new_room.clone();
   }
+  var ind = this.rooms.push( new_room );
+  new_room.index = ind-1;
   return new_room;
 }
 
-  /* Math functions */
-function distance_to_point(x, y, xx, yy) {
-    return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
-}
-function random(range){
-    return Math.round(Math.random()*range);
-}
-function round(num) {
-    return Math.round(num);
-}
-function floor(num) {
-    return Math.floor(num);
-}
-function ceil(num) {
-    return Math.ceil(num);
-}
-function sqrt(num) {
-    return Math.sqrt(num);
-}
-function power(num, num2) {
-    return Math.pow(num,num2);
+this.room_goto = function( room ) {
+  if ( typeof room != "number" ) {
+    room = room.index;
+  }
+  this.current_room = this.rooms[ room ].clone();
+  this.current_room.start();
 }
 
 
   /* DRAWING FUNCTIONS */
-  /* GET ACTUAL CANVAS CONTEXT */
-var Context = this.Context;
-
-/* Drawing Functions */
-function draw_circle( x , y , radius, outline){
-    Context.beginPath();
-    Context.arc(x,y,radius,0,2*Math.PI);
+  /* Drawing Functions */
+this.draw_circle = function( x , y , radius, outline) {
+    this.context.beginPath();
+    this.context.arc(x,y,radius,0,2*Math.PI);
     if (!outline){
-        Context.fill()
+        this.context.fill()
     }else{
-        Context.stroke();
+        this.context.stroke();
     }
-    Context.closePath();
+    this.context.closePath();
 }
-function draw_rectangle( x , y , x2 , y2 ){
-    Context.fillRect(x,y,x2-x,y2-y);
+this.draw_rectangle = function( x , y , x2 , y2 ) {
+    this.context.fillRect(x,y,x2-x,y2-y);
 }
-function draw_line(x,y,xx,yy) {
-    Context.beginPath();
-    Context.moveTo(x,y);
-    Context.lineTo(xx,yy);
-    Context.stroke();
+this.draw_line = function(x,y,xx,yy) {
+    this.context.beginPath();
+    this.context.moveTo(x,y);
+    this.context.lineTo(xx,yy);
+    this.context.stroke();
 }
-function draw_rectangle_color( x , y , x2 , y2 , color ){
-    Context.fillStyle=color;
-    Context.fillRect(x,y,x2-x,y2-y);
+this.draw_rectangle_color = function( x , y , x2 , y2 , color ) {
+    this.context.fillStyle=color;
+    this.context.fillRect(x,y,x2-x,y2-y);
 }
-function draw_set_color( color ){
-    Context.fillStyle=color;
+this.draw_set_color = function( color ){
+    this.context.fillStyle=color;
 }
-function draw_sprite( sprite , x , y ){
-    Context.drawImage(sprite.image,x,y);
+this.draw_sprite = function( sprite , x , y ) {
+    this.context.drawImage(sprite.image,x,y);
 }
-function draw_text(text , x , y){
-    Context.fillText(text,x,y);
+this.draw_text = function(text , x , y) {
+    this.context.fillText(text,x,y);
 }
-function font_style(style)  {
-    Context.font = style;
+this.font_style = function(style)  {
+    this.context.font = style;
 };
 
 
@@ -277,16 +298,20 @@ this.step = function() {
 
   /* draw function, what you'll see on screen */
 this.draw = function() {
-  var instances = this.current_room.instances;
+
+  /* GI reefer to Game Instance */
+  var GI = this, instances = GI.current_room.instances;
+  /* clear the canvas for redrawing */
+  GI.context.clearRect(0, 0, GI.context.canvas.width, GI.context.canvas.height);
   /*draw every instance*/
-  instances.forEach(function(instance,value){
-      this.context.save();
-      this.context.translate(instance.x+instance.xOffset,instance.y+instance.yOffset);
-      this.context.rotate(instance.image_angle*Math.PI/180);//ROTATION
-      this.context.scale(instance.xscale,instance.yscale);//X-Y-SCALE
-      this.context.translate(-instance.x,-instance.y);
-      this.context.fillStyle=instance.color;//COLOR
-      this.context.strokeStyle=instance.color;//COLOR
+  instances.forEach( function(instance, value) {
+      GI.context.save();
+      GI.context.translate(instance.x+instance.xOffset,instance.y+instance.yOffset);
+      GI.context.rotate(instance.image_angle*Math.PI/180);//ROTATION
+      GI.context.scale(instance.xscale,instance.yscale);//X-Y-SCALE
+      GI.context.translate(-instance.x,-instance.y);
+      GI.context.fillStyle=instance.color;//COLOR
+      GI.context.strokeStyle=instance.color;//COLOR
       if (instance.sprite_index!=0){
       /*controle de sprite*/
           if (instance.sprite_index.ready==1){
@@ -314,23 +339,25 @@ this.draw = function() {
                       }
                   }
               }
+              draw_set_color("#000000");
+              draw_circle(instance.x, instance.y, 16, 1);
               /*controle de animação*/
               if (instance.clip_type == 1) {
-                  this.context.save();
+                  GI.context.save();
                   draw_circle(instance.x, instance.y, instance.width / 2, 1);
-                  this.context.clip();
-                  this.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
-                  this.context.restore();
+                  GI.context.clip();
+                  GI.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
+                  GI.context.restore();
               } else {
-                  this.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
+                  GI.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
               }
           }
       }
       instance.draw();//DRAW EVENT
 
-      this.context.restore();
-      this.context.scale(1,1);//RESET SCALE
-      this.context.rotate(0);//RESET ROTATION
+      GI.context.restore();
+      GI.context.scale(1,1);//RESET SCALE
+      GI.context.rotate(0);//RESET ROTATION
   });
 }
 
@@ -350,12 +377,13 @@ this.start = function() {
   /* if there is no error, we do the animation */
   setTimeout( function() {
     game_instance.start();
-  } , 2000);
+  } , 1000/30); // 30 steps in one second
 }
 /* init events organizer */
 this.run = function() {
   /* unique settings */
   this.keyboard = new Keyboard();
+  this.current_room.start();
   this.start();
 }
 

@@ -13,22 +13,30 @@ function Room() {
     var index = this.viewports.push( def );
     return this.viewports[ index - 1 ]
   }
+  this.objects = [];
   this.instances = [];
   /* room function */
   this.instance_create = function( obj, x, y ) {
     var new_instance = obj.clone();
-    var index = this.instances.push( new_instance );
-    /* initial settings */
-    new_instance.create();
     new_instance.x = x;
     new_instance.y = y;
+    var index = this.objects.push( new_instance );
     /* return array */
     return new_instance;
   }
+  this.start = function() {
+    var newInstances = [];
+    this.objects.forEach(function( index, value ) {
+      var instance_copy = Object.assign({}, index);
+      instance_copy.create();
+      newInstances.push( instance_copy );
+    });
+    this.instances = newInstances;
+  }
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
-    var obj_clone = new Room();
-    obj_clone.prototype = this;
+    var me = this;
+    var obj_clone =  Object.assign({}, me);
     return obj_clone;
   };
   /* add a default viewport */

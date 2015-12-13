@@ -28,14 +28,15 @@ function ObjectJG() {
   this.image_speed = 1;
   this.image_number = 0;
   this.image_angle = 0;
-  this.color = "#000000";
+  this.color = "#FFFFFF";
   /* Instance step functions */
-  this.create = function() {};
-  this.step = function() {};
-  this.draw = function() {};
+  this.create = function( func ) {};
+  this.step = function( func ) {};
+  this.draw = function( func ) {};
   /* Cloning function, there is some kind of sorcery here */
   this.clone = function() {
-    var obj_clone =  Object.create(this);
+    var me = this;
+    var obj_clone =  Object.assign({}, me);
     return obj_clone;
   };
   /* Return object */

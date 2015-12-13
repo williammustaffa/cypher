@@ -1,8 +1,10 @@
-function new_canvas() {
+function Canvas(w, h) {
   var canvas = document.createElement('canvas');//getElementById('canvas');
   var canvasStyle = canvas.style;
   var canvasId = '_' + Math.random().toString(36).substr(2, 9);
   canvas.setAttribute("id", canvasId);
+  canvas.setAttribute("width", w);
+  canvas.setAttribute("height", h);
   canvasStyle.margin = 'auto';
   canvasStyle.display = 'block';
   canvasStyle.position = 'absolute';
@@ -15,6 +17,6 @@ function new_canvas() {
   document.body.appendChild(canvas);
   context=canvas.getContext('2d');
   /* initial style settings */
-  context.font = 'italic 40pt Calibri';
+  context.font = 'normal 20px Arial';
   return context;
 }

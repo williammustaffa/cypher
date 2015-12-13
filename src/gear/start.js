@@ -14,11 +14,12 @@ this.start = function() {
   /* if there is no error, we do the animation */
   setTimeout( function() {
     game_instance.start();
-  } , 2000);
+  } , 1000/30); // 30 steps in one second
 }
 /* init events organizer */
 this.run = function() {
   /* unique settings */
   this.keyboard = new Keyboard();
+  this.current_room.start();
   this.start();
 }

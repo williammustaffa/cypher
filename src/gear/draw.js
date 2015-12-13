@@ -1,15 +1,19 @@
 /* draw function, what you'll see on screen */
 this.draw = function() {
-  var instances = this.current_room.instances;
+
+  /* GI reefer to Game Instance */
+  var GI = this, instances = GI.current_room.instances;
+  /* clear the canvas for redrawing */
+  GI.context.clearRect(0, 0, GI.context.canvas.width, GI.context.canvas.height);
   /*draw every instance*/
-  instances.forEach(function(instance,value){
-      this.context.save();
-      this.context.translate(instance.x+instance.xOffset,instance.y+instance.yOffset);
-      this.context.rotate(instance.image_angle*Math.PI/180);//ROTATION
-      this.context.scale(instance.xscale,instance.yscale);//X-Y-SCALE
-      this.context.translate(-instance.x,-instance.y);
-      this.context.fillStyle=instance.color;//COLOR
-      this.context.strokeStyle=instance.color;//COLOR
+  instances.forEach( function(instance, value) {
+      GI.context.save();
+      GI.context.translate(instance.x+instance.xOffset,instance.y+instance.yOffset);
+      GI.context.rotate(instance.image_angle*Math.PI/180);//ROTATION
+      GI.context.scale(instance.xscale,instance.yscale);//X-Y-SCALE
+      GI.context.translate(-instance.x,-instance.y);
+      GI.context.fillStyle=instance.color;//COLOR
+      GI.context.strokeStyle=instance.color;//COLOR
       if (instance.sprite_index!=0){
       /*controle de sprite*/
           if (instance.sprite_index.ready==1){
@@ -37,22 +41,24 @@ this.draw = function() {
                       }
                   }
               }
+              draw_set_color("#000000");
+              draw_circle(instance.x, instance.y, 16, 1);
               /*controle de animação*/
               if (instance.clip_type == 1) {
-                  this.context.save();
+                  GI.context.save();
                   draw_circle(instance.x, instance.y, instance.width / 2, 1);
-                  this.context.clip();
-                  this.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
-                  this.context.restore();
+                  GI.context.clip();
+                  GI.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
+                  GI.context.restore();
               } else {
-                  this.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
+                  GI.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
               }
           }
       }
       instance.draw();//DRAW EVENT
 
-      this.context.restore();
-      this.context.scale(1,1);//RESET SCALE
-      this.context.rotate(0);//RESET ROTATION
+      GI.context.restore();
+      GI.context.scale(1,1);//RESET SCALE
+      GI.context.rotate(0);//RESET ROTATION
   });
 }

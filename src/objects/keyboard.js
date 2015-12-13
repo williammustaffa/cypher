@@ -52,7 +52,7 @@ function Keyboard() {
   this.released = function( key ) {
       return keyReleased[key];
   }
-  this.press = function( key ) {
+  this.check = function( key ) {
       return keyPress[key];
   }
   return this;
