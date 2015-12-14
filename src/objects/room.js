@@ -1,12 +1,13 @@
 /* Rooms */
-function Room() {
+function Room( opt ) {
   this.id = null;
   this.name = null;
-  this.dimensions = { width: 640, height: 480 };
+  this.width = (opt === undefined || opt.width === undefined)? 640: opt.width;
+  this.height = (opt === undefined || opt.width === undefined)? 640: opt.width;
   this.viewports = [];
   /* viewport settings */
   this.add_viewport = function( options ) {
-    var def = { width: this.dimensions.width, height: this.dimensions.height, x: 0, y: 0 , active: false };
+    var def = { width: this.width, height: this.height, x: 0, y: 0 , active: false };
     for(var key in options){
       if (def.hasOwnProperty(key)) def[key] = options[key];
     }

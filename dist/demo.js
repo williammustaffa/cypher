@@ -5,10 +5,9 @@ var Game = new Jgame();
 var room_1 = Game.room_add();
 var room_2 = Game.room_add();
 
-
-
 /* object creation */
 var obj_player = Game.object_create();
+
 obj_player.create = function() {
   this.incognita = random(100);
 };
@@ -26,30 +25,28 @@ obj_player.step = function() {
     this.y += 5;
   }
 };
+
 obj_player.draw = function() {
   Game.draw_text(this.incognita, this.x, this.y);
+  Game.current_room.viewports[0].x = this.x;
+  Game.current_room.viewports[0].y = this.y;
 };
-
-
-
-
-
-
-
-
-
-
+/* object ground */
+var ground = Game.object_create();
+ground.draw = function() {
+  Game.draw_rectangle_color(this.x, this.y, this.x +32, this.y+32, "red");
+}
 
 /* control object */
 var control = Game.object_create();
 control.step = function() {
   if (Game.keyboard.pressed("enter")) {
-    console.log(Game.rooms);
     Game.room_goto(room_2);
   }
 }
 /* instance creation */
 var instance = room_1.instance_create( obj_player, 100, 80);
+room_1.instance_create( ground, 120, 120);
 room_1.instance_create( control, 0, 0);
 
 /* control object */
@@ -61,7 +58,6 @@ control2.step = function() {
 }
 /* instance creation */
 var instance = room_2.instance_create( obj_player, 300, 80);
-var instance = room_2.instance_create( obj_player, 400, 80);
 room_2.instance_create( control2, 0, 0);
 /* game start */
 Game.run();

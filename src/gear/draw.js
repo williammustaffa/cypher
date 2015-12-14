@@ -5,6 +5,7 @@ this.draw = function() {
   var GI = this, instances = GI.current_room.instances;
   /* clear the canvas for redrawing */
   GI.context.clearRect(0, 0, GI.context.canvas.width, GI.context.canvas.height);
+  GI.context.fillRect(0, 0, GI.current_room.width, GI.current_room.height);
   /*draw every instance*/
   instances.forEach( function(instance, value) {
       GI.context.save();
@@ -60,5 +61,17 @@ this.draw = function() {
       GI.context.restore();
       GI.context.scale(1,1);//RESET SCALE
       GI.context.rotate(0);//RESET ROTATION
+  });
+
+  /* convert context to image */
+  var dataURL = GI.context.canvas.toDataURL();
+  var newImage = new Image();
+  newImage.src = dataURL;
+
+  GI.current_room.viewports.forEach( function(obj, ind) {
+    // obj = {width: 640, height: 640, x: 0, y: 0, active: true}
+    var view = obj;
+    var index = ind;
+    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, 0, 0, obj.width, obj.height);
   });
 }

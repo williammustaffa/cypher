@@ -6,23 +6,25 @@
 include("lib/math.js")
 function Jgame( config ) {
   /* CONFIG SETUP */
-  var def = {width: 640, height: 480}
-  var CS = Object.assign(def, config);
-  /* BASE */
-  include("lib/base.js")
-  /* OBJECT */
-  include("objects/keyboard.js")
-  include("objects/object.js")
-  include("objects/room.js")
-
+  this.def = {
+    canvas: {}
+  }
+  var CS = Object.assign(this.def, config);
+  var VP = {};
   /* VARIABLES */
   this.rooms = [];
   this.current_room = false;
   this.ready = true;
   this.debug = false;
   this.keyboard = false;
-  /* canvas setup */
-  this.context = new Canvas(CS.width, CS.height);
+
+  /* BASE */
+  include("lib/base.js")
+
+  /* OBJECT */
+  include("objects/keyboard.js")
+  include("objects/object.js")
+  include("objects/room.js")
 
   /* GAME FUNCTIONS */
   include("lib/functions.js")

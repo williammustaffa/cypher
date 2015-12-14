@@ -28,31 +28,48 @@ function power(num, num2) {
 
 function Jgame( config ) {
   /* CONFIG SETUP */
-  var def = {width: 640, height: 480}
-  var CS = Object.assign(def, config);
+  this.def = {
+    canvas: {}
+  }
+  var CS = Object.assign(this.def, config);
+  var VP = {};
+  /* VARIABLES */
+  this.rooms = [];
+  this.current_room = false;
+  this.ready = true;
+  this.debug = false;
+  this.keyboard = false;
+
   /* BASE */
-  function Canvas(w, h) {
+  function Canvas( insert, options ) {
+  var def = {
+    id: Math.random().toString(36).substr(2, 9),
+    class: "",
+    container: "body",
+    width: 640,
+    height: 480,
+    style: "position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; display: block; background: #000;",
+  };
+  /* CANVAS OPTIONS */
+  var CO = Object.assign(def, options);
+
   var canvas = document.createElement('canvas');//getElementById('canvas');
-  var canvasStyle = canvas.style;
-  var canvasId = '_' + Math.random().toString(36).substr(2, 9);
-  canvas.setAttribute("id", canvasId);
-  canvas.setAttribute("width", w);
-  canvas.setAttribute("height", h);
-  canvasStyle.margin = 'auto';
-  canvasStyle.display = 'block';
-  canvasStyle.position = 'absolute';
-  canvasStyle.left = '0';
-  canvasStyle.right = '0';
-  canvasStyle.top = '0';
-  canvasStyle.bottom = '0';
-  canvasStyle.background = "#000";
+  canvas.setAttribute("id", CO.id);
+  canvas.setAttribute("width", CO.width);
+  canvas.setAttribute("height", CO.height);
+  canvas.setAttribute("style", CO.style);
+
   /* end of canvas style */
-  document.body.appendChild(canvas);
+  if (insert) document.body.appendChild(canvas);
   context=canvas.getContext('2d');
   /* initial style settings */
   context.font = 'normal 20px Arial';
   return context;
 }
+/* canvas setup */
+this.context = new Canvas(0, CS.canvas );
+this.scene = new Canvas(1, VP );
+
 
   /* OBJECT */
   /*  KEYBOARD */
@@ -161,14 +178,15 @@ function ObjectJG() {
 }
 
   /* Rooms */
-function Room() {
+function Room( opt ) {
   this.id = null;
   this.name = null;
-  this.dimensions = { width: 640, height: 480 };
+  this.width = (opt === undefined || opt.width === undefined)? 640: opt.width;
+  this.height = (opt === undefined || opt.width === undefined)? 640: opt.width;
   this.viewports = [];
   /* viewport settings */
   this.add_viewport = function( options ) {
-    var def = { width: this.dimensions.width, height: this.dimensions.height, x: 0, y: 0 , active: false };
+    var def = { width: this.width, height: this.height, x: 0, y: 0 , active: false };
     for(var key in options){
       if (def.hasOwnProperty(key)) def[key] = options[key];
     }
@@ -208,15 +226,6 @@ function Room() {
   return this;
 }
 
-
-  /* VARIABLES */
-  this.rooms = [];
-  this.current_room = false;
-  this.ready = true;
-  this.debug = false;
-  this.keyboard = false;
-  /* canvas setup */
-  this.context = new Canvas(CS.width, CS.height);
 
   /* GAME FUNCTIONS */
   /* object creation function */
@@ -303,6 +312,7 @@ this.draw = function() {
   var GI = this, instances = GI.current_room.instances;
   /* clear the canvas for redrawing */
   GI.context.clearRect(0, 0, GI.context.canvas.width, GI.context.canvas.height);
+  GI.context.fillRect(0, 0, GI.current_room.width, GI.current_room.height);
   /*draw every instance*/
   instances.forEach( function(instance, value) {
       GI.context.save();
@@ -358,6 +368,18 @@ this.draw = function() {
       GI.context.restore();
       GI.context.scale(1,1);//RESET SCALE
       GI.context.rotate(0);//RESET ROTATION
+  });
+
+  /* convert context to image */
+  var dataURL = GI.context.canvas.toDataURL();
+  var newImage = new Image();
+  newImage.src = dataURL;
+
+  GI.current_room.viewports.forEach( function(obj, ind) {
+    // obj = {width: 640, height: 640, x: 0, y: 0, active: true}
+    var view = obj;
+    var index = ind;
+    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, 0, 0, obj.width, obj.height);
   });
 }
 
