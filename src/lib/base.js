@@ -5,24 +5,31 @@ function Canvas( insert, options ) {
     container: "body",
     width: 640,
     height: 480,
-    style: "position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; display: block; background: #000;",
+    style: "",
   };
   /* CANVAS OPTIONS */
   var CO = Object.assign(def, options);
 
-  var canvas = document.createElement('canvas');//getElementById('canvas');
-  canvas.setAttribute("id", CO.id);
-  canvas.setAttribute("width", CO.width);
-  canvas.setAttribute("height", CO.height);
-  canvas.setAttribute("style", CO.style);
+  this.canvas = document.createElement('canvas');//getElementById('canvas');
+  this.canvas.setAttribute("id", CO.id);
+  this.canvas.setAttribute("width", CO.width);
+  this.canvas.setAttribute("height", CO.height);
+  this.canvas.setAttribute("style", CO.style);
 
   /* end of canvas style */
-  if (insert) document.body.appendChild(canvas);
-  context=canvas.getContext('2d');
+  if (insert) document.body.appendChild(this.canvas);
+  this.context = this.canvas.getContext('2d');
   /* initial style settings */
-  context.font = 'normal 20px Arial';
-  return context;
+  this.context.font = 'normal 20px Arial';
+  this.update = function(width, height) {
+    this.canvas.setAttribute("width", width);
+    this.canvas.setAttribute("height", height);
+  };
+  return this;
 }
-/* canvas setup */
-this.context = new Canvas(0, CS.canvas );
-this.scene = new Canvas(1, VP );
+/* room surface setup */
+var surface = new Canvas(0, CS.canvas );
+this.context = surface.context;
+/* view surafce setup */
+this.view = new Canvas(1, VP );
+this.scene = this.view.context;

@@ -32,7 +32,7 @@ function Jgame( config ) {
     canvas: {}
   }
   var CS = Object.assign(this.def, config);
-  var VP = {};
+  var VP = {style: "background: #ccc;"};
   /* VARIABLES */
   this.rooms = [];
   this.current_room = false;
@@ -48,27 +48,34 @@ function Jgame( config ) {
     container: "body",
     width: 640,
     height: 480,
-    style: "position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; display: block; background: #000;",
+    style: "",
   };
   /* CANVAS OPTIONS */
   var CO = Object.assign(def, options);
 
-  var canvas = document.createElement('canvas');//getElementById('canvas');
-  canvas.setAttribute("id", CO.id);
-  canvas.setAttribute("width", CO.width);
-  canvas.setAttribute("height", CO.height);
-  canvas.setAttribute("style", CO.style);
+  this.canvas = document.createElement('canvas');//getElementById('canvas');
+  this.canvas.setAttribute("id", CO.id);
+  this.canvas.setAttribute("width", CO.width);
+  this.canvas.setAttribute("height", CO.height);
+  this.canvas.setAttribute("style", CO.style);
 
   /* end of canvas style */
-  if (insert) document.body.appendChild(canvas);
-  context=canvas.getContext('2d');
+  if (insert) document.body.appendChild(this.canvas);
+  this.context = this.canvas.getContext('2d');
   /* initial style settings */
-  context.font = 'normal 20px Arial';
-  return context;
+  this.context.font = 'normal 20px Arial';
+  this.update = function(width, height) {
+    this.canvas.setAttribute("width", width);
+    this.canvas.setAttribute("height", height);
+  };
+  return this;
 }
-/* canvas setup */
-this.context = new Canvas(0, CS.canvas );
-this.scene = new Canvas(1, VP );
+/* room surface setup */
+var surface = new Canvas(0, CS.canvas );
+this.context = surface.context;
+/* view surafce setup */
+this.view = new Canvas(1, VP );
+this.scene = this.view.context;
 
 
   /* OBJECT */
@@ -182,8 +189,10 @@ function Room( opt ) {
   this.id = null;
   this.name = null;
   this.width = (opt === undefined || opt.width === undefined)? 640: opt.width;
-  this.height = (opt === undefined || opt.width === undefined)? 640: opt.width;
+  this.height = (opt === undefined || opt.width === undefined)? 480: opt.width;
   this.viewports = [];
+  this.view_width = this.width;
+  this.view_height = this.height;
   /* viewport settings */
   this.add_viewport = function( options ) {
     var def = { width: this.width, height: this.height, x: 0, y: 0 , active: false };
@@ -349,18 +358,9 @@ this.draw = function() {
                       }
                   }
               }
-              draw_set_color("#000000");
-              draw_circle(instance.x, instance.y, 16, 1);
+              GI.context.fillStyle = "#000000";//COLOR
               /*controle de animação*/
-              if (instance.clip_type == 1) {
-                  GI.context.save();
-                  draw_circle(instance.x, instance.y, instance.width / 2, 1);
-                  GI.context.clip();
-                  GI.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
-                  GI.context.restore();
-              } else {
-                  GI.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
-              }
+              GI.context.drawImage(instance.sprite_index.image,instance.sprite_index.frameWidth*wLevel,instance.sprite_index.frameHeight*hLevel,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight,instance.x-instance.sprite_index.xOrigin,instance.y-instance.sprite_index.yOrigin,instance.sprite_index.frameWidth,instance.sprite_index.frameHeight);
           }
       }
       instance.draw();//DRAW EVENT
@@ -374,12 +374,17 @@ this.draw = function() {
   var dataURL = GI.context.canvas.toDataURL();
   var newImage = new Image();
   newImage.src = dataURL;
-
+  /* clean texture */
+  GI.scene.clearRect(0, 0, GI.context.canvas.width, GI.context.canvas.height);
+  GI.scene.fillStyle = "#cccccc";
+  GI.scene.fillRect(0, 0, GI.current_room.width, GI.current_room.height);
+  /* draw each viewport */
   GI.current_room.viewports.forEach( function(obj, ind) {
     // obj = {width: 640, height: 640, x: 0, y: 0, active: true}
     var view = obj;
     var index = ind;
-    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, 0, 0, obj.width, obj.height);
+    GI.view.update(GI.current_room.view_width, GI.current_room.view_height);
+    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, 0, 0, GI.current_room.view_width,  GI.current_room.view_height);
   });
 }
 

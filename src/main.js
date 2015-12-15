@@ -10,7 +10,7 @@ function Jgame( config ) {
     canvas: {}
   }
   var CS = Object.assign(this.def, config);
-  var VP = {};
+  var VP = {style: "background: #ccc;"};
   /* VARIABLES */
   this.rooms = [];
   this.current_room = false;

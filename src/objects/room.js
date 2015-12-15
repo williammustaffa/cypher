@@ -3,8 +3,10 @@ function Room( opt ) {
   this.id = null;
   this.name = null;
   this.width = (opt === undefined || opt.width === undefined)? 640: opt.width;
-  this.height = (opt === undefined || opt.width === undefined)? 640: opt.width;
+  this.height = (opt === undefined || opt.width === undefined)? 480: opt.width;
   this.viewports = [];
+  this.view_width = this.width;
+  this.view_height = this.height;
   /* viewport settings */
   this.add_viewport = function( options ) {
     var def = { width: this.width, height: this.height, x: 0, y: 0 , active: false };
