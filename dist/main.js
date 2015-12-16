@@ -29,17 +29,25 @@ function power(num, num2) {
 function Jgame( config ) {
   /* CONFIG SETUP */
   this.def = {
-    canvas: {}
+    canvas: {},
+    viewport: {
+      width: 640,
+      height: 480
+    }
   }
-  var CS = Object.assign(this.def, config);
-  var VP = {style: "background: #ccc;"};
+  var CS = Object.assign(this.def.canvas, config);
   /* VARIABLES */
   this.rooms = [];
   this.current_room = false;
   this.ready = true;
   this.debug = false;
   this.keyboard = false;
-
+  this.viewport = this.def.viewport;
+  var VP = {
+    width: this.viewport.width,
+    height: this.viewport.height,
+    style: "background: #5555FF;"
+  };
   /* BASE */
   function Canvas( insert, options ) {
   var def = {
@@ -64,6 +72,9 @@ function Jgame( config ) {
   this.context = this.canvas.getContext('2d');
   /* initial style settings */
   this.context.font = 'normal 20px Arial';
+  this.context.textAlign="center";
+  this.context.textBaseline = 'middle';
+
   this.update = function(width, height) {
     this.canvas.setAttribute("width", width);
     this.canvas.setAttribute("height", height);
@@ -186,16 +197,23 @@ function ObjectJG() {
 
   /* Rooms */
 function Room( opt ) {
+  this.default = {
+    width: 640,
+    height: 480,
+    view_width: 640,
+    view_height: 480
+  }
+  this.default = Object.assign(this.default, opt);
   this.id = null;
   this.name = null;
-  this.width = (opt === undefined || opt.width === undefined)? 640: opt.width;
-  this.height = (opt === undefined || opt.width === undefined)? 480: opt.width;
+  this.width = this.default.width;
+  this.height = this.default.height;
+  this.view_width = this.default.view_width;
+  this.view_height = this.default.view_height;
   this.viewports = [];
-  this.view_width = this.width;
-  this.view_height = this.height;
   /* viewport settings */
   this.add_viewport = function( options ) {
-    var def = { width: this.width, height: this.height, x: 0, y: 0 , active: false };
+    var def = { width: this.width, height: this.height, x: 0, y: 0 , destinationX: 0, destinationY: 0, active: false };
     for(var key in options){
       if (def.hasOwnProperty(key)) def[key] = options[key];
     }
@@ -243,8 +261,8 @@ this.object_create = function() {
   return new_object;
 }
 /* room creation function */
-this.room_add = function() {
-  var new_room = new Room();
+this.room_add = function( opt ) {
+  var new_room = new Room( opt );
   if ( !this.current_room ) {
     this.current_room = new_room.clone();
   }
@@ -378,13 +396,13 @@ this.draw = function() {
   GI.scene.clearRect(0, 0, GI.context.canvas.width, GI.context.canvas.height);
   GI.scene.fillStyle = "#cccccc";
   GI.scene.fillRect(0, 0, GI.current_room.width, GI.current_room.height);
+  GI.view.update(this.viewport.width, this.viewport.height);
   /* draw each viewport */
   GI.current_room.viewports.forEach( function(obj, ind) {
     // obj = {width: 640, height: 640, x: 0, y: 0, active: true}
     var view = obj;
     var index = ind;
-    GI.view.update(GI.current_room.view_width, GI.current_room.view_height);
-    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, 0, 0, GI.current_room.view_width,  GI.current_room.view_height);
+    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, obj.destinationX, obj.destinationY, obj.width,  obj.height);
   });
 }
 

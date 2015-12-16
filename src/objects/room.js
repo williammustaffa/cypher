@@ -1,15 +1,22 @@
 /* Rooms */
 function Room( opt ) {
+  this.default = {
+    width: 640,
+    height: 480,
+    view_width: 640,
+    view_height: 480
+  }
+  this.default = Object.assign(this.default, opt);
   this.id = null;
   this.name = null;
-  this.width = (opt === undefined || opt.width === undefined)? 640: opt.width;
-  this.height = (opt === undefined || opt.width === undefined)? 480: opt.width;
+  this.width = this.default.width;
+  this.height = this.default.height;
+  this.view_width = this.default.view_width;
+  this.view_height = this.default.view_height;
   this.viewports = [];
-  this.view_width = this.width;
-  this.view_height = this.height;
   /* viewport settings */
   this.add_viewport = function( options ) {
-    var def = { width: this.width, height: this.height, x: 0, y: 0 , active: false };
+    var def = { width: this.width, height: this.height, x: 0, y: 0 , destinationX: 0, destinationY: 0, active: false };
     for(var key in options){
       if (def.hasOwnProperty(key)) def[key] = options[key];
     }

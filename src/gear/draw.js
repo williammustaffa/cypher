@@ -62,12 +62,12 @@ this.draw = function() {
   GI.scene.clearRect(0, 0, GI.context.canvas.width, GI.context.canvas.height);
   GI.scene.fillStyle = "#cccccc";
   GI.scene.fillRect(0, 0, GI.current_room.width, GI.current_room.height);
+  GI.view.update(this.viewport.width, this.viewport.height);
   /* draw each viewport */
   GI.current_room.viewports.forEach( function(obj, ind) {
     // obj = {width: 640, height: 640, x: 0, y: 0, active: true}
     var view = obj;
     var index = ind;
-    GI.view.update(GI.current_room.view_width, GI.current_room.view_height);
-    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, 0, 0, GI.current_room.view_width,  GI.current_room.view_height);
+    GI.scene.drawImage( newImage, obj.x, obj.y, obj.width, obj.height, obj.destinationX, obj.destinationY, obj.width,  obj.height);
   });
 }

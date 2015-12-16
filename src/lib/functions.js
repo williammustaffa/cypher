@@ -4,8 +4,8 @@ this.object_create = function() {
   return new_object;
 }
 /* room creation function */
-this.room_add = function() {
-  var new_room = new Room();
+this.room_add = function( opt ) {
+  var new_room = new Room( opt );
   if ( !this.current_room ) {
     this.current_room = new_room.clone();
   }

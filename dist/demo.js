@@ -2,7 +2,10 @@
 /* You do have to follow this order of creation jGame, rooms, objects, instances */
 var Game = new Jgame();
 /* room creation */
-var room_1 = Game.room_add();
+var room_1 = Game.room_add({height: 240});
+/* viewport from room_1 */
+room_1.viewports[0].height = room_1.view_height/2;
+room_1.add_viewport({height: room_1.view_height/2, destinationY: room_1.view_height/2});
 var room_2 = Game.room_add();
 
 /* object creation */
@@ -12,24 +15,31 @@ obj_player.create = function() {
   this.incognita = random(100);
 };
 obj_player.step = function() {
+  /* gravity test */
+  if (this.y < Game.current_room.height-40) {
+    this.vspeed += 1;
+  } else {
+    this.vspeed = 0;
+  }
+  /* keyboard */
   if (Game.keyboard.check("right")) {
     this.x += 5;
   }
   if (Game.keyboard.check("left")) {
     this.x -= 5;
   }
-  if (Game.keyboard.check("up")) {
-    this.y -= 5;
-  }
-  if (Game.keyboard.check("down")) {
-    this.y += 5;
+  if (Game.keyboard.check("up") && this.y >= Game.current_room.height-40) {
+    this.vspeed = -16;
   }
 };
 
 obj_player.draw = function() {
+  Game.draw_set_color("#333388");
+  Game.draw_circle(this.x, this.y, 20, 0);
+  Game.draw_set_color("#fff");
   Game.draw_text(this.incognita, this.x, this.y);
-  Game.current_room.viewports[0].x = this.x;
-  Game.current_room.viewports[0].y = this.y;
+  Game.current_room.viewports[0].x = this.x - Game.current_room.viewports[0].width/2;
+  Game.current_room.viewports[0].y = this.y - Game.current_room.viewports[0].height/2;
 };
 /* object ground */
 var ground = Game.object_create();

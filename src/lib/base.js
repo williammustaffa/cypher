@@ -21,6 +21,9 @@ function Canvas( insert, options ) {
   this.context = this.canvas.getContext('2d');
   /* initial style settings */
   this.context.font = 'normal 20px Arial';
+  this.context.textAlign="center";
+  this.context.textBaseline = 'middle';
+
   this.update = function(width, height) {
     this.canvas.setAttribute("width", width);
     this.canvas.setAttribute("height", height);
