@@ -4,6 +4,7 @@
 * DATE:  12/01/2015
 */
 include("lib/math.js")
+include("lib/constants.js");
 function Jgame( config ) {
   /* CONFIG SETUP */
   this.def = {
@@ -16,6 +17,8 @@ function Jgame( config ) {
   var CS = Object.assign(this.def.canvas, config);
   /* VARIABLES */
   this.rooms = [];
+  this.sprites = [];
+  this.sounds = [];
   this.current_room = false;
   this.ready = true;
   this.debug = false;

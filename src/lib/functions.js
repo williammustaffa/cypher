@@ -21,3 +21,28 @@ this.room_goto = function( room ) {
   this.current_room = this.rooms[ room ].clone();
   this.current_room.start();
 }
+/* Sprites Functions */
+this.sprite_add = function( path , w_frame_number , h_frame_number , xOrig , yOrig){
+    var img = new Image();
+    var index = this.sprites.length;
+    this.sprites[index] = {};
+    var Obj = this.sprites[index];
+    img.src = path;
+    Obj.image = img;
+    Obj.image_number = w_frame_number*h_frame_number;
+    Obj.wFrames = w_frame_number;
+    Obj.hFrames = h_frame_number;
+    Obj.xOrigin = xOrig;
+    Obj.yOrigin = yOrig;
+    Obj.ready = 0;
+    img.onload = function() {
+        Obj.frameWidth = this.width/Obj.wFrames;
+        Obj.frameHeight = this.height/Obj.hFrames;
+        Obj.height = this.width/Obj.wFrames;
+        Obj.width = this.height/Obj.hFrames;
+        if (xOrig == 'center') Obj.xOrigin = Obj.frameWidth/2;
+        if (yOrig == 'center') Obj.yOrigin = Obj.frameHeight/2;
+        Obj.ready = true;
+    };
+    return Obj;
+}

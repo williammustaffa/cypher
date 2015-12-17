@@ -1,18 +1,21 @@
 /*  TEST AREA */
 /* You do have to follow this order of creation jGame, rooms, objects, instances */
 var Game = new Jgame();
+/* assets */
+/* path , horizontal , vertical , xOrig , yOrig */
+var spr_player = Game.sprite_add("/dist/assets/sprites/sprite2.png", 7, 2, GLOBAL.center, GLOBAL.center);
 /* room creation */
 var room_1 = Game.room_add({height: 240});
 /* viewport from room_1 */
 room_1.viewports[0].height = room_1.view_height/2;
 room_1.add_viewport({height: room_1.view_height/2, destinationY: room_1.view_height/2});
 var room_2 = Game.room_add();
-
 /* object creation */
 var obj_player = Game.object_create();
 
 obj_player.create = function() {
   this.incognita = random(100);
+  this.sprite_index = spr_player;
 };
 obj_player.step = function() {
   /* gravity test */
@@ -22,13 +25,13 @@ obj_player.step = function() {
     this.vspeed = 0;
   }
   /* keyboard */
-  if (Game.keyboard.check("right")) {
+  if (Game.keyboard.check(GLOBAL.right)) {
     this.x += 5;
   }
-  if (Game.keyboard.check("left")) {
+  if (Game.keyboard.check(GLOBAL.left)) {
     this.x -= 5;
   }
-  if (Game.keyboard.check("up") && this.y >= Game.current_room.height-40) {
+  if (Game.keyboard.check(GLOBAL.up) && this.y >= Game.current_room.height-40) {
     this.vspeed = -16;
   }
 };
