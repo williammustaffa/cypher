@@ -1,9 +1,12 @@
+import Jgame from './main';
+import { GLOBAL } from './lib/constants';
+import { random } from './lib/math';
 /*  TEST AREA */
 /* You do have to follow this order of creation jGame, rooms, objects, instances */
 var Game = new Jgame();
 /* assets */
 /* path , horizontal , vertical , xOrig , yOrig */
-var spr_player = Game.sprite_add("/dist/assets/sprites/sprite2.png", 7, 2, GLOBAL.center, GLOBAL.center);
+var spr_player = Game.sprite_add("assets/sprites/sprite2.png", 7, 2, GLOBAL.center, GLOBAL.center);
 /* room creation */
 var room_1 = Game.room_add({height: 240});
 /* viewport from room_1 */
@@ -12,7 +15,7 @@ room_1.add_viewport({height: room_1.view_height/2, destinationY: room_1.view_hei
 var room_2 = Game.room_add();
 /* object creation */
 var obj_player = Game.object_create();
-
+obj_player.class = "PLAYER";
 obj_player.create = function() {
   this.incognita = random(100);
   this.sprite_index = spr_player;

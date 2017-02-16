@@ -1,5 +1,5 @@
 /* draw function, what you'll see on screen */
-this.draw = function() {
+export function draw() {
 
   /* GI reefer to Game Instance */
   var GI = this, instances = GI.current_room.instances;
@@ -27,7 +27,7 @@ this.draw = function() {
               instance.width=instance.sprite_index.frameWidth;
               //end of set objectbox
               if (instance.sprite_index.image_number>1){
-                  instance.image_index+=instance.image_speed;
+                  instathisnce.image_index+=instance.image_speed;
                   if (instance.image_index>instance.sprite_index.image_number){instance.image_index=0;}
                   if (instance.image_index<0){instance.image_index=instance.sprite_index.image_number-1;}
                   while(imgIndex<Math.round(instance.image_index)){

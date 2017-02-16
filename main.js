@@ -1,12 +1,15 @@
-var express = require('express'), app = express();
-
-app.use("/dist", express.static(__dirname + '/dist'));
-app.use("/assets", express.static(__dirname + '/assets'));
-
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+var path = require('path');
+var express = require('express');
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var config = require("./webpack.config.js");
+config.entry.unshift("webpack-dev-server/client?http://localhost:3000/");
+var compiler = webpack(config);
+var app = new WebpackDevServer(compiler, {
+  contentBase: '/public/',
+  publicPath: '/assets/js/',
+  stats: { colors: true },
+  hot: true,
 });
-
-var port = process.env.PORT || 3000;
-var server = app.listen( port );
-console.log('Server started at %s', server.address().port);
+app.use('/', express.static(path.resolve(__dirname, 'public')));
+app.listen(3000);

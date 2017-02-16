@@ -1,5 +1,5 @@
 /* step functions, more mechanical things */
-this.step = function() {
+export function step() {
   var instances = this.current_room.instances;
   instances.forEach( function( instance ) {
     instance.y += instance.vspeed + ( instance.speed * Math.sin( instance.direction * Math.PI / 180 ) );

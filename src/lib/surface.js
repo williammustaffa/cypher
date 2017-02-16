@@ -1,5 +1,5 @@
 /* Drawing Functions */
-this.draw_circle = function( x , y , radius, outline) {
+export function draw_circle( x , y , radius, outline) {
     this.context.beginPath();
     this.context.arc(x,y,radius,0,2*Math.PI);
     if (!outline){
@@ -9,28 +9,35 @@ this.draw_circle = function( x , y , radius, outline) {
     }
     this.context.closePath();
 }
-this.draw_rectangle = function( x , y , x2 , y2 ) {
+
+export function draw_rectangle( x , y , x2 , y2 ) {
     this.context.fillRect(x,y,x2-x,y2-y);
 }
-this.draw_line = function(x,y,xx,yy) {
+
+export function draw_line(x,y,xx,yy) {
     this.context.beginPath();
     this.context.moveTo(x,y);
     this.context.lineTo(xx,yy);
     this.context.stroke();
 }
-this.draw_rectangle_color = function( x , y , x2 , y2 , color ) {
+
+export function draw_rectangle_color( x , y , x2 , y2 , color ) {
     this.context.fillStyle=color;
     this.context.fillRect(x,y,x2-x,y2-y);
 }
-this.draw_set_color = function( color ){
+
+export function draw_set_color( color ){
     this.context.fillStyle=color;
 }
-this.draw_sprite = function( sprite , x , y ) {
+
+export function draw_sprite( sprite , x , y ) {
     this.context.drawImage(sprite.image,x,y);
 }
-this.draw_text = function(text , x , y) {
+
+export function draw_text(text , x , y) {
     this.context.fillText(text,x,y);
 }
-this.font_style = function(style)  {
+
+export function font_style(style)  {
     this.context.font = style;
 };

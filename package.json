@@ -1,26 +1,35 @@
 {
-  "name": "jGame.js",
-  "version": "0.0.0",
-  "description": "a javascript game library",
-  "main": "index.js",
+  "name": "jgamejs",
+  "version": "1.0.0",
+  "description": "simple html5 game engine",
+  "main": "main.js",
   "dependencies": {
-    "gulp": "~3.9.0",
-    "express": "~4.13.3"
+    "babel-polyfill": "^6.23.0",
+    "babel-runtime": "^6.23.0"
   },
   "devDependencies": {
-    "gulp-watch": "~4.3.4",
-    "gulp-shell": "~0.5.0"
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "express": "^4.14.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js",
+    "build": "webpack webpack.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/williammustaffa/jGame.js.git"
+    "url": "git+https://github.com/williammustaffa/jGame.js.git"
   },
-  "author": "",
-  "license": "BSD-2-Clause",
+  "author": "williammustaffa",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/williammustaffa/jGame.js/issues"
-  }
+  },
+  "homepage": "https://github.com/williammustaffa/jGame.js#readme"
 }

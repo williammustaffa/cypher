@@ -1,20 +1,29 @@
+import Room from "../utils/room";
+import gameObject from "../utils/object";
+
 /* object creation function */
-this.object_create = function() {
-  var new_object = new ObjectJG();
-  return new_object;
+export function object_create(options) {
+  const defaults = {
+    create() {},
+    step() {},
+    draw() {},
+  };
+  options = {...defaults, ...options};
+  return new gameObject(options);
 }
 /* room creation function */
-this.room_add = function( opt ) {
+export function room_add( opt ) {
   var new_room = new Room( opt );
   if ( !this.current_room ) {
     this.current_room = new_room.clone();
   }
+  new_room.id = `room-${this.rooms.length}`;
   var ind = this.rooms.push( new_room );
-  new_room.index = ind-1;
+  new_room.index = ind - 1;
   return new_room;
 }
 
-this.room_goto = function( room ) {
+export function room_goto( room ) {
   if ( typeof room != "number" ) {
     room = room.index;
   }
@@ -22,7 +31,7 @@ this.room_goto = function( room ) {
   this.current_room.start();
 }
 /* Sprites Functions */
-this.sprite_add = function( path , w_frame_number , h_frame_number , xOrig , yOrig){
+export function sprite_add( path , w_frame_number , h_frame_number , xOrig , yOrig){
     var img = new Image();
     var index = this.sprites.length;
     this.sprites[index] = {};
