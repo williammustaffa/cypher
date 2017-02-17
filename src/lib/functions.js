@@ -2,23 +2,27 @@ import Room from "../utils/room";
 import gameObject from "../utils/object";
 
 /* object creation function */
-export function object_create(options) {
-  const defaults = {
-    create() {},
-    step() {},
-    draw() {},
-  };
-  options = {...defaults, ...options};
+export function object_create(config) {
+  const options = {
+    create() {
+
+    },
+    step() {
+
+    },
+    draw() {
+
+    },
+    ...config,
+  }
+
   return new gameObject(options);
 }
 /* room creation function */
-export function room_add( opt ) {
-  var new_room = new Room( opt );
-  if ( !this.current_room ) {
-    this.current_room = new_room.clone();
-  }
+export function room_add(opt) {
+  var new_room = new Room(opt);
   new_room.id = `room-${this.rooms.length}`;
-  var ind = this.rooms.push( new_room );
+  var ind = this.rooms.push(new_room);
   new_room.index = ind - 1;
   return new_room;
 }
@@ -27,9 +31,11 @@ export function room_goto( room ) {
   if ( typeof room != "number" ) {
     room = room.index;
   }
-  this.current_room = this.rooms[ room ].clone();
+  console.log("ASDasdasd", this.rooms);
+  this.current_room = {...this.rooms[room]};
   this.current_room.start();
 }
+
 /* Sprites Functions */
 export function sprite_add( path , w_frame_number , h_frame_number , xOrig , yOrig){
     var img = new Image();

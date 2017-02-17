@@ -17,41 +17,49 @@ export default class Room {
     this.viewports = [];
     this.objects = [];
     this.instances = [];
+  
     /* add a default viewport */
     this.add_viewport({ active: true });
     this.start = this.start.bind(this);
     this.instance_create = this.instance_create.bind(this);
     this.add_viewport = this.add_viewport.bind(this);
-    this.clone = this.clone.bind(this);
   }
+
   instance_create(obj, x, y ) {
-    var new_instance = obj.clone();
-    new_instance.x = x;
-    new_instance.y = y;
-    new_instance.id = `object-${this.objects.length}`;
-    var index = this.objects.push(new_instance);
+    var new_instance = {...obj, x, y, id: `object-${this.objects.length}`};
+    this.objects = [...this.objects, new_instance];
     /* return array */
     return new_instance;
   }
+
+  instance_destroy({ id }) {
+    // this.instances = this.instances.filter((inst) => {
+    //   if (inst.id == id) return false;
+    // });
+  }
+
   start() {
-    // this is not wooorking
-    var newInstances = this.objects.map(( index, value ) => {
+    this.instances = this.objects.map(( index, value ) => {
+      console.log("STARTING ROOM")
       var instance_copy = {...index};
       instance_copy.create();
       return instance_copy;
     });
-    this.instances = newInstances;
   }
-  add_viewport(options) {
-    var def = { width: this.width, height: this.height, x: 0, y: 0 , destinationX: 0, destinationY: 0, active: false };
-    for(var key in options){
-      if (def.hasOwnProperty(key)) def[key] = options[key];
-    }
-    var index = this.viewports.push( def );
-    return this.viewports[ index - 1 ]
+
+  add_viewport(config) {
+    var options = {
+      width: this.width,
+      height: this.height,
+      x: 0,
+      y: 0 ,
+      destinationX: 0,
+      destinationY: 0,
+      active: false,
+      ...config,
+    };
+
+    var index = this.viewports.push(options);
+    return this.viewports[index - 1]
   }
-  /* Cloning function, there is some kind of sorcery here */
-  clone() {
-    return {...this};
-  };
 }

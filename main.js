@@ -10,6 +10,7 @@ var app = new WebpackDevServer(compiler, {
   publicPath: '/assets/js/',
   stats: { colors: true },
   hot: true,
+  inline: true,
 });
 app.use('/', express.static(path.resolve(__dirname, 'public')));
 app.listen(3000);

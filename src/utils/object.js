@@ -1,6 +1,6 @@
 /* Objects */
 export default class gameObject {
-  constructor() {
+  constructor({ create, step, draw }) {
     /* Instance local variables */
     this.id = undefined;
     this.class = undefined;
@@ -29,25 +29,8 @@ export default class gameObject {
     this.image_number = 0;
     this.image_angle = 0;
     this.color = "#FFFFFF";
-    this.create = this.create.bind(this);
-    this.step = this.create.bind(this);
-    this.draw = this.draw.bind(this);
-    this.clone = this.clone.bind(this);
+    this.create = create.bind(this);
+    this.step = step.bind(this);
+    this.draw = draw.bind(this);
   }
-  create() {
-    // create function
-  };
-
-  step() {
-    // step function
-  };
-
-  draw() {
-    // draw function
-  };
-
-  clone() {
-    var obj_clone = {...this};
-    return obj_clone;
-  };
 }
