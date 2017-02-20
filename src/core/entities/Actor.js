@@ -46,12 +46,20 @@ export default class Actor {
     console.info('[jGame] New actor created:', this);
   }
 
+  innerCreate = () => {
+    this.create();
+  }
+
   innerStep = () => {
     this.vspeed += this.gravity * ( Math.sin( this.gravity_direction * Math.PI / 180 ) );
     this.hspeed += this.gravity * ( Math.cos( this.gravity_direction * Math.PI / 180 ) );
     this.y += this.vspeed + ( this.speed * Math.sin( this.direction * Math.PI / 180 ) );
     this.x += this.hspeed + ( this.speed * Math.cos( this.direction * Math.PI / 180 ) );
     this.step();
+  }
+
+  innerDraw = context => {
+    this.draw();
   }
 
   emptyFunction() {

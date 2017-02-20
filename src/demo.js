@@ -1,8 +1,6 @@
 import { Actor, Scene, Sprite, Game } from "./core/entities";
 import { CONSTANTS } from "./core/utils";
 
-let gameEntity = new Game();
-
 let sprPlayer = new Sprite({
   src: './assets/sprites/sprite2.png',
   h_frames: 7,
@@ -11,8 +9,6 @@ let sprPlayer = new Sprite({
   y_origin: CONSTANTS.center,
 });
 
-gameEntity.addAsset(sprPlayer);
-
 let actorPlayer = new Actor({
   class: 'obj_player',
   solid: true,
@@ -20,10 +16,10 @@ let actorPlayer = new Actor({
     console.log("create event");
   },
   step() {
-    console.log("step event");
+    // console.log("step event");
   },
   draw() {
-    console.log("draw_event");
+    // console.log("draw_event");
   }
 });
 
@@ -37,7 +33,13 @@ let sceneDemo = new Scene({
   ]
 });
 
-gameEntity.addScene(sceneDemo);
-
-// Init the game
-gameEntity.init();
+let gameEntity = new Game({
+  width: 640,
+  height: 480,
+  assets: [
+    sprPlayer,
+  ],
+  scenes: [
+    sceneDemo,
+  ]
+}).init();
