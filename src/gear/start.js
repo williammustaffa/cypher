@@ -12,11 +12,8 @@ stats.domElement.style.top = '0px';
 document.body.appendChild( stats.domElement );
 
 /* GAME RUN SETUP */
-export function start() {
+export default function start() {
   stats.begin();
-
-  /* variables */
-  let Error = false;
 
   /* run gear */
   this.step();
@@ -29,13 +26,20 @@ export function start() {
 }
 
 /* init events organizer */
-export function run() {
+export function init() {
+
   /* setting current room */
-  console.log(this.current_room);
-  console.log(this.rooms);
-  if (!this.current_room && this.rooms.length > 0) {
-    this.current_room = this.rooms[0];
+  if (!this.current_room) {
+    if (this.rooms.length > 0) {
+      let firstRoom = this.rooms[0];
+      console.log(this.rooms);
+      console.log(this.rooms[0]);
+      this.current_room = { ...firstRoom };
+    } else {
+      return false;
+    }
   }
+
   /* init settings */
   this.keyboard = new Keyboard();
   this.current_room.start();

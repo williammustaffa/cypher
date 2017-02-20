@@ -1,5 +1,5 @@
 /* draw function, what you'll see on screen */
-export function draw() {
+export default function draw() {
 
   /* GI reefer to Game Instance */
   var GI = this, instances = GI.current_room.instances;

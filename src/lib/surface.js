@@ -1,7 +1,7 @@
 /* Drawing Functions */
 export function draw_circle( x , y , radius, outline) {
     this.context.beginPath();
-    this.context.arc(x,y,radius,0,2*Math.PI);
+    this.context.arc(x,y,radius,0,2 * Math.PI);
     if (!outline){
         this.context.fill()
     }else{
