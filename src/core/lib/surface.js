@@ -1,16 +1,14 @@
-export default class Canvas {
-  constructor(insert, options) {
-    const defaults = {
+export default class Surface {
+  constructor(config) {
+    const options = {
       id: Math.random().toString(36).substr(2, 9),
       class: "",
       container: "body",
       width: 640,
       height: 480,
       style: "",
+      ...config,
     };
-
-    /* CANVAS OPTIONS */
-    options = {...defaults, ...options};
 
     this.canvas = document.createElement('canvas');
     this.canvas.setAttribute("id", options.id);
@@ -19,7 +17,7 @@ export default class Canvas {
     this.canvas.setAttribute("style", options.style);
 
     /* end of canvas style */
-    if (insert) document.body.appendChild(this.canvas);
+    if (options.insert) document.body.appendChild(this.canvas);
     this.context = this.canvas.getContext('2d');
 
     /* initial style settings */

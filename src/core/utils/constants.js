@@ -1,4 +1,4 @@
-export const CONSTANTS = {
+export default {
   center: "center",
   up: "up",
   down: "down",
