@@ -36,12 +36,12 @@ export default class Actor {
     this.image_speed = attributes.image_speed || 1;
     this.image_number = 0;
     this.image_angle = 0;
-    this.color = attributes.color || "#FFFFFF";
+    this.color = attributes.color || "#FFF";
   
     /* Object events */
-    this.create = create.bind(this);
-    this.step = step.bind(this);
-    this.draw = draw.bind(this);
+    this.create = create;
+    this.step = step;
+    this.draw = draw;
 
     console.info('[jGame] New actor created:', this);
   }

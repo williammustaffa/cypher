@@ -5,24 +5,23 @@ export default class Game {
   constructor(attributes) {
     this.scenes = attributes.scenes || [];
     this.assets = attributes.assets || [];
-
-    this.current_room = this.scenes[0];
-
-    let window = new Surface({
-      insert: true,
-      width: attributes.width || 640,
-      height: attributes.height || 480,
-    });
-
-    this.ctx = window.context;
+    this.width = attributes.width || 640;
+    this.height = attributes.height || 480;
     console.info("[jGame] New game generated", this);
   }
 
   init = () => {
-    if (this.scenes.length == 0) {
-      console.error("[jGame] The game must have at least 1 room.");
-      return false;
-    }
+    this.current_room = this.scenes[0];
+
+    let window = new Surface({
+      insert: true,
+      width: this.width,
+      height: this.height,
+      style: "background: #f5f5f5",
+    });
+
+    this.ctx = window.context;
+
     this.keyboard = new Keyboard();
     this.create();
     this.loop();
@@ -32,24 +31,18 @@ export default class Game {
     this.step();
     this.draw();
     this.keyboard.reset();
-    window.requestAnimationFrame(this.loop);    
+    window.requestAnimationFrame(this.loop);
   }
 
   create = () => {
-    this.current_room.instances.map(instance => {
-      instance.type.innerCreate();
-    });
+    this.current_room.create();
   }
 
   step = () => {
-    this.current_room.instances.map(instance => {
-      instance.type.innerStep();
-    });
+    this.current_room.step();
   }
 
   draw = () => {
-    this.current_room.instances.map(instance => {
-      instance.type.innerDraw(this.ctx);
-    });
+    this.current_room.draw();
   }
 }
