@@ -13,15 +13,15 @@ let actorPlayer = new Actor({
   class: 'obj_player',
   solid: true,
   sprite_index: sprPlayer,
-  image_xscale: -1,
+  image_speed: 0,
   create() {
-    console.log("create event");
+    // player create
   },
   step() {
-    // console.log("step event");
+    // player step
   },
   draw() {
-    // console.log("draw_event");
+    // player draw
   },
 });
 
@@ -43,8 +43,8 @@ let sceneDemo = new Scene({
   instances: [
     {
       type: actorPlayer, // instance type
-      x: 16, // instance start position x
-      y: 16, // instance start position y
+      x: 240, // instance start position x
+      y: 240, // instance start position y
     },
   ],
 });

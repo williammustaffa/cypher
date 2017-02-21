@@ -49,10 +49,11 @@ export default class Scene {
       surface.scale(instance.xscale, instance.yscale);
       surface.fillStyle = instance.color;
       surface.strokeStyle = instance.color;
-      surface.fillRect(0, 0, 32, 32);
+      surface.fillRect(0, 0, instance.width, instance.height);
 
-      let { sprite_index, image_index } = instance;
+      let { sprite_index } = instance;
       if (sprite_index && sprite_index instanceof Sprite && sprite_index.isReady) {
+
         // do some math to calculate current x and y position based on image index from instance
         let image_xindex = 0; // horizontal tile position
         let image_yindex = 0; // vertical tile position
@@ -63,7 +64,7 @@ export default class Scene {
         if (instance.image_index < 0) instance.image_index = sprite_index.image_number - 1;
 
         // a dangerous while to do it fast
-        while(counter < instance.image_index) {
+        while(counter < Math.round(instance.image_index)) {
           image_xindex ++;
           if (image_xindex >= sprite_index.h_frames) {
             image_xindex = 0;
@@ -87,7 +88,7 @@ export default class Scene {
         );
 
         // Increase image index
-        instance.image_index += Math.round(instance.image_speed);
+        instance.image_index += instance.image_speed;
       }
 
       // Runs the instance draw and restore the surface

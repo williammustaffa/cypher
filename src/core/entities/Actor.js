@@ -1,4 +1,6 @@
-/* Objects */
+import Sprite from "./Sprite";
+
+/* Actors */
 export default class Actor {
   constructor(attributes = {}) {
     /* handle attributes */
@@ -24,7 +26,7 @@ export default class Actor {
     this.vspeed = attributes.vspeed || 0;
     this.hspeed = attributes.hspeed || 0;
     this.gravity = attributes.gravity || 0;
-    this.gravity_direction = attributes.gravity_direction || 270;
+    this.gravity_direction = attributes.gravity_direction || 0;
     this.direction = attributes.direction || 0;
     this.speed = attributes.speed || 0;
   
@@ -33,15 +35,15 @@ export default class Actor {
     this.yOffset = attributes.yOffset || 0;
     this.sprite_index = attributes.sprite_index || null;
     this.image_index = attributes.image_index || 0;
-    this.image_speed = attributes.image_speed || 1;
+    this.image_speed = typeof attributes.image_speed == 'number' ? attributes.image_speed : 1;
     this.image_number = 0;
     this.image_angle = 0;
-    this.color = attributes.color || "#FFF";
+    this.color = attributes.color || "#ccc";
   
     /* Object events */
-    this.create = create;
-    this.step = step;
-    this.draw = draw;
+    this.create = create.bind(this);
+    this.step = step.bind(this);
+    this.draw = draw.bind(this);
 
     console.info('[jGame] New actor created:', this);
   }
@@ -51,6 +53,11 @@ export default class Actor {
   }
 
   innerStep = () => {
+    let { sprite_index } = this;
+    if (sprite_index && sprite_index instanceof Sprite && sprite_index.isReady) {
+      this.width = sprite_index.frame_width;
+      this.height = sprite_index.frame_height;
+    }
     this.vspeed += this.gravity * ( Math.sin( this.gravity_direction * Math.PI / 180 ) );
     this.hspeed += this.gravity * ( Math.cos( this.gravity_direction * Math.PI / 180 ) );
     this.y += this.vspeed + ( this.speed * Math.sin( this.direction * Math.PI / 180 ) );

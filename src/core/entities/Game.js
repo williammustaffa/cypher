@@ -1,5 +1,17 @@
 import Keyboard from "../lib/keyboard";
 import Surface from "../lib/surface";
+import Stats from 'stats-js';
+
+/* stats to check fps */
+var stats = new Stats();
+stats.setMode(0); // 0: fps, 1: ms 
+ 
+// Align top-left 
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.left = '0px';
+stats.domElement.style.top = '0px';
+ 
+document.body.appendChild( stats.domElement );
 
 export default class Game {
   constructor(attributes) {
@@ -28,9 +40,11 @@ export default class Game {
   }
 
   loop = () => {
+    stats.begin();
     this.step();
     this.draw();
     this.keyboard.reset();
+    stats.end();
     window.requestAnimationFrame(this.loop);
   }
 
