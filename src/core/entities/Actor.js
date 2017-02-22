@@ -41,9 +41,8 @@ export default class Actor {
     this.color = attributes.color || "#ccc";
   
     /* Object events */
-    this.create = create.bind(this);
-    this.step = step.bind(this);
-    this.draw = draw.bind(this);
+    this.step = this.step.bind(this);
+    this.draw = this.draw.bind(this);
 
     console.info('[jGame] New actor created:', this);
   }
@@ -54,9 +53,10 @@ export default class Actor {
 
   innerStep = () => {
     let { sprite_index } = this;
+    let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = sprite_index;
     if (sprite_index && sprite_index instanceof Sprite && sprite_index.isReady) {
-      this.width = sprite_index.frame_width;
-      this.height = sprite_index.frame_height;
+      this.width = frame_width - (offset_left + offset_right);
+      this.height = frame_height - (offset_top + offset_bottom);
     }
     this.vspeed += this.gravity * ( Math.sin( this.gravity_direction * Math.PI / 180 ) );
     this.hspeed += this.gravity * ( Math.cos( this.gravity_direction * Math.PI / 180 ) );

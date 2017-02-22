@@ -10,6 +10,10 @@ export default class Sprite {
     this.image_number = this.h_frames * this.v_frames;
     this.x_origin = this.x_origin || 0;
     this.y_origin = this.y_origin || 0;
+    this.offset_left = attributes.offset_left || 0;
+    this.offset_right = attributes.offset_right || 0;
+    this.offset_top = attributes.offset_top || 0;
+    this.offset_bottom = attributes.offset_bottom || 0;
     this.isReady = false;
     this.hasError = false;
 

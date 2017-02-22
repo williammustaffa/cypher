@@ -23,10 +23,10 @@ export default class Game {
   }
 
   init = () => {
-    this.current_room = this.scenes[0];
+    this.current_room = new this.scenes[0]();
 
     let window = new Surface({
-      insert: true,
+      insert: false,
       width: this.width,
       height: this.height,
       style: "background: #f5f5f5",

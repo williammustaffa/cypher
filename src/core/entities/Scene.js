@@ -3,12 +3,17 @@ import Actor from "./Actor";
 import Sprite from "./Sprite";
 
 export default class Scene {
-  constructor(attributes) {
-    this.instances = attributes.instances || [];
-    this.viewports = attributes.viewports || [];
-    this.height = attributes.height || 480;
-    this.width = attributes.width || 640;
+  constructor() {
+    this.instances = [];
+    this.viewports = [];
+    this.height = 480;
+    this.width = 640;
+    this.activeInstances = [];
 
+    console.info('[jGame] New scene created:', this);
+  }
+
+  create = () => {
     let roomSurface = new Surface({
       insert: true,
       width: this.width,
@@ -17,22 +22,16 @@ export default class Scene {
 
     this.surface = roomSurface.context;
 
-    console.info('[jGame] New scene created:', this);
-  }
-
-  create = () => {
-    this.instances.map(definition => {
-      let instance = definition.type;
+    this.activeInstances = this.instances.map(definition => {
+      let instance = new definition.type();
       instance.x = definition.x;
       instance.y = definition.y;
-      instance.create();
       return instance;
     });
   }
 
   step = () => {
-    this.instances.map(definition => {
-      let instance = definition.type;
+    this.activeInstances.map(instance => {
       instance.innerStep();
       return instance;
     });
@@ -41,8 +40,7 @@ export default class Scene {
   draw = () => {
     let { surface } = this;
     surface.clearRect(0, 0, this.width, this.height);
-    this.instances.map(definition => {
-      let instance = definition.type;
+    this.activeInstances.map(instance => {
       surface.save();
       surface.translate(instance.x, instance.y);
       surface.rotate(instance.image_angle * Math.PI / 180);
@@ -73,18 +71,20 @@ export default class Scene {
           counter ++;
         }
 
+        // get variables from sprite
+        let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = sprite_index;
         // draw the sprite animated
         surface.drawImage(
           sprite_index.img,
 
           // crop image according to frame height, frame width and image index
-          image_xindex * sprite_index.frame_width, // x in source
-          image_yindex * sprite_index.frame_height, // y in source
-          sprite_index.frame_width, // width in source
-          sprite_index.frame_height, // height in source
+          (image_xindex * frame_width) + offset_left, // x in source
+          (image_yindex * frame_height) + offset_top, // y in source
+          frame_width - offset_right, // width in source
+          frame_height - offset_bottom, // height in source
 
           // box in the scene
-          0, 0, sprite_index.frame_width, sprite_index.frame_height // box on the room
+          0, 0, frame_width - (offset_left + offset_right), frame_height - (offset_top + offset_bottom) // box on the room
         );
 
         // Increase image index
