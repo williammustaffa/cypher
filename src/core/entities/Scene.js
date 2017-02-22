@@ -80,8 +80,8 @@ export default class Scene {
           // crop image according to frame height, frame width and image index
           (image_xindex * frame_width) + offset_left, // x in source
           (image_yindex * frame_height) + offset_top, // y in source
-          frame_width - offset_right, // width in source
-          frame_height - offset_bottom, // height in source
+          frame_width - (offset_right + offset_left), // width in source
+          frame_height - (offset_top + offset_bottom), // height in source
 
           // box in the scene
           0, 0, frame_width - (offset_left + offset_right), frame_height - (offset_top + offset_bottom) // box on the room
