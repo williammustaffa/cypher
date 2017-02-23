@@ -8,8 +8,8 @@ export default class Sprite {
     this.h_frames = attributes.h_frames || 1;
     this.v_frames = attributes.v_frames || 1;
     this.image_number = this.h_frames * this.v_frames;
-    this.x_origin = this.x_origin || 0;
-    this.y_origin = this.y_origin || 0;
+    this.x_origin = attributes.x_origin || 0;
+    this.y_origin = attributes.y_origin || 0;
     this.offset_left = attributes.offset_left || 0;
     this.offset_right = attributes.offset_right || 0;
     this.offset_top = attributes.offset_top || 0;
@@ -22,7 +22,7 @@ export default class Sprite {
       this.frame_width = this.img.width / this.h_frames;
       this.frame_height = this.img.height / this.v_frames;
       if (this.x_origin == CONSTANTS.center) {
-        this.y_origin = this.frame_width / 2;
+        this.x_origin = this.frame_width / 2;
       }
       if (this.y_origin == CONSTANTS.center) {
         this.y_origin = this.frame_height / 2;

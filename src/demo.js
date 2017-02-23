@@ -5,8 +5,8 @@ let sprPlayer = new Sprite({
   src: './assets/sprites/sprite2.png', // sprite source
   h_frames: 7, // number of horizontal frames to be splited
   v_frames: 2, // number of vertical frames to be splited
-  offset_left: 10,
-  offset_right: 5,
+  offset_left: 5,
+  offset_right: 2,
   offset_top: 5,
   offset_bottom: 5,
   x_origin: CONSTANTS.center, // center sprite on actor x coordinate
@@ -17,7 +17,8 @@ class actorPlayer extends Actor {
   constructor() {
     super();
     this.solid = true;
-    this.image_speed = 1;
+    this.image_speed = 0;
+    this.image_index = 13;
     this.sprite_index = sprPlayer;
   }
   step() {

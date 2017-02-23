@@ -73,6 +73,7 @@ export default class Scene {
 
         // get variables from sprite
         let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = sprite_index;
+
         // draw the sprite animated
         surface.drawImage(
           sprite_index.img,
@@ -84,7 +85,7 @@ export default class Scene {
           frame_height - (offset_top + offset_bottom), // height in source
 
           // box in the scene
-          0, 0, frame_width - (offset_left + offset_right), frame_height - (offset_top + offset_bottom) // box on the room
+          -sprite_index.x_origin, -sprite_index.y_origin, frame_width - (offset_left + offset_right), frame_height - (offset_top + offset_bottom) // box on the room
         );
 
         // Increase image index
