@@ -5,10 +5,10 @@ let sprPlayer = new Sprite({
   src: './assets/sprites/sprite2.png', // sprite source
   h_frames: 7, // number of horizontal frames to be splited
   v_frames: 2, // number of vertical frames to be splited
-  offset_left: 10,
-  offset_right: 5,
+  offset_left: 5,
+  offset_right: 3,
   offset_top: 5,
-  offset_bottom: 5,
+  offset_bottom: 0,
   x_origin: CONSTANTS.center, // center sprite on actor x coordinate
   y_origin: CONSTANTS.center, // center sprite on actor y coordinate
 });
@@ -17,21 +17,37 @@ class actorPlayer extends Actor {
   constructor() {
     super();
     this.solid = true;
-    this.image_speed = 1;
+    this.image_speed = 0;
+    this.image_index = 13;
     this.sprite_index = sprPlayer;
+    this.gravity = 0.5;
+    this.gravity_direction = 270;
   }
   step() {
-
+    let canJump = false;
+    if (keyboard.check(CONSTANTS.left)) {
+      this.x--;
+    }
+    if (keyboard.check(CONSTANTS.right)) {
+      this.x++;
+    }
+    if (this.y + (this.sprite_index.frame_height / 2) > this.room.height) {
+      this.vspeed = 0;
+      canJump = true;
+    }
+    if (keyboard.pressed(CONSTANTS.space) && canJump) {
+      this.vspeed = -10;
+    }
   }
   draw() {
-
+    
   }
 }
 
 class sceneDemo extends Scene {
   constructor() {
     super();
-    this.width = 1200; // scene width
+    this.width = 640; // scene width
     this.height = 480; // scene height
     this.viewports = [
       {

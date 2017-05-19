@@ -1,9 +1,11 @@
 var path = require('path');
+var opn = require('opn');
 var express = require('express');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require("./webpack.config.js");
-config.entry.unshift("webpack-dev-server/client?http://localhost:3000/");
+var devServerPort =  process.env.PORT || 3000;
+config.entry.unshift("webpack-dev-server/client?http://localhost:" + devServerPort + "/");
 var compiler = webpack(config);
 var app = new WebpackDevServer(compiler, {
   contentBase: '/public/',
@@ -13,4 +15,6 @@ var app = new WebpackDevServer(compiler, {
   inline: true,
 });
 app.use('/', express.static(path.resolve(__dirname, 'public')));
-app.listen(3000);
+app.listen(devServerPort, function() {
+  opn('http://localhost:' + devServerPort);
+});

@@ -18,4 +18,4 @@ npm build
 ```
 
 ## Documentation ##
-Let's wait a release...
+Let's wait a release... Because this can change a lot in the future.

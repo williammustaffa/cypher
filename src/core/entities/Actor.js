@@ -26,7 +26,7 @@ export default class Actor {
     this.vspeed = attributes.vspeed || 0;
     this.hspeed = attributes.hspeed || 0;
     this.gravity = attributes.gravity || 0;
-    this.gravity_direction = attributes.gravity_direction || 0;
+    this.gravity_direction = attributes.gravity_direction || 270;
     this.direction = attributes.direction || 0;
     this.speed = attributes.speed || 0;
   
@@ -38,7 +38,7 @@ export default class Actor {
     this.image_speed = typeof attributes.image_speed == 'number' ? attributes.image_speed : 1;
     this.image_number = 0;
     this.image_angle = 0;
-    this.color = attributes.color || "#ccc";
+    this.color = attributes.color || "transparent";
   
     /* Object events */
     this.step = this.step.bind(this);
@@ -58,11 +58,13 @@ export default class Actor {
       this.width = frame_width - (offset_left + offset_right);
       this.height = frame_height - (offset_top + offset_bottom);
     }
-    this.vspeed += this.gravity * ( Math.sin( this.gravity_direction * Math.PI / 180 ) );
+    this.vspeed -= this.gravity * ( Math.sin( this.gravity_direction * Math.PI / 180 ) );
     this.hspeed += this.gravity * ( Math.cos( this.gravity_direction * Math.PI / 180 ) );
+
+    this.step();
+
     this.y += this.vspeed + ( this.speed * Math.sin( this.direction * Math.PI / 180 ) );
     this.x += this.hspeed + ( this.speed * Math.cos( this.direction * Math.PI / 180 ) );
-    this.step();
   }
 
   innerDraw = context => {
