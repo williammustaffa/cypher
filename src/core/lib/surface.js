@@ -1,7 +1,7 @@
 export default class Surface {
   constructor(config) {
     const options = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: `surface_${Math.random().toString(36).substr(2, 9)}`,
       class: "",
       container: "body",
       width: 640,

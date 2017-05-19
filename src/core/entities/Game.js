@@ -20,9 +20,10 @@ export default class Game {
     this.width = attributes.width || 640;
     this.height = attributes.height || 480;
     console.info("[jGame] New game generated", this);
+    if (!window.keyboard) window.keyboard = new Keyboard();
   }
 
-  init = () => {
+  init() {
     this.current_room = new this.scenes[0]();
 
     let window = new Surface({
@@ -34,18 +35,17 @@ export default class Game {
 
     this.ctx = window.context;
 
-    this.keyboard = new Keyboard();
     this.create();
     this.loop();
   }
 
-  loop = () => {
+  loop() {
     stats.begin();
     this.step();
     this.draw();
-    this.keyboard.reset();
+    keyboard.reset();
     stats.end();
-    window.requestAnimationFrame(this.loop);
+    window.requestAnimationFrame(this.loop.bind(this));
   }
 
   create = () => {

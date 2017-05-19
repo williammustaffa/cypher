@@ -26,6 +26,7 @@ export default class Scene {
       let instance = new definition.type();
       instance.x = definition.x;
       instance.y = definition.y;
+      instance.room = this;
       return instance;
     });
   }
