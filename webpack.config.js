@@ -5,6 +5,13 @@ module.exports = {
     'babel-polyfill',
     path.resolve(__dirname, 'src', 'demo.js')
   ],
+  resolve: {
+    alias: {
+      lib: path.resolve(__dirname, 'src/core/lib/'),
+      utils: path.resolve(__dirname, 'src/core/utils/'),
+      entities: path.resolve(__dirname, 'src/core/entities/')
+    },
+  },
   module: {
     loaders: [
       {

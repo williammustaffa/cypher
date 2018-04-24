@@ -1,10 +1,14 @@
-import { CONSTANTS } from "../utils";
+import { CONSTANTS } from "utils";
 
 export default class Sprite {
+  /**
+   * Define class group
+   */
+  group_identifier = CONSTANTS.SPRITE;
+
   constructor(attributes) {
     this.img = document.createElement('img'); // Not sure if better use "new Image();"
     this.img.src = attributes.src || '';
-
     this.h_frames = attributes.h_frames || 1;
     this.v_frames = attributes.v_frames || 1;
     this.image_number = this.h_frames * this.v_frames;

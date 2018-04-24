@@ -1,6 +1,6 @@
-import Keyboard from "../lib/keyboard";
-import Surface from "../lib/surface";
 import Stats from 'stats-js';
+import Keyboard from "lib/keyboard";
+import { CONSTANTS, Surface } from "utils";
 
 /* stats to check fps */
 var stats = new Stats();
@@ -14,6 +14,11 @@ stats.domElement.style.top = '0px';
 document.body.appendChild( stats.domElement );
 
 export default class Game {
+  /**
+   * Define class group
+   */
+  group_identifier = CONSTANTS.GAME;
+
   constructor(attributes) {
     this.scenes = attributes.scenes || [];
     this.assets = attributes.assets || [];

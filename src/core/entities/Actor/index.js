@@ -1,7 +1,13 @@
-import Sprite from "./Sprite";
+import Sprite from "entities/Sprite";
+import { CONSTANTS } from "utils";
 
 /* Actors */
 export default class Actor {
+  /**
+   * Define class group
+   */
+  group_identifier = CONSTANTS.ACTOR;
+
   constructor(attributes = {}) {
     /* handle attributes */
     let { create, step, draw } = attributes;
@@ -11,14 +17,15 @@ export default class Actor {
 
     /* Instance local variables */
     this.id = null;
-    this.class = attributes.class || 'generic';
+    this.room = attributes.room;
+    this.class = this.constructor.name;
     this.solid = attributes.solid || 0;
     this.width = attributes.width || 0;
     this.height = attributes.height || 0;
   
     /* Transform variables */
-    this.x = 0;
-    this.y = 0;
+    this.x = attributes.x || 0;
+    this.y = attributes.y || 0;
     this.xscale = attributes.xscale || 1;
     this.yscale = attributes.yscale || 1;
 
@@ -38,7 +45,7 @@ export default class Actor {
     this.image_speed = typeof attributes.image_speed == 'number' ? attributes.image_speed : 1;
     this.image_number = 0;
     this.image_angle = 0;
-    this.color = attributes.color || "transparent";
+    this.color = attributes.color || 'transparent';
   
     /* Object events */
     this.step = this.step.bind(this);
@@ -54,17 +61,19 @@ export default class Actor {
   innerStep = () => {
     let { sprite_index } = this;
     let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = sprite_index;
+
     if (sprite_index && sprite_index instanceof Sprite && sprite_index.isReady) {
       this.width = frame_width - (offset_left + offset_right);
       this.height = frame_height - (offset_top + offset_bottom);
     }
-    this.vspeed -= this.gravity * ( Math.sin( this.gravity_direction * Math.PI / 180 ) );
-    this.hspeed += this.gravity * ( Math.cos( this.gravity_direction * Math.PI / 180 ) );
+
+    this.vspeed -= this.gravity * (Math.sin(this.gravity_direction * Math.PI / 180));
+    this.hspeed += this.gravity * (Math.cos(this.gravity_direction * Math.PI / 180));
 
     this.step();
 
-    this.y += this.vspeed + ( this.speed * Math.sin( this.direction * Math.PI / 180 ) );
-    this.x += this.hspeed + ( this.speed * Math.cos( this.direction * Math.PI / 180 ) );
+    this.y += this.vspeed + ( this.speed * Math.sin( this.direction * Math.PI / 180));
+    this.x += this.hspeed + ( this.speed * Math.cos( this.direction * Math.PI / 180));
   }
 
   innerDraw = context => {

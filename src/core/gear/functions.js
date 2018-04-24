@@ -1,5 +1,5 @@
-import Room from "../utils/room";
-import gameObject from "../utils/object";
+import Room from "utils/room";
+import gameObject from "utils/object";
 
 /* object creation function */
 export function object_create(config) {

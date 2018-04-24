@@ -29,6 +29,7 @@ export default class Keyboard {
         }
       }
     });
+
     window.addEventListener('keyup', e => {
       var Key = e.keyCode;
       for (var prop in keys) {
@@ -41,6 +42,7 @@ export default class Keyboard {
       }
     });
   }
+
   reset() {
     for (var prop in keys){
       if (keys.hasOwnProperty(prop)) {
@@ -49,12 +51,15 @@ export default class Keyboard {
       }
     }
   }
+
   pressed(key) {
     return this.keyPressed[key];
   }
+
   released(key) {
     return this.keyReleased[key];
   }
+
   check(key) {
     return this.keyPress[key];
   }

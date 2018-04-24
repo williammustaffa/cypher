@@ -1,11 +1,6 @@
-import Actor from './Actor';
-import Scene from './Scene';
-import Sprite from './Sprite';
-import Game from './Game';
+import Actor from 'entities/Actor';
+import Scene from 'entities/Scene';
+import Sprite from 'entities/Sprite';
+import Game from 'entities/Game';
 
-export {
-  Actor,
-  Scene,
-  Sprite,
-  Game,
-};
+export { Actor, Scene, Sprite, Game };

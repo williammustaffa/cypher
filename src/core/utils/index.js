@@ -1,5 +1,7 @@
-import CONSTANTS from './constants';
+import Constants from 'utils/constants';
+import Surface from 'utils/surface';
 
 export {
-  CONSTANTS,
+  Contants,
+  Surface,
 };
