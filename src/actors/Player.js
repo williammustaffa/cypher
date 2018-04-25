@@ -15,7 +15,7 @@ export default class Player extends Actor {
     if (keyboard.check(keyboard.constants.left)) this.x--;
     if (keyboard.check(keyboard.constants.right)) this.x++;
 
-    if (this.y + (this.height / 2) > this.room.height) {
+    if (this.y + (this.height / 2) > this.room.height + 1) {
       this.vspeed = 0;
       this.gravity = 0;
       canJump = true;
@@ -24,9 +24,5 @@ export default class Player extends Actor {
     }
 
     if (keyboard.pressed(keyboard.constants.space) && canJump) this.vspeed = -10;
-  }
-
-  draw() {
-    /* empty action */
   }
 }

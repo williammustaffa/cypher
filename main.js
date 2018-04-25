@@ -10,7 +10,7 @@ var compiler = webpack(config);
 
 var app = new WebpackDevServer(compiler, {
   contentBase: '/public/',
-  publicPath: '/assets/js/',
+  publicPath: '/build/',
   stats: { colors: true },
   hot: true,
   inline: true,

@@ -10,6 +10,11 @@ export default class FpsManager {
   start_time = this.then;
 
   /**
+   * indicates frames since start
+   */
+  frameCount = 0;
+
+  /**
    * stop state
    */
   stop = false;

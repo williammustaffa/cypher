@@ -5,12 +5,15 @@ module.exports = {
     'babel-polyfill',
     path.resolve(__dirname, 'src', 'Game.js')
   ],
+  output: {
+    path: path.resolve(__dirname, 'public', 'build'),
+    filename: 'main.js',
+  },
   resolve: {
     alias: {
       lib: path.resolve(__dirname, 'core/lib/'),
       utils: path.resolve(__dirname, 'core/utils/'),
       entities: path.resolve(__dirname, 'core/entities/'),
-      /* game assets */
       actors: path.resolve(__dirname, 'src/actors/'),
       scenes: path.resolve(__dirname, 'src/scenes/'),
       sounds: path.resolve(__dirname, 'src/sounds/'),
@@ -36,15 +39,21 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'file-loader?name=/assets/images/[name].[ext]',
+        loader: 'file-loader',
+        options: {
+          useRelativePath: true,
+          publicPath: 'build/',
+          name: function(file) {
+            if (process.env.NODE_ENV !== 'production') {
+              return 'assets/[path][name].[ext]';
+            }
+            return 'assets/[sha512:hash:base64:7].[ext]';
+          }
+        },
         exclude: [
           path.resolve(__dirname, "node_modules"),
         ],
       },
     ],
-  },
-  output: {
-    path: path.resolve(__dirname, 'public', 'assets', 'js'),
-    filename: 'main.js',
   },
 };
