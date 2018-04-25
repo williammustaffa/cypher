@@ -12,7 +12,6 @@ export default class Sprite {
     this.name = this.constructor.name;
     this.h_frames = attributes.h_frames || 1;
     this.v_frames = attributes.v_frames || 1;
-    this.image_number = this.h_frames * this.v_frames;
     this.x_origin = attributes.x_origin || 0;
     this.y_origin = attributes.y_origin || 0;
     this.offset_left = attributes.offset_left || 0;
@@ -28,12 +27,15 @@ export default class Sprite {
     console.info("[jGame] New sprite registered: ", this);
   }
 
+  get image_number() {
+    return this.h_frames * this.v_frames;
+  }
+
   load() {
     this.img = document.createElement('img');
     this.img.src = this.src;
     /* onLoad event */
     this.img.onload = image => {
-      document.body.append(this.img);
       this.frame_width = this.img.width / this.h_frames;
       this.frame_height = this.img.height / this.v_frames;
       if (this.x_origin == Constants.CENTER) {

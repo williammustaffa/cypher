@@ -110,7 +110,7 @@ export default class Scene {
         let counter = 0; // helper variable
 
         // if image index exceed the number of frames, resets it
-        if (instance.image_index >= image_source.image_number) instance.image_index = 0;
+        if (instance.image_index >= image_source.image_number - 1) instance.image_index = 0;
         if (instance.image_index < 0) instance.image_index = image_source.image_number - 1;
 
         // a dangerous while to do it fast
