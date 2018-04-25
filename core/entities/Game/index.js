@@ -12,6 +12,7 @@ stats.domElement.style.left = '0px';
 stats.domElement.style.top = '0px';
  
 document.body.appendChild( stats.domElement );
+import uuid from 'uuid';
 
 export default class Game {
   /**
@@ -20,37 +21,36 @@ export default class Game {
   group_identifier = Constants.GAME;
 
   constructor(attributes) {
+    this.id = uuid.v4();
     this.scenes = attributes.scenes || [];
     this.assets = attributes.assets || [];
     this.width = attributes.width || 640;
     this.height = attributes.height || 480;
     console.info("[jGame] New game generated", this);
-    if (!window.keyboard) window.keyboard = new Keyboard();
+
+    // we don't want to mess with other keyboards
+    // from this game engine if more than one
+    // game runs at the same time
+    if (!window.keyboard) window.keyboard = [];
+    this.keyboard = window.keyboard[this.id] = new Keyboard();
   }
 
   init() {
-    this.current_room = new this.scenes[0]();
-
-    let window = Surface.create({
-      insert: false,
-      width: this.width,
-      height: this.height,
-      style: "background: #f5f5f5",
-    });
-
-    this.ctx = window.context;
+    this.current_room = new this.scenes[0](this);
 
     this.create();
     this.loop();
+
+    return this;
   }
 
   loop() {
     stats.begin();
     this.step();
     this.draw();
-    keyboard.reset();
+    this.keyboard.reset();
     stats.end();
-    window.requestAnimationFrame(this.loop.bind(this));
+    window.requestAnimationFrame(this.loop.bind(this), 30);
   }
 
   create = () => {

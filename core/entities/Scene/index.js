@@ -1,6 +1,7 @@
 import Actor from "entities/Actor";
 import Sprite from "entities/Sprite";
 import { Constants, Surface } from "utils";
+import uuid from 'uuid';
 
 export default class Scene {
   /**
@@ -46,15 +47,24 @@ export default class Scene {
   /**
    * simple constructor
    */
-  constructor() {
+  constructor(game) {
+    this.id = uuid.v4();
+    this.game = game;
+    this.keyboard = game.keyboard;
     console.info('[jGame] New scene created:', this);
+  }
+
+  get tools() {
+    return {
+      keyboard: this.keyboard,
+    }
   }
 
   /**
    * create event
    * generates room surface for renderization
    */
-  create = () => {
+  create() {
     this.surface = Surface.create({
       insert: true,
       width: this.width,
@@ -70,18 +80,18 @@ export default class Scene {
     });
   }
 
-  step = () => {
-    this.active_instances.map(instance => instance.innerStep());
+  step() {
+    this.active_instances.map(instance => instance.inner_step());
   }
 
-  draw = () => {
+  draw() {
     let { surface } = this;
     surface.fillStyle = this.background;
     surface.strokeStyle = this.background;
     surface.clearRect(0, 0, this.width, this.height);
     surface.fillRect(0, 0, this.width, this.height);
 
-    this.active_instances = this.active_instances.map(instance => {
+    this.active_instances.map(instance => {
       surface.save();
       surface.translate(instance.x, instance.y);
       surface.rotate(instance.image_angle * Math.PI / 180);
@@ -91,8 +101,8 @@ export default class Scene {
       surface.fillRect(0, 0, instance.width, instance.height);
 
       let { sprite_index } = instance;
-      if (sprite_index && Object.keys(this.sprites).includes(sprite_index)) {
-        const image_src = this.sprites[sprite_index];
+      if (sprite_index && this.get_sprite(sprite_index)) {
+        const image_source = this.get_sprite(sprite_index);
 
         // do some math to calculate current x and y position based on image index from instance
         let image_xindex = 0; // horizontal tile position
@@ -100,13 +110,13 @@ export default class Scene {
         let counter = 0; // helper variable
 
         // if image index exceed the number of frames, resets it
-        if (instance.image_index >= image_src.image_number) instance.image_index = 0;
-        if (instance.image_index < 0) instance.image_index = image_src.image_number - 1;
+        if (instance.image_index >= image_source.image_number) instance.image_index = 0;
+        if (instance.image_index < 0) instance.image_index = image_source.image_number - 1;
 
         // a dangerous while to do it fast
         while(counter < Math.round(instance.image_index)) {
           image_xindex ++;
-          if (image_xindex >= image_src.h_frames) {
+          if (image_xindex >= image_source.h_frames) {
             image_xindex = 0;
             image_yindex ++;
           }
@@ -114,11 +124,11 @@ export default class Scene {
         }
 
         // get variables from sprite
-        let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = image_src;
+        let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = image_source;
 
         // draw the sprite animated
         surface.drawImage(
-          image_src.img,
+          image_source.img,
 
           // crop image according to frame height, frame width and image index
           (image_xindex * frame_width) + offset_left, // x in source
@@ -127,8 +137,8 @@ export default class Scene {
           frame_height - (offset_top + offset_bottom), // height in source
 
           // box in the scene
-          -image_src.x_origin,
-          -image_src.y_origin,
+          -image_source.x_origin,
+          -image_source.y_origin,
           frame_width - (offset_left + offset_right),
           frame_height - (offset_top + offset_bottom)
         );
@@ -138,9 +148,8 @@ export default class Scene {
       }
 
       // Runs the instance draw and restore the surface
-      instance.innerDraw();
+      instance.inner_draw();
       surface.restore();
-      return instance;
     });
   }
 
@@ -155,7 +164,7 @@ export default class Scene {
    * @param {number} window_w width of the viewport projection in the screen
    * @param {number} window_h height of the viewport projection in the screen 
    */
-  add_viewport = (x, y, width, height, window_x, window_y, window_w, window_h) => {
+  add_viewport(x, y, width, height, window_x, window_y, window_w, window_h) {
     this.viewports.push({
       x,
       y,
@@ -172,7 +181,7 @@ export default class Scene {
    * add instance to scene instance list
    * @param {Actor} type actor class extended from jGame.Actor
    */
-  add_instance = (type, x = 0, y = 0) => {
+  add_instance(type, x = 0, y = 0) {
     this.instances.push({
       type, 
       x,
@@ -190,37 +199,47 @@ export default class Scene {
   }
 
   /**
+   * get specified sprite
+   */
+  get_sprite(index) {
+    if (Object.keys(this.sprites).includes(index)) {
+      return this.sprites[index];
+    }
+    return false;
+  }
+
+  /**
    * set scene height
    */
-  set_height = (height) => {
+  set_height(height) {
     this.height = height;
   }
 
   /**
    * set background
    */
-  set_background = (style) => {
+  set_background(style) {
     this.background = style;
   }
 
   /**
    * set scene width
    */
-  set_width = (width) => {
+  set_width(width) {
     this.width = width;
   }
 
   /**
    * get scene height
    */
-  get_height = () => {
+  get_height() {
     return this.height;
   }
 
   /**
    * get scene width
    */
-  get_width = () => {
+  get_width() {
     return this.width;
   }
 }

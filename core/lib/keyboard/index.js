@@ -1,4 +1,5 @@
 import keys from "./keymap";
+import key_constants from './key_constants';
 
 /*  KEYBOARD */
 export default class Keyboard {
@@ -7,7 +8,7 @@ export default class Keyboard {
     this.keyPressed = [];
     this.keyPress = [];
     this.keyReleased = [];
-
+    this.constants = key_constants;
     /* Initial setup */
     for (var prop in keys) {
       if (keys.hasOwnProperty(prop)) {

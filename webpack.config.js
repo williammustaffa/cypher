@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
   entry: [
     'babel-polyfill',
-    path.resolve(__dirname, 'src', 'demo.js')
+    path.resolve(__dirname, 'src', 'Game.js')
   ],
   resolve: {
     alias: {

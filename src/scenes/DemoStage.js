@@ -3,8 +3,8 @@ import Player from 'actors/Player';
 import SprPlayer from 'sprites/SprPlayer';
 
 export default class DemoStage extends Scene {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.set_width(640);
     this.set_height(480);
     this.set_background('#000000');

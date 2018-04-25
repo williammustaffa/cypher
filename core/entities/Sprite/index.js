@@ -1,4 +1,5 @@
 import Constants from "utils/Constants";
+import uuid from 'uuid';
 
 export default class Sprite {
   /**
@@ -7,6 +8,7 @@ export default class Sprite {
   group_identifier = Constants.SPRITE;
 
   constructor(attributes = {}) {
+    this.id = uuid.v4();
     this.name = this.constructor.name;
     this.h_frames = attributes.h_frames || 1;
     this.v_frames = attributes.v_frames || 1;
@@ -21,22 +23,23 @@ export default class Sprite {
     this.hasError = false;
     this.frame_height = 0;
     this.frame_width = 0;
+    this.x_origin = 0;
+    this.y_origin = 0;
     console.info("[jGame] New sprite registered: ", this);
   }
 
-  load = () => {
-    this.img = new Image();//document.createElement('img');
+  load() {
+    this.img = document.createElement('img');
     this.img.src = this.src;
-    console.log('praia', this.src);
     /* onLoad event */
     this.img.onload = image => {
       document.body.append(this.img);
       this.frame_width = this.img.width / this.h_frames;
       this.frame_height = this.img.height / this.v_frames;
-      if (this.x_origin == Constants.center) {
+      if (this.x_origin == Constants.CENTER) {
         this.x_origin = this.frame_width / 2;
       }
-      if (this.y_origin == Constants.center) {
+      if (this.y_origin == Constants.CENTER) {
         this.y_origin = this.frame_height / 2;
       }
       this.isReady = true;

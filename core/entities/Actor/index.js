@@ -1,5 +1,6 @@
 import Sprite from "entities/Sprite";
 import Constants from "utils/Constants";
+import uuid from 'uuid';
 
 /* Actors */
 export default class Actor {
@@ -9,14 +10,8 @@ export default class Actor {
   group_identifier = Constants.ACTOR;
 
   constructor(attributes = {}) {
-    /* handle attributes */
-    let { create, step, draw } = attributes;
-    if (!create) create = this.emptyFunction;
-    if (!step) step = this.emptyFunction;
-    if (!draw) draw = this.emptyFunction;
-
     /* Instance local variables */
-    this.id = null;
+    this.id = uuid.v4();
     this.room = attributes.room;
     this.solid = attributes.solid || 0;
     this.def_width = attributes.width || 0;
@@ -54,42 +49,42 @@ export default class Actor {
   }
 
   get height() {
-    if (Object.keys(this.room.sprites).includes(this.sprite_index)) {
-      const { frame_height, offset_top, offset_bottom} = this.room.sprites[this.sprite_index];
+    if (this.room.get_sprite(this.sprite_index)) {
+      const { frame_height, offset_top, offset_bottom} = this.room.get_sprite(this.sprite_index);
       return frame_height - (offset_top + offset_bottom);
     }
     return this.def_height;
   }
 
   get width() {
-    if (Object.keys(this.room.sprites).includes(this.sprite_index)) {
-      const { frame_width, offset_left, offset_right} = this.room.sprites[this.sprite_index];
+    if (this.room.get_sprite(this.sprite_index)) {
+      const { frame_width, offset_left, offset_right} = this.room.get_sprite(this.sprite_index);
       return frame_width - (offset_left + offset_right);
     }
     return this.def_width;
   }
 
-  innerCreate = () => {
-    this.create();
+  inner_create() {
+    this.create(this.room.tools);
   }
 
-  innerStep = () => {
-
+  inner_step() {
     this.vspeed -= this.gravity * (Math.sin(this.gravity_direction * Math.PI / 180));
     this.hspeed += this.gravity * (Math.cos(this.gravity_direction * Math.PI / 180));
 
-    this.step();
+    this.step(this.room.tools);
 
     this.y += this.vspeed + ( this.speed * Math.sin( this.direction * Math.PI / 180));
     this.x += this.hspeed + ( this.speed * Math.cos( this.direction * Math.PI / 180));
-
   }
 
-  innerDraw = context => {
-    this.draw();
+  inner_draw() {
+    this.draw(this.room.tools);
   }
 
-  emptyFunction() {
-    /* no-function handler */
-  }
+  create() { /* user access */ }
+
+  step() { /* user access */ }
+
+  draw() { /* user access */ }
 }

@@ -18,6 +18,7 @@
     "file-loader": "^1.1.11",
     "opn": "^4.0.2",
     "stats-js": "^1.0.0-alpha1",
+    "uuid": "^3.2.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   },
