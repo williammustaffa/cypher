@@ -1,5 +1,6 @@
-## jGame.js: HTML5 game library ##
-A simple and easy-to-use html5 game library, which will let you code using ES6 with some GML-like code language and logic.
+## Cypher: a HTML5 game engine ##
+
+A simple and easy-to-use html5 game engine, which will let you code using ES6 with some GML-like code language and logic.
 If you have some knowledge in GML, you already ROCK!
 
 ## Development ##

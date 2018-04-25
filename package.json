@@ -1,5 +1,5 @@
 {
-  "name": "jgamejs",
+  "name": "cypher",
   "version": "0.0.1",
   "description": "simple html5 game engine",
   "main": "main.js",
@@ -24,7 +24,6 @@
     "webpack-dev-server": "^2.3.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
     "build": "webpack webpack.config.js --env.NODE_ENV=production"
   },
@@ -35,7 +34,7 @@
   "author": "williammustaffa",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/williammustaffa/jGame.js/issues"
+    "url": "https://github.com/williammustaffa/cypher/issues"
   },
-  "homepage": "https://github.com/williammustaffa/jGame.js#readme"
+  "homepage": "https://github.com/williammustaffa/cypher#readme"
 }

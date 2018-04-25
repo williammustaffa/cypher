@@ -11,7 +11,6 @@ export default class Player extends Actor {
 
   step({ keyboard }) {
     let canJump = false;
-
     if (keyboard.check(keyboard.constants.left)) this.x--;
     if (keyboard.check(keyboard.constants.right)) this.x++;
 

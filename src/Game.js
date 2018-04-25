@@ -1,4 +1,4 @@
-import { Actor, Scene, Sprite, Game } from "entities";
+import { Game } from "entities";
 import DemoStage from "scenes/DemoStage";
 
 new Game({
