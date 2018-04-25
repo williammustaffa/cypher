@@ -1,4 +1,4 @@
-export default class Contants {
+export default class Constants {
   /**
    * sprite group identifier
    */
@@ -18,5 +18,10 @@ export default class Contants {
    * game group identifier
    */
   static ACTOR = 'ACTOR';
+
+  /**
+   * center constant
+   */
+  static CENTER = 'center';
 };
 

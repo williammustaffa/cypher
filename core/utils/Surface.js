@@ -1,14 +1,5 @@
 export default class Surface {
-  constructor(config) {
-    const options = {
-      id: `surface_${Math.random().toString(36).substr(2, 9)}`,
-      group: '',
-      container: 'body',
-      width: 640,
-      height: 480,
-      style: '',
-      ...config,
-    };
+  constructor(options) {
 
     this.canvas = document.createElement('canvas');
     this.canvas.setAttribute('id', options.id);
@@ -24,6 +15,20 @@ export default class Surface {
     this.context.font = 'normal 20px Arial';
     this.context.textAlign = 'center';
     this.context.textBaseline = 'middle';
+  }
+
+  static create(options) {
+    const opt = {
+      id: `surface_${Math.random().toString(36).substr(2, 9)}`,
+      group: '',
+      container: 'body',
+      width: 640,
+      height: 480,
+      style: '',
+      ...options,
+    };
+
+    return new Surface(opt);
   }
 
   update(width, height) {

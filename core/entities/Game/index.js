@@ -1,6 +1,6 @@
 import Stats from 'stats-js';
 import Keyboard from "lib/keyboard";
-import { CONSTANTS, Surface } from "utils";
+import { Constants, Surface } from "utils";
 
 /* stats to check fps */
 var stats = new Stats();
@@ -17,7 +17,7 @@ export default class Game {
   /**
    * Define class group
    */
-  group_identifier = CONSTANTS.GAME;
+  group_identifier = Constants.GAME;
 
   constructor(attributes) {
     this.scenes = attributes.scenes || [];
@@ -31,7 +31,7 @@ export default class Game {
   init() {
     this.current_room = new this.scenes[0]();
 
-    let window = new Surface({
+    let window = Surface.create({
       insert: false,
       width: this.width,
       height: this.height,

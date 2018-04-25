@@ -1,17 +1,22 @@
 import Actor from "entities/Actor";
 import Sprite from "entities/Sprite";
-import { CONSTANTS, Surface } from "utils";
+import { Constants, Surface } from "utils";
 
 export default class Scene {
   /**
    * Define class group
    */
-  group_identifier = CONSTANTS.SCENE;
+  group_identifier = Constants.SCENE;
 
   /**
    * instances array
    */
   instances = [];
+
+  /**
+   * sprites array
+   */
+  sprites = [];
 
   /**
    * viewports array
@@ -21,12 +26,17 @@ export default class Scene {
   /**
    * scene height
    */
-  height = 640;
+  height = 480;
 
   /**
    * scene width
    */
-  width = 480;
+  width = 640;
+
+  /**
+   * room background
+   */
+  background = '#000';
 
   /**
    * current instances in the scene
@@ -45,7 +55,7 @@ export default class Scene {
    * generates room surface for renderization
    */
   create = () => {
-    this.surface = new Surface({
+    this.surface = Surface.create({
       insert: true,
       width: this.width,
       height: this.height,
@@ -66,9 +76,12 @@ export default class Scene {
 
   draw = () => {
     let { surface } = this;
+    surface.fillStyle = this.background;
+    surface.strokeStyle = this.background;
     surface.clearRect(0, 0, this.width, this.height);
+    surface.fillRect(0, 0, this.width, this.height);
 
-    this.active_instances.map(instance => {
+    this.active_instances = this.active_instances.map(instance => {
       surface.save();
       surface.translate(instance.x, instance.y);
       surface.rotate(instance.image_angle * Math.PI / 180);
@@ -78,7 +91,8 @@ export default class Scene {
       surface.fillRect(0, 0, instance.width, instance.height);
 
       let { sprite_index } = instance;
-      if (sprite_index && sprite_index instanceof Sprite && sprite_index.isReady) {
+      if (sprite_index && Object.keys(this.sprites).includes(sprite_index)) {
+        const image_src = this.sprites[sprite_index];
 
         // do some math to calculate current x and y position based on image index from instance
         let image_xindex = 0; // horizontal tile position
@@ -86,13 +100,13 @@ export default class Scene {
         let counter = 0; // helper variable
 
         // if image index exceed the number of frames, resets it
-        if (instance.image_index >= sprite_index.image_number) instance.image_index = 0;
-        if (instance.image_index < 0) instance.image_index = sprite_index.image_number - 1;
+        if (instance.image_index >= image_src.image_number) instance.image_index = 0;
+        if (instance.image_index < 0) instance.image_index = image_src.image_number - 1;
 
         // a dangerous while to do it fast
         while(counter < Math.round(instance.image_index)) {
           image_xindex ++;
-          if (image_xindex >= sprite_index.h_frames) {
+          if (image_xindex >= image_src.h_frames) {
             image_xindex = 0;
             image_yindex ++;
           }
@@ -100,11 +114,11 @@ export default class Scene {
         }
 
         // get variables from sprite
-        let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = sprite_index;
+        let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = image_src;
 
         // draw the sprite animated
         surface.drawImage(
-          sprite_index.img,
+          image_src.img,
 
           // crop image according to frame height, frame width and image index
           (image_xindex * frame_width) + offset_left, // x in source
@@ -113,8 +127,8 @@ export default class Scene {
           frame_height - (offset_top + offset_bottom), // height in source
 
           // box in the scene
-          -sprite_index.x_origin,
-          -sprite_index.y_origin,
+          -image_src.x_origin,
+          -image_src.y_origin,
           frame_width - (offset_left + offset_right),
           frame_height - (offset_top + offset_bottom)
         );
@@ -167,10 +181,26 @@ export default class Scene {
   }
 
   /**
+   * add a sprite asset
+   * @param {Sprite} instance 
+   */
+  add_sprite(instance) {
+    this.sprites[instance.name] = new instance();
+    this.sprites[instance.name].load();
+  }
+
+  /**
    * set scene height
    */
   set_height = (height) => {
     this.height = height;
+  }
+
+  /**
+   * set background
+   */
+  set_background = (style) => {
+    this.background = style;
   }
 
   /**
@@ -181,14 +211,14 @@ export default class Scene {
   }
 
   /**
-   * set scene height
+   * get scene height
    */
   get_height = () => {
     return this.height;
   }
 
   /**
-   * set scene width
+   * get scene width
    */
   get_width = () => {
     return this.width;

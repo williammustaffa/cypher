@@ -1,12 +1,12 @@
 import Sprite from "entities/Sprite";
-import { CONSTANTS } from "utils";
+import Constants from "utils/Constants";
 
 /* Actors */
 export default class Actor {
   /**
    * Define class group
    */
-  group_identifier = CONSTANTS.ACTOR;
+  group_identifier = Constants.ACTOR;
 
   constructor(attributes = {}) {
     /* handle attributes */
@@ -18,10 +18,9 @@ export default class Actor {
     /* Instance local variables */
     this.id = null;
     this.room = attributes.room;
-    this.class = this.constructor.name;
     this.solid = attributes.solid || 0;
-    this.width = attributes.width || 0;
-    this.height = attributes.height || 0;
+    this.def_width = attributes.width || 0;
+    this.def_height = attributes.height || 0;
   
     /* Transform variables */
     this.x = attributes.x || 0;
@@ -54,18 +53,27 @@ export default class Actor {
     console.info('[jGame] New actor created:', this);
   }
 
+  get height() {
+    if (Object.keys(this.room.sprites).includes(this.sprite_index)) {
+      const { frame_height, offset_top, offset_bottom} = this.room.sprites[this.sprite_index];
+      return frame_height - (offset_top + offset_bottom);
+    }
+    return this.def_height;
+  }
+
+  get width() {
+    if (Object.keys(this.room.sprites).includes(this.sprite_index)) {
+      const { frame_width, offset_left, offset_right} = this.room.sprites[this.sprite_index];
+      return frame_width - (offset_left + offset_right);
+    }
+    return this.def_width;
+  }
+
   innerCreate = () => {
     this.create();
   }
 
   innerStep = () => {
-    let { sprite_index } = this;
-    let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = sprite_index;
-
-    if (sprite_index && sprite_index instanceof Sprite && sprite_index.isReady) {
-      this.width = frame_width - (offset_left + offset_right);
-      this.height = frame_height - (offset_top + offset_bottom);
-    }
 
     this.vspeed -= this.gravity * (Math.sin(this.gravity_direction * Math.PI / 180));
     this.hspeed += this.gravity * (Math.cos(this.gravity_direction * Math.PI / 180));
@@ -74,6 +82,7 @@ export default class Actor {
 
     this.y += this.vspeed + ( this.speed * Math.sin( this.direction * Math.PI / 180));
     this.x += this.hspeed + ( this.speed * Math.cos( this.direction * Math.PI / 180));
+
   }
 
   innerDraw = context => {
