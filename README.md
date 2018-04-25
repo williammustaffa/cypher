@@ -1,4 +1,6 @@
-## Cypher: a HTML5 game engine ##
+## Cypher: HTML5 game engine ##
+
+![circleci: build status](https://circleci.com/gh/williammustaffa/cypher.png?style=shield) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A simple and easy-to-use html5 game engine, which will let you code using ES6 with some GML-like code language and logic.
 If you have some knowledge in GML, you already ROCK!
