@@ -1,6 +1,6 @@
 {
   "name": "jgamejs",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "simple html5 game engine",
   "main": "main.js",
   "dependencies": {
