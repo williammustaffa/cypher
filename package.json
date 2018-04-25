@@ -6,6 +6,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.23.0",
+    "lodash": "^4.17.10",
     "url-loader": "^1.0.1"
   },
   "devDependencies": {

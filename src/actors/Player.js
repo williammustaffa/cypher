@@ -4,8 +4,7 @@ export default class Player extends Actor {
   constructor(props) {
     super(props);
     this.solid = true;
-    this.image_speed = 0.1;
-    this.image_index = 13;
+    this.image_speed = 1;
     this.sprite_index = 'SprPlayer';
     this.gravity_direction = 270;
   }

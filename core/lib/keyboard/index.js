@@ -9,6 +9,7 @@ export default class Keyboard {
     this.keyPress = [];
     this.keyReleased = [];
     this.constants = key_constants;
+
     /* Initial setup */
     for (var prop in keys) {
       if (keys.hasOwnProperty(prop)) {
