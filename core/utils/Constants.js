@@ -20,6 +20,16 @@ export default class Constants {
   static ACTOR = 'ACTOR';
 
   /**
+   * background group identifier
+   */
+  static BACKGROUND = 'BACKGROUND';
+
+  /**
+   * sound group identifier
+   */
+  static SOUND = 'SOUND';
+
+  /**
    * center constant
    */
   static CENTER = 'center';

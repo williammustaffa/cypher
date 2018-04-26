@@ -30,8 +30,7 @@ export default class Player extends Actor {
     }
 
     if (keyboard.check(keyboard.constants.down) && canJump) {
-      // TODO: discover why the image_index resets earlier
-      if (this.image_index < this.image_number - 2) {
+      if (this.image_index < this.image_number - 1) {
         this.image_index ++;
       }
     } else {
