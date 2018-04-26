@@ -36,7 +36,6 @@ export default class Actor {
     this.sprite_index = attributes.sprite_index || null;
     this.image_index = attributes.image_index || 0;
     this.image_speed = typeof attributes.image_speed == 'number' ? attributes.image_speed : 1;
-    this.image_number = 0;
     this.image_angle = 0;
     this.color = attributes.color || 'transparent';
 
@@ -45,6 +44,14 @@ export default class Actor {
     this.draw = this.draw.bind(this);
 
     console.info('[jGame] New actor created:', this);
+  }
+
+  get image_number() {
+    if (this.room.get_sprite(this.sprite_index)) {
+      const { h_frames, v_frames } = this.room.get_sprite(this.sprite_index);
+      return h_frames * v_frames;
+    }
+    return 0;
   }
 
   get height() {
