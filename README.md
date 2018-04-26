@@ -19,10 +19,19 @@ There are extensions for running eslint directly in your text editor/IDE, but yo
 eslint -c ./.eslintrc ./path/to/target
 ```
 
-or simply run the command below ehich will also fix some minor eslint issues automatically:
+or simply run the commands below which will also fix some minor eslint issues automatically.
+
+For `./core`:
 ```
-npm run eslint
+npm run eslint:core
 ```
+
+For `./src`:
+```
+npm run eslint:src
+```
+
+**Obs:** _When running `git commit` in your console, eslint will run automatically these two commands to prevent non-linted code in the branch._
 
 ## Build ##
 Building is a really simple task here. 
