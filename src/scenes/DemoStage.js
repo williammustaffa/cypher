@@ -13,4 +13,4 @@ export default class DemoStage extends Scene {
     this.add_viewport(0, 0, 640, 480, 0, 0, 640, 480);
     this.add_instance(Player, 240, 240);
   }
-};
+}

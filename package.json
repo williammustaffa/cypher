@@ -4,6 +4,7 @@
   "description": "simple html5 game engine",
   "main": "main.js",
   "dependencies": {
+    "babel-eslint": "^8.2.3",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.23.0",
     "lodash": "^4.17.10",
@@ -15,8 +16,10 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
+    "eslint": "^4.19.1",
     "express": "^4.14.1",
     "file-loader": "^1.1.11",
+    "husky": "^1.0.0-rc.2",
     "opn": "^4.0.2",
     "stats-js": "^1.0.0-alpha1",
     "uuid": "^3.2.1",
@@ -25,7 +28,14 @@
   },
   "scripts": {
     "start": "node main.js",
-    "build": "webpack webpack.config.js --env.NODE_ENV=production"
+    "build": "webpack webpack.config.js --env.NODE_ENV=production",
+    "eslint:core": "eslint -c .eslintrc ./core --cache --fix",
+    "eslint:src": "eslint -c .eslintrc ./src --cache --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint:core && npm run eslint:src"
+    }
   },
   "repository": {
     "type": "git",

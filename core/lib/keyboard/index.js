@@ -1,4 +1,4 @@
-import keys from "./keymap";
+import keys from './keymap';
 import key_constants from './key_constants';
 
 /*  KEYBOARD */
@@ -13,9 +13,9 @@ export default class Keyboard {
     /* Initial setup */
     for (var prop in keys) {
       if (keys.hasOwnProperty(prop)) {
-        this.keyPressed[prop]=0;
-        this.keyPress[prop]=0;
-        this.keyReleased[prop]=0;
+        this.keyPressed[prop] = 0;
+        this.keyPress[prop] = 0;
+        this.keyReleased[prop] = 0;
       }
     }
 
@@ -46,7 +46,7 @@ export default class Keyboard {
   }
 
   reset() {
-    for (var prop in keys){
+    for (var prop in keys) {
       if (keys.hasOwnProperty(prop)) {
         this.keyPressed[prop] = 0;
         this.keyReleased[prop] = 0;

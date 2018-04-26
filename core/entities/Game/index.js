@@ -1,6 +1,6 @@
-import Keyboard from "lib/keyboard";
-import { Constants, Surface, FpsManager } from "utils";
- 
+import Keyboard from 'lib/keyboard';
+import { Constants, FpsManager } from 'utils';
+
 import uuid from 'uuid';
 
 export default class Game {
@@ -29,7 +29,7 @@ export default class Game {
       loop: this.loop.bind(this),
     });
 
-    console.info("[jGame] New game generated", this);
+    console.info('[jGame] New game generated', this);
   }
 
   init() {

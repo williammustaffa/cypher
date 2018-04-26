@@ -1,4 +1,4 @@
-import Constants from "utils/Constants";
+import Constants from 'utils/Constants';
 import uuid from 'uuid';
 
 export default class Sprite {
@@ -24,7 +24,7 @@ export default class Sprite {
     this.frame_width = 0;
     this.x_origin = 0;
     this.y_origin = 0;
-    console.info("[jGame] New sprite registered: ", this);
+    console.info('[jGame] New sprite registered: ', this);
   }
 
   get image_number() {
@@ -35,7 +35,7 @@ export default class Sprite {
     this.img = document.createElement('img');
     this.img.src = this.src;
     /* onLoad event */
-    this.img.onload = image => {
+    this.img.onload = () => {
       this.frame_width = this.img.width / this.h_frames;
       this.frame_height = this.img.height / this.v_frames;
       if (this.x_origin == Constants.CENTER) {
@@ -48,8 +48,8 @@ export default class Sprite {
     };
 
     /* onError event */
-    this.img.onError = error => {
-      console.info("Error loading game asset");
+    this.img.onError = () => {
+      console.info('Error loading game asset');
       this.hasError = true;
     }
   }

@@ -1,11 +1,11 @@
 export default class FpsManager {
   /**
-   * indicates last loop 
+   * indicates last loop
    */
   then = Date.now();
 
   /**
-   * indicates last loop 
+   * indicates last loop
    */
   start_time = this.then;
 
@@ -21,7 +21,7 @@ export default class FpsManager {
 
   /**
    * constructor
-   * @param {object} options 
+   * @param {object} options
    */
   constructor(options = {}) {
     this.fps = options.fps || 60;

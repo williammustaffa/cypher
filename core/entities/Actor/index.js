@@ -1,5 +1,4 @@
-import Sprite from "entities/Sprite";
-import Constants from "utils/Constants";
+import Constants from 'utils/Constants';
 import uuid from 'uuid';
 
 /* Actors */
@@ -16,7 +15,7 @@ export default class Actor {
     this.solid = attributes.solid || 0;
     this.def_width = attributes.width || 0;
     this.def_height = attributes.height || 0;
-  
+
     /* Transform variables */
     this.x = attributes.x || 0;
     this.y = attributes.y || 0;
@@ -30,7 +29,7 @@ export default class Actor {
     this.gravity_direction = attributes.gravity_direction || 270;
     this.direction = attributes.direction || 0;
     this.speed = attributes.speed || 0;
-  
+
     /* Sprite control variables */
     this.xOffset = attributes.xOffset || 0;
     this.yOffset = attributes.yOffset || 0;
@@ -40,7 +39,7 @@ export default class Actor {
     this.image_number = 0;
     this.image_angle = 0;
     this.color = attributes.color || 'transparent';
-  
+
     /* Object events */
     this.step = this.step.bind(this);
     this.draw = this.draw.bind(this);
@@ -50,7 +49,7 @@ export default class Actor {
 
   get height() {
     if (this.room.get_sprite(this.sprite_index)) {
-      const { frame_height, offset_top, offset_bottom} = this.room.get_sprite(this.sprite_index);
+      const { frame_height, offset_top, offset_bottom } = this.room.get_sprite(this.sprite_index);
       return frame_height - (offset_top + offset_bottom);
     }
     return this.def_height;
@@ -58,7 +57,7 @@ export default class Actor {
 
   get width() {
     if (this.room.get_sprite(this.sprite_index)) {
-      const { frame_width, offset_left, offset_right} = this.room.get_sprite(this.sprite_index);
+      const { frame_width, offset_left, offset_right } = this.room.get_sprite(this.sprite_index);
       return frame_width - (offset_left + offset_right);
     }
     return this.def_width;

@@ -4,15 +4,22 @@ export default class Player extends Actor {
   constructor(props) {
     super(props);
     this.solid = true;
-    this.image_speed = 1;
+    this.image_speed = 0;
     this.sprite_index = 'SprPlayer';
     this.gravity_direction = 270;
   }
 
   step({ keyboard }) {
     let canJump = false;
-    if (keyboard.check(keyboard.constants.left)) this.x--;
-    if (keyboard.check(keyboard.constants.right)) this.x++;
+    if (keyboard.check(keyboard.constants.left)) {
+      this.x--;
+      this.xscale = -1;
+    }
+
+    if (keyboard.check(keyboard.constants.right)) {
+      this.x++;
+      this.xscale = 1;
+    }
 
     if (this.y + (this.height / 2) > this.room.height + 1) {
       this.vspeed = 0;

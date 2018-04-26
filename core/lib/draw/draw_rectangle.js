@@ -5,6 +5,6 @@
  * @param {number} x2 x of point 2 from rectangle
  * @param {number} y2 y of point 2 from rectangle
  */
-export default function draw_rectangle(x , y , x2 , y2) {
+export default function draw_rectangle(x, y, x2, y2) {
   this.context.fillRect(x, y, x2 - x, y2 - y);
 }

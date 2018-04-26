@@ -3,6 +3,6 @@
  * @param {number} range range limit
  * @returns {integer}
  */
-export default function random(range){
+export default function random(range) {
   return Math.round(Math.random() * range);
 }

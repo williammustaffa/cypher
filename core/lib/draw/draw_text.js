@@ -4,6 +4,6 @@
  * @param {number} x position x
  * @param {number} y position y
  */
-export default function draw_text(text , x , y) {
+export default function draw_text(text, x, y) {
   this.context.fillText(text, x, y);
 }

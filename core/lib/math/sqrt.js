@@ -1,6 +1,6 @@
 /**
  * Returns the square root of a number
- * @param {number} num 
+ * @param {number} num
  * @returns {number}
  */
 export default function sqrt(num) {

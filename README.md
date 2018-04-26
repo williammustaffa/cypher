@@ -12,6 +12,17 @@ To start the dev server, run the following command:
 npm install
 npm start
 ```
+## Eslint
+This project has specific eslint rules for ES6 within the file .eslinrc.
+There are extensions for running eslint directly in your text editor/IDE, but you can simply check the eslint errors by running in your project folder:
+```
+eslint -c ./.eslintrc ./path/to/target
+```
+
+or simply run the command below ehich will also fix some minor eslint issues automatically:
+```
+npm run eslint
+```
 
 ## Build ##
 Building is a really simple task here. 

@@ -1,5 +1,5 @@
-import { Game } from "entities";
-import DemoStage from "scenes/DemoStage";
+import { Game } from 'entities';
+import DemoStage from 'scenes/DemoStage';
 
 new Game({
   width: 640,

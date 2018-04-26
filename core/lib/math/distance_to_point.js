@@ -7,5 +7,5 @@
  * @returns {number}
  */
 export default function distance_to_point(x, y, xx, yy) {
-  return Math.round(Math.sqrt(Math.pow(x-xx, 2)+Math.pow(y-yy, 2)));
+  return Math.round(Math.sqrt(Math.pow(x - xx, 2) + Math.pow(y - yy, 2)));
 }

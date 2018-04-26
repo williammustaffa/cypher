@@ -1,0 +1,51 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6" : true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules" : {
+    "keyword-spacing": ["error", {
+      "before": true
+    }],
+    "space-before-function-paren": ["error", {
+      "anonymous": "always",
+      "named": "never",
+      "asyncArrow": "never"
+    }],
+    "no-console": "off",
+    "indent": ["error", 2, {
+      "SwitchCase": 1,
+      "VariableDeclarator": 2,
+      "MemberExpression": 1,
+      "ArrayExpression": 1,
+      "ObjectExpression": 1
+    }],
+    "comma-dangle": ["error", "always-multiline"],
+    "quotes": ["error", "single"],
+    "quote-props": ["error", "consistent"],
+    "no-multi-spaces": "error",
+    "space-infix-ops": "error",
+    "no-trailing-spaces": "error",
+    "key-spacing": ["error", { "mode": "strict" }],
+    "object-curly-spacing": ["error", "always"],
+    "space-before-blocks": ["error", "always"],
+    "block-spacing": ["error", "always"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "spaced-comment": ["error", "always", {
+      "line": {
+        "markers": ["/"],
+        "exceptions": ["-", "+"]
+      },
+      "block": {
+        "markers": ["!"],
+        "exceptions": ["*"],
+        "balanced": true
+      }
+    }]
+  }
+}

@@ -1,6 +1,4 @@
-import Actor from "entities/Actor";
-import Sprite from "entities/Sprite";
-import { Constants, Surface } from "utils";
+import { Constants, Surface } from 'utils';
 import uuid from 'uuid';
 
 export default class Scene {
@@ -114,7 +112,7 @@ export default class Scene {
         if (instance.image_index < 0) instance.image_index = image_source.image_number - 1;
 
         // a dangerous while to do it fast
-        while(counter < Math.round(instance.image_index)) {
+        while (counter < Math.round(instance.image_index)) {
           image_xindex ++;
           if (image_xindex >= image_source.h_frames) {
             image_xindex = 0;
@@ -158,11 +156,11 @@ export default class Scene {
    * @param {number} x position x of viewport in the scene
    * @param {number} y position y of viewport in the scene
    * @param {number} width width of the viewport from point xy in the scene
-   * @param {number} height height of the viewport from point xy in the scene 
-   * @param {number} window_x projection of x in the window 
+   * @param {number} height height of the viewport from point xy in the scene
+   * @param {number} window_x projection of x in the window
    * @param {number} window_y projection of y in the window
    * @param {number} window_w width of the viewport projection in the screen
-   * @param {number} window_h height of the viewport projection in the screen 
+   * @param {number} window_h height of the viewport projection in the screen
    */
   add_viewport(x, y, width, height, window_x, window_y, window_w, window_h) {
     this.viewports.push({
@@ -183,7 +181,7 @@ export default class Scene {
    */
   add_instance(type, x = 0, y = 0) {
     this.instances.push({
-      type, 
+      type,
       x,
       y,
     });
@@ -191,7 +189,7 @@ export default class Scene {
 
   /**
    * add a sprite asset
-   * @param {Sprite} instance 
+   * @param {Sprite} instance
    */
   add_sprite(instance) {
     this.sprites[instance.name] = new instance();
