@@ -1,11 +1,13 @@
 {
-  "name": "jgamejs",
-  "version": "1.0.0",
+  "name": "cypher",
+  "version": "0.0.1",
   "description": "simple html5 game engine",
   "main": "main.js",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "babel-runtime": "^6.23.0"
+    "babel-runtime": "^6.23.0",
+    "lodash": "^4.17.10",
+    "url-loader": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
@@ -14,15 +16,16 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
     "express": "^4.14.1",
+    "file-loader": "^1.1.11",
     "opn": "^4.0.2",
     "stats-js": "^1.0.0-alpha1",
+    "uuid": "^3.2.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
-    "build": "webpack webpack.config.js"
+    "build": "webpack webpack.config.js --env.NODE_ENV=production"
   },
   "repository": {
     "type": "git",
@@ -31,7 +34,7 @@
   "author": "williammustaffa",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/williammustaffa/jGame.js/issues"
+    "url": "https://github.com/williammustaffa/cypher/issues"
   },
-  "homepage": "https://github.com/williammustaffa/jGame.js#readme"
+  "homepage": "https://github.com/williammustaffa/cypher#readme"
 }
