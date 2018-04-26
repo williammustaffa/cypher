@@ -1,10 +1,16 @@
 import Constants from 'utils/Constants';
+import isFunction from 'lodash/isFunction';
 
-export default class Asset {
+export default class MediaAsset {
   /**
    * indicates whether the asset is loaded or not
    */
-  isReady = false;
+  is_ready = false;
+
+  /**
+   * indicates whether the asset is loaded or not
+   */
+  has_error = false;
 
   /**
    * indicates the asset type
@@ -37,7 +43,24 @@ export default class Asset {
    * loads an image
    */
   load_image() {
+    const img_dom = document.createElement('img');
 
+    img_dom.src = this.src;
+
+    /* onLoad event */
+    img_dom.onload = () => {
+      this.is_ready = true;
+      if (typeof this.done === 'function') this.done(img_dom);
+    };
+
+    /* onError event */
+    img_dom.onError = () => {
+      console.info('Error loading game asset');
+      if (typeof this.fail === 'function') this.fail('Error loading asset');
+      this.has_error = true;
+    }
+
+    this.img = img_dom;
   }
 
   /**
