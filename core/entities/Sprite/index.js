@@ -58,7 +58,7 @@ export default class Sprite extends MediaAsset {
    */
   frame_height = 0;
 
-  constructor(attributes = {}) {
+  constructor() {
     super();
     this.id = uuid.v4();
     this.name = this.constructor.name;

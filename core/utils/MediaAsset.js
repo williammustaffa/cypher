@@ -1,5 +1,4 @@
 import Constants from 'utils/Constants';
-import isFunction from 'lodash/isFunction';
 
 export default class MediaAsset {
   /**
