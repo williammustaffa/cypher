@@ -27,16 +27,16 @@ jobs:
 
       - run: npm install
 
-      - run: npm run eslint:core
-
-      - run: npm run eslint:src
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # Test build
+      # Tests
+      - run: npm run eslint:core
+
+      - run: npm run eslint:src
+
       - run: npm run build
 
 
