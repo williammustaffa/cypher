@@ -26,7 +26,7 @@ export default class Game {
     // Create fps manager instance
     this.fps_manager = new FpsManager({
       fps: this.fps,
-      loop: this.loop.bind(this),
+      loop: this.loop,
     });
 
     console.info('[jGame] New game generated', this);
@@ -38,7 +38,7 @@ export default class Game {
     this.fps_manager.play();
   }
 
-  loop() {
+  loop = () => {
     this.current_room.step();
     this.current_room.draw();
 

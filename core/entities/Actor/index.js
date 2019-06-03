@@ -33,7 +33,7 @@ export default class Actor {
     /* Sprite control variables */
     this.xOffset = attributes.xOffset || 0;
     this.yOffset = attributes.yOffset || 0;
-    this.sprite_index = attributes.sprite_index || null;
+    this.sprite = attributes.sprite || null;
     this.image_index = attributes.image_index || 0;
     this.image_speed = typeof attributes.image_speed == 'number' ? attributes.image_speed : 1;
     this.image_angle = 0;
@@ -47,30 +47,35 @@ export default class Actor {
   }
 
   get image_number() {
-    if (this.room.get_sprite(this.sprite_index)) {
-      const { h_frames, v_frames } = this.room.get_sprite(this.sprite_index);
+    if (this.sprite) {
+      const { h_frames, v_frames } = this.sprite;
       return h_frames * v_frames;
     }
     return 0;
   }
 
   get height() {
-    if (this.room.get_sprite(this.sprite_index)) {
-      const { frame_height, offset_top, offset_bottom } = this.room.get_sprite(this.sprite_index);
+    if (this.sprite) {
+      const { frame_height, offset_top, offset_bottom } = this.sprite;
       return frame_height - (offset_top + offset_bottom);
     }
     return this.def_height;
   }
 
   get width() {
-    if (this.room.get_sprite(this.sprite_index)) {
-      const { frame_width, offset_left, offset_right } = this.room.get_sprite(this.sprite_index);
+    if (this.sprite) {
+      const { frame_width, offset_left, offset_right } = this.sprite;
       return frame_width - (offset_left + offset_right);
     }
     return this.def_width;
   }
 
   inner_create() {
+    if (this.sprite && !this.sprite.load) {
+      this.sprite = new this.sprite();
+      this.sprite.load();
+    }
+
     this.create(this.room.tools);
   }
 

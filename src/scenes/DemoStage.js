@@ -1,6 +1,5 @@
 import Scene from 'entities/Scene';
 import Player from 'actors/Player';
-import SprPlayer from 'sprites/SprPlayer';
 
 export default class DemoStage extends Scene {
   constructor(props) {
@@ -9,7 +8,6 @@ export default class DemoStage extends Scene {
     this.height = 480;
     this.background = '#000000';
 
-    this.add_sprite(SprPlayer);
     this.add_viewport(0, 0, 640, 480, 0, 0, 640, 480);
     this.add_instance(Player, 240, 240);
   }

@@ -13,11 +13,6 @@ export default class Scene {
   instances = [];
 
   /**
-   * sprites array
-   */
-  sprites = [];
-
-  /**
    * viewports array
    */
   viewports = [];
@@ -80,11 +75,15 @@ export default class Scene {
     }).context;
 
     this.active_instances = this.instances.map(instance => {
-      return new instance.type({
+      const initiatedInstance = new instance.type({
         x: instance.x,
         y: instance.y,
         room: this,
       });
+
+      initiatedInstance.inner_create();
+
+      return initiatedInstance;
     });
   }
 
@@ -93,7 +92,8 @@ export default class Scene {
   }
 
   draw() {
-    let { surface } = this;
+    const { surface } = this;
+
     surface.fillStyle = this.background;
     surface.strokeStyle = this.background;
     surface.clearRect(0, 0, this.width, this.height);
@@ -108,10 +108,9 @@ export default class Scene {
       surface.strokeStyle = instance.color;
       surface.fillRect(0, 0, instance.width, instance.height);
 
-      let { sprite_index } = instance;
-      if (sprite_index && this.get_sprite(sprite_index)) {
-        const image_source = this.get_sprite(sprite_index);
+      const image_source = instance.sprite;
 
+      if (image_source) {
         // do some math to calculate current x and y position based on image index from instance
         let image_xindex = 0; // horizontal tile position
         let image_yindex = 0; // vertical tile position
@@ -195,25 +194,6 @@ export default class Scene {
       x,
       y,
     });
-  }
-
-  /**
-   * add a sprite asset
-   * @param {Sprite} instance
-   */
-  add_sprite(instance) {
-    this.sprites[instance.name] = new instance();
-    this.sprites[instance.name].load();
-  }
-
-  /**
-   * get specified sprite
-   */
-  get_sprite(index) {
-    if (Object.keys(this.sprites).includes(index)) {
-      return this.sprites[index];
-    }
-    return false;
   }
 
   /**

@@ -1,11 +1,12 @@
 import Actor from 'entities/Actor';
+import SprPlayer from 'sprites/SprPlayer';
 
 export default class Player extends Actor {
   constructor(props) {
     super(props);
     this.solid = true;
     this.image_speed = 0;
-    this.sprite_index = 'SprPlayer';
+    this.sprite = SprPlayer;
     this.gravity_direction = 270;
   }
 
