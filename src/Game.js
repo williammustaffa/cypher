@@ -5,5 +5,5 @@ new Game({
   fps: 30,
   debug: true,
   scenes: [DemoStage],
-  container: "#app",
+  container: '#app',
 }).init();
