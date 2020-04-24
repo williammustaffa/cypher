@@ -138,7 +138,7 @@ export default class Scene {
           offset_right,
           offset_top,
           frame_width,
-          frame_height
+          frame_height,
         } = image_source;
 
         // draw the sprite animated
