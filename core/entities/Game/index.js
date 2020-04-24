@@ -18,6 +18,7 @@ export default class Game {
     this.assets = attributes.assets || [];
     this.width = attributes.width || 640;
     this.height = attributes.height || 480;
+    this.container = attributes.container || 'body';
 
     // Create keyboard instance
     if (!window.keyboard) window.keyboard = [];

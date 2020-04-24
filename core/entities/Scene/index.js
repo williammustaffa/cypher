@@ -69,9 +69,10 @@ export default class Scene {
    */
   create() {
     this.surface = Surface.create({
-      insert: true,
-      width: this.width,
+      container: this.game.container,
       height: this.height,
+      width: this.width,
+      insert: true,
     }).context;
 
     this.active_instances = this.instances.map(instance => {
@@ -131,7 +132,14 @@ export default class Scene {
         }
 
         // get variables from sprite
-        let { offset_bottom, offset_left, offset_right, offset_top, frame_width, frame_height } = image_source;
+        let {
+          offset_bottom,
+          offset_left,
+          offset_right,
+          offset_top,
+          frame_width,
+          frame_height
+        } = image_source;
 
         // draw the sprite animated
         surface.drawImage(
@@ -189,11 +197,7 @@ export default class Scene {
    * @param {Actor} type actor class extended from jGame.Actor
    */
   add_instance(type, x = 0, y = 0) {
-    this.instances.push({
-      type,
-      x,
-      y,
-    });
+    this.instances.push({ type, x, y });
   }
 
   /**

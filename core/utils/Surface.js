@@ -8,7 +8,12 @@ export default class Surface {
     this.canvas.setAttribute('style', options.style);
 
     /* end of canvas style */
-    if (options.insert) document.body.appendChild(this.canvas);
+    if (options.insert) {
+      document.querySelector(
+        options.container
+      ).appendChild(this.canvas);
+    }
+
     this.context = this.canvas.getContext('2d');
 
     /* initial style settings */

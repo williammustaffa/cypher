@@ -1,11 +1,4 @@
-import Constants from 'utils/Constants';
-import Surface from 'utils/Surface';
-import FpsManager from 'utils/FpsManager';
-import MediaAsset from 'utils/MediaAsset';
-
-export {
-  Constants,
-  Surface,
-  FpsManager,
-  MediaAsset,
-};
+export { default as Constants } from 'utils/Constants';
+export { default as Surface } from 'utils/Surface';
+export { default as FpsManager } from 'utils/FpsManager';
+export { default as MediaAsset } from 'utils/MediaAsset';
