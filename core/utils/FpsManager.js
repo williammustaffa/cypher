@@ -23,9 +23,9 @@ export default class FpsManager {
    * constructor
    * @param {object} options
    */
-  constructor(options = {}) {
-    this.fps = options.fps || 60;
-    this.loop = options.loop || null;
+  constructor(fps = 60, loopFn) {
+    this.fps = fps;
+    this.loop = loopFn;
     this.current_fps = 0;
   }
 
