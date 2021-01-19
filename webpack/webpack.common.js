@@ -27,9 +27,9 @@ module.exports = {
   extend: function (data) {
     const customMerge = mergeWithCustomize({
       customizeArray: (a, b) => uniq([...a, ...b]),
-      customizeObject: (a, b) => merge({}, a, b)
+      customizeObject: (a, b) => merge({}, a, b),
     });
 
     return customMerge(configs, data);
-  }
+  },
 }

@@ -22,7 +22,7 @@ export class Surface {
   }
 
   create_canvas(options) {
-    const canvas =  document.createElement('canvas');
+    const canvas = document.createElement('canvas');
 
     canvas.setAttribute('id', options.id);
     canvas.setAttribute('width', options.width);
@@ -31,7 +31,7 @@ export class Surface {
 
     if (options.insert) {
       const container = document.querySelector(options.container);
-      while(container.firstChild) {
+      while (container.firstChild) {
         container.removeChild(container.lastChild);
       }
 

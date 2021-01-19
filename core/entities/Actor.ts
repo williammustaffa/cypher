@@ -25,9 +25,9 @@ export class Actor implements IActor {
   color: string = 'transparent';
   sprite: any = null;
 
-  create: VoidFunction;
-  step: VoidFunction;
-  draw: VoidFunction;
+  create: () => void;
+  step: () => void;
+  draw: () => void;
 
   private tools: Object;
   private def_width: number;
