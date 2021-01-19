@@ -1,6 +1,6 @@
-import Constants from 'utils/Constants';
+import { ENTITY_TYPES } from '@core/constants';
 
-export default class MediaAsset {
+export class MediaAsset {
   /**
    * indicates whether the asset is loaded or not
    */
@@ -23,17 +23,17 @@ export default class MediaAsset {
     if (!this.group_identifier) return false;
 
     // loads image
-    if (this.group_identifier === Constants.SPRITE) {
+    if (this.group_identifier === ENTITY_TYPES.SPRITE) {
       return this.load_image();
     }
 
     // loads background
-    if (this.group_identifier === Constants.BACKGROUND) {
+    if (this.group_identifier === ENTITY_TYPES.BACKGROUND) {
       return this.load_background();
     }
 
     // loads sound
-    if (this.group_identifier === Constants.SOUND) {
+    if (this.group_identifier === ENTITY_TYPES.SOUND) {
       return this.load_sound();
     }
   }

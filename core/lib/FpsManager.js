@@ -1,4 +1,4 @@
-export default class FpsManager {
+export class FpsManager {
   /**
    * indicates last loop
    */

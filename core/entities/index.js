@@ -1,6 +1,6 @@
-export { default as Actor } from 'entities/Actor';
-export { default as Scene } from 'entities/Scene';
-export { default as Sprite } from 'entities/Sprite';
-export { default as Game } from 'entities/Game';
-export { default as Sound } from 'entities/Sound';
-export { default as Background } from 'entities/Background';
+export * from './Actor';
+export * from './Scene';
+export * from './Sprite';
+export * from './Game';
+export * from './Sound';
+export * from './Background';

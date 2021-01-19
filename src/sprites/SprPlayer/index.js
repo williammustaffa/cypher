@@ -1,5 +1,4 @@
-import Sprite from 'entities/Sprite';
-import Constants from 'utils/Constants';
+import { Sprite } from '@core';
 import src from './src.png';
 
 export default class SprPlayer extends Sprite {
@@ -12,7 +11,7 @@ export default class SprPlayer extends Sprite {
     this.offset_right = 3;
     this.offset_top = 5;
     this.offset_bottom = 0;
-    this.x_origin = Constants.CENTER; // center sprite on actor x coordinate
-    this.y_origin = Constants.CENTER; // center sprite on actor y coordinate
+    this.x_origin = 'center'; // center sprite on actor x coordinate
+    this.y_origin = 'center'; // center sprite on actor y coordinate
   }
 }

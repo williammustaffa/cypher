@@ -1,5 +1,5 @@
-import Scene from 'entities/Scene';
-import Player from 'actors/Player';
+import { Scene } from '@core';
+import Player from '@actors/Player';
 
 export default class Room2 extends Scene {
   width = 640;

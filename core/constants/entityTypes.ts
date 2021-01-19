@@ -1,0 +1,10 @@
+
+
+export const ENTITY_TYPES = {
+  SPRITE: 'SPRITE',
+  SCENE: 'SCENE',
+  GAME: 'GAME',
+  ACTOR: 'ACTOR',
+  BACKGROUND: 'BACKGROUND',
+  SOUND: 'SOUND',
+};

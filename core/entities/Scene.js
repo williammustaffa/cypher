@@ -1,8 +1,8 @@
-import { Constants } from 'utils';
+import { ENTITY_TYPES } from '@core/constants';
 import uuid from 'uuid';
 
-export default class Scene {
-  group_identifier = Constants.SCENE;
+export class Scene {
+  group_identifier = ENTITY_TYPES.SCENE;
 
   instances = [];
   viewports = [];
@@ -23,7 +23,7 @@ export default class Scene {
     return {
       keyboard: this.keyboard,
       game: this.game,
-      room: this
+      room: this,
     }
   }
 

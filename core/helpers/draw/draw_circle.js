@@ -5,7 +5,7 @@
  * @param {number} radius radius from circle as center is xy
  * @param {boolean} outline outline circle
  */
-export function draw_circle(x, y, radius, outline) {
+export default function draw_circle(x, y, radius, outline) {
   this.context.beginPath();
   this.context.arc(x, y, radius, 0, 2 * Math.PI);
   if (!outline) {

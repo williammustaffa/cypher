@@ -1,8 +1,8 @@
-import { Game } from 'entities';
+import { Game } from '@core';
 
 // Sample rooms
-import Room1 from 'scenes/Room1';
-import Room2 from 'scenes/Room2';
+import Room1 from '@scenes/Room1';
+import Room2 from '@scenes/Room2';
 
 new Game({
   fps: 30,
