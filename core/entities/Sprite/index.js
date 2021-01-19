@@ -77,7 +77,7 @@ export default class Sprite extends MediaAsset {
         this.y_origin = this.frame_height / 2;
       }
     }
-    console.info('[jGame] New sprite registered: ', this);
+    console.info('[Cypher] New sprite registered: ', this);
   }
 
   get image_number() {

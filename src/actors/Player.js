@@ -10,9 +10,9 @@ export default class Player extends Actor {
     this.gravity_direction = 270;
   }
 
-  step({ game, keyboard }) {
+  step({ game, room, keyboard }) {
     let canJump = false;
-    if (this.y + (this.height / 2) > this.room.height + 1) {
+    if (this.y + (this.height / 2) > room.height + 1) {
       this.vspeed = 0;
       this.gravity = 0;
       canJump = true;

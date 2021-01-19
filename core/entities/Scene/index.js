@@ -4,60 +4,26 @@ import uuid from 'uuid';
 export default class Scene {
   group_identifier = Constants.SCENE;
 
-  /**
-   * instances array
-   */
   instances = [];
-
-  /**
-   * viewports array
-   */
   viewports = [];
-
-  /**
-   * backgrounds array
-   */
   backgrounds = [];
-
-  /**
-   * sounds array
-   */
   sounds = [];
-
-  /**
-   * scene height
-   */
   height = 480;
-
-  /**
-   * scene width
-   */
   width = 640;
 
-  /**
-   * room background
-   */
-  background = '#000';
-
-  /**
-   * current instances in the scene
-   */
-  active_instances = [];
-
-  /**
-   * simple constructor
-   */
   constructor(game) {
     this.id = uuid.v4();
     this.game = game;
     this.keyboard = game.keyboard;
-    console.info('[jGame] New scene created:', this);
+    this.active_instances = [];
+    console.info('[Cypher] New scene created:', this);
   }
 
   get tools() {
     return {
       keyboard: this.keyboard,
-      game: this.game
+      game: this.game,
+      room: this
     }
   }
 
@@ -66,27 +32,25 @@ export default class Scene {
    * generates room surface for renderization
    */
   create() {
-    this.active_instances = this.instances.map(instance => {
-      const initiatedInstance = new instance.type({
-        x: instance.x,
-        y: instance.y,
-        room: this,
-      });
-
-      initiatedInstance.inner_create();
-
-      return initiatedInstance;
+    const instances = this.instances.map(({ type: Instance, x, y }) => {
+      const instance = new Instance({ x, y, room: this });
+      instance.inner_create();
+      return instance;
     });
+
+    this.active_instances = instances;
   }
 
   step() {
-    this.active_instances
-      .map(instance => instance.inner_step());
+    this.active_instances.map(instance => {
+      instance.inner_step();
+    });
   }
 
   draw() {
-    this.active_instances
-      .map(instance => instance.inner_draw());
+    this.active_instances.map(instance => {
+      instance.inner_draw();
+    });
   }
 
   /**
@@ -101,21 +65,12 @@ export default class Scene {
    * @param {number} window_h height of the viewport projection in the screen
    */
   add_viewport(x, y, width, height, window_x, window_y, window_w, window_h) {
-    this.viewports.push({
-      x,
-      y,
-      width,
-      height,
-      window_x,
-      window_y,
-      window_w,
-      window_h,
-    });
+    this.viewports.push({ x, y, width, height, window_x, window_y, window_w, window_h });
   }
 
   /**
    * add instance to scene instance list
-   * @param {Actor} type actor class extended from jGame.Actor
+   * @param {Actor} type actor class extended from Cypher.Actor
    */
   add_instance(type, x = 0, y = 0) {
     this.instances.push({ type, x, y });

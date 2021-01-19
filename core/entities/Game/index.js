@@ -4,11 +4,9 @@ import { Constants, Surface, FpsManager } from 'utils';
 import uuid from 'uuid';
 
 export default class Game {
-  /**
-   * Define class group
-   */
   group_identifier = Constants.GAME;
-
+  current_scene = null;
+  current_scene_index = 0;
   constructor(attributes) {
     this.id = uuid.v4();
 
@@ -27,13 +25,17 @@ export default class Game {
     // Create fps manager instance
     this.fps_manager = new FpsManager(this.fps, this.loop);
 
-    console.info('[jGame] New game generated', this);
+    console.info('[Cypher] New game generated', this);
   }
 
   init() {
-    this.set_scene(0);
-    this.create_surface();
-    this.fps_manager.play();
+    try {
+      this.set_scene(0);
+      this.create_surface();
+      this.fps_manager.play();
+    } catch(e) {
+      console.warn('[Cypher] Error occurred:', e.message);
+    }
   }
 
   loop = () => {
@@ -60,7 +62,12 @@ export default class Game {
   }
 
   set_scene = index => {
-    const TargetScene = this.scenes[index];
+    this.current_scene_index = index;
+    this.init_scene();
+  }
+
+  init_scene = () => {
+    const TargetScene = this.scenes[this.current_scene_index];
 
     this.current_scene = new TargetScene(this);
     this.current_scene.create();
