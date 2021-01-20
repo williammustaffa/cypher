@@ -10,13 +10,13 @@ export class Keyboard {
     window.addEventListener('keyup', this.onkeyup);
   }
 
-  private onkeydown(e: KeyboardEvent) {
+  private onkeydown = (e: KeyboardEvent) => {
     const code = e.code;
     this.keyPressed[code] = true;
     this.keyPress[code] = true;
   }
 
-  private onkeyup(e: KeyboardEvent) {
+  private onkeyup = (e: KeyboardEvent) => {
     const code = e.code;
     this.keyReleased[code] = true;
     delete this.keyPress[code];

@@ -71,8 +71,8 @@ export class Screen {
   protected create_surface = () => {
     this.surface = Surface.create({
       container: this.container,
-      height: this.height,
-      width: this.width,
+      height: this.height.toString(),
+      width: this.width.toString(),
       insert: true,
     });
   }

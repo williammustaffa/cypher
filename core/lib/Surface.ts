@@ -1,11 +1,10 @@
 interface SurfacePropsInterface {
-  canvas: HTMLCanvasElement,
-  id: string,
-  width: string,
-  height: string,
-  style: string,
-  container: string,
-  insert: boolean
+  id?: string,
+  width?: string,
+  height?: string,
+  style?: string,
+  container?: string,
+  insert?: boolean
 }
 
 export class Surface {
@@ -26,8 +25,8 @@ export class Surface {
     const surface = new Surface({
       id: `surface_${Math.random().toString(36).substr(2, 9)}`,
       container: 'body',
-      width: 640,
-      height: 480,
+      width: '640',
+      height: '480',
       ...options,
     });
 
