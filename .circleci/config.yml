@@ -11,7 +11,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8.4
+      - image: circleci/node:14.15.4
 
     working_directory: ~/cypher
 
