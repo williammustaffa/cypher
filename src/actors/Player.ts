@@ -1,4 +1,4 @@
-import { Actor } from '@core';
+import { Actor } from '@core/entities';
 import SprPlayer from '@sprites/SprPlayer';
 
 export default class Player extends Actor {

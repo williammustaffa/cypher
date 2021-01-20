@@ -1,6 +1,6 @@
 const path = require('path');
 
-const CONTENT_PATH = path.resolve(__dirname, '..', 'public');
+const CONTENT_PATH = path.resolve(__dirname, '..', 'dist');
 
 module.exports = require('./webpack.common').extend({
   mode: 'development',
@@ -8,6 +8,6 @@ module.exports = require('./webpack.common').extend({
   devServer: {
     port: 3000,
     contentBase: CONTENT_PATH,
-    publicPath: '/build/'
-  }
+    publicPath: '/build/',
+  },
 });

@@ -1,4 +1,4 @@
-import { Scene } from '@core';
+import { Scene } from '@core/entities';
 import Player from '@actors/Player';
 
 export default class Room1 extends Scene {
