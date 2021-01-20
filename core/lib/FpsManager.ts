@@ -1,36 +1,20 @@
 export class FpsManager {
-  /**
-   * indicates last loop
-   */
-  then = Date.now();
+  then: number = Date.now();
+  start_time: number = this.then;
+  frameCount: number = 0;
+  should_stop: boolean = false;
+  fps: number;
+  current_fps: number;
+  loop: () => void;
 
-  /**
-   * indicates last loop
-   */
-  start_time = this.then;
-
-  /**
-   * indicates frames since start
-   */
-  frameCount = 0;
-
-  /**
-   * stop state
-   */
-  stop = false;
-
-  /**
-   * constructor
-   * @param {object} options
-   */
-  constructor(fps = 60, loopFn) {
+  constructor(fps: number, loopFn: () => void) {
     this.fps = fps;
     this.loop = loopFn;
     this.current_fps = 0;
   }
 
   inner_loop = () => {
-    if (this.stop) return;
+    if (this.should_stop) return;
 
     requestAnimationFrame(this.inner_loop);
 
@@ -49,7 +33,7 @@ export class FpsManager {
   }
 
   stop() {
-    this.stop = true;
+    this.should_stop = true;
   }
 
   play() {

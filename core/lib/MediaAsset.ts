@@ -1,20 +1,14 @@
 import { EntityTypes } from '@core/constants';
 
 export class MediaAsset {
-  /**
-   * indicates whether the asset is loaded or not
-   */
-  is_ready = false;
+  is_ready: boolean = false;
+  has_error: boolean = false;
+  done: Function;
+  fail: Function;
+  src: string;
+  img: HTMLElement;
 
-  /**
-   * indicates whether the asset is loaded or not
-   */
-  has_error = false;
-
-  /**
-   * indicates the asset type
-   */
-  group_identifier = undefined;
+  group_identifier: EntityTypes;
 
   /**
    * identify the asset type and call loader method
@@ -42,20 +36,25 @@ export class MediaAsset {
    * loads an image
    */
   load_image() {
-    const img_dom = document.createElement('img');
+    const img_dom: HTMLImageElement = document.createElement('img');
 
     img_dom.src = this.src;
 
     /* onLoad event */
     img_dom.onload = () => {
       this.is_ready = true;
-      if (typeof this.done === 'function') this.done(img_dom);
+
+      if (typeof this.done === 'function') {
+        this.done(img_dom);
+      }
     };
 
     /* onError event */
-    img_dom.onError = () => {
+    img_dom.onerror = () => {
       console.info('Error loading game asset');
-      if (typeof this.fail === 'function') this.fail('Error loading asset');
+      if (typeof this.fail === 'function') {
+        this.fail('Error loading asset');
+      }
       this.has_error = true;
     }
 

@@ -1,5 +1,18 @@
+interface SurfacePropsInterface {
+  canvas: HTMLCanvasElement,
+  id: string,
+  width: string,
+  height: string,
+  style: string,
+  container: string,
+  insert: boolean
+}
+
 export class Surface {
-  constructor(options) {
+  canvas: HTMLCanvasElement;
+  context: CanvasRenderingContext2D;
+
+  constructor(options: SurfacePropsInterface) {
     this.canvas = this.create_canvas(options);
     this.context = this.canvas.getContext('2d');
 
@@ -9,7 +22,7 @@ export class Surface {
     this.context.textBaseline = 'middle';
   }
 
-  static create(options) {
+  static create(options: SurfacePropsInterface) {
     const surface = new Surface({
       id: `surface_${Math.random().toString(36).substr(2, 9)}`,
       container: 'body',
@@ -21,7 +34,7 @@ export class Surface {
     return surface;
   }
 
-  create_canvas(options) {
+  create_canvas(options: SurfacePropsInterface): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
 
     canvas.setAttribute('id', options.id);
@@ -41,7 +54,7 @@ export class Surface {
     return canvas;
   }
 
-  update(width, height) {
+  update(width: string, height: string) {
     this.canvas.setAttribute('width', width);
     this.canvas.setAttribute('height', height);
   }
