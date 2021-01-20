@@ -1,21 +1,36 @@
-import { ENTITY_TYPES } from '@core/constants';
-import { Surface, FpsManager, Keyboard } from '@core/lib';
 import uuid from 'uuid';
+import { EntityTypes } from '@core/constants';
+import { Surface, FpsManager, Keyboard, MediaAsset } from '@core/lib';
+import { Actor, Scene } from '@core/entities';
+import { ConstructorFor } from '@core/interfaces';
 
-export class Game {
-  group_identifier = ENTITY_TYPES.GAME;
-  current_scene = null;
-  current_scene_index = 0;
+export interface ScreenPropsInterface {
+  debug?: string,
+  fps?: number,
+  scenes: ConstructorFor<Scene>[],
+  container: string,
+}
 
-  constructor(attributes) {
+export class Screen {
+  id: string;
+  debug: boolean = true;
+  fps: number = 60;
+  width: number = 640;
+  height: number = 480;
+  container: string = 'body';
+  assets: MediaAsset[] = [];
+  scenes: ConstructorFor<Scene>[] = [];
+  current_scene: Scene;
+  surface: Surface;
+  keyboard: Keyboard;
+
+  private fps_manager: FpsManager;
+  protected group_identifier: string = EntityTypes.GAME;
+
+  constructor(attributes: ScreenPropsInterface) {
     this.id = uuid.v4();
-
-    this.debug = true;
     this.fps = attributes.fps || 60;
     this.scenes = attributes.scenes || [];
-    this.assets = attributes.assets || [];
-    this.width = attributes.width || 640;
-    this.height = attributes.height || 480;
     this.container = attributes.container || 'body';
 
     this.keyboard = new Keyboard();
@@ -24,13 +39,20 @@ export class Game {
     console.info('[Cypher] New game generated', this);
   }
 
-  init() {
+  public init() {
     this.create_surface();
     this.set_scene(0);
     this.fps_manager.play();
   }
 
-  loop = () => {
+  public set_scene = (index: number) => {
+    const TargetScene = this.scenes[index];
+
+    this.current_scene = new TargetScene(this);
+    this.current_scene.create();
+  }
+
+  private loop = () => {
     if (this.current_scene) {
       this.step_scene();
       this.draw_scene();
@@ -40,13 +62,13 @@ export class Game {
     }
   }
 
-  update_keyboard = () => {
+  protected update_keyboard = () => {
     if (this.keyboard) {
       this.keyboard.update();
     }
   }
 
-  create_surface = () => {
+  protected create_surface = () => {
     this.surface = Surface.create({
       container: this.container,
       height: this.height,
@@ -55,23 +77,11 @@ export class Game {
     });
   }
 
-  set_scene = index => {
-    this.current_scene_index = index;
-    this.init_scene();
-  }
-
-  init_scene = () => {
-    const TargetScene = this.scenes[this.current_scene_index];
-
-    this.current_scene = new TargetScene(this);
-    this.current_scene.create();
-  }
-
-  step_scene = () => {
+  protected step_scene = () => {
     this.current_scene.step();
   }
 
-  draw_scene = () => {
+  protected draw_scene = () => {
     const { context } = this.surface;
 
     const scene = this.current_scene;
@@ -85,7 +95,7 @@ export class Game {
     instances.map(this.draw_instance);
   }
 
-  draw_instance = instance => {
+  protected draw_instance = (instance: Actor) => {
     const { context } = this.surface;
 
     context.save();

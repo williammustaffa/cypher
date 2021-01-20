@@ -9,9 +9,9 @@ export default class Player extends Actor {
     this.gravity_direction = 270;
   }
 
-  step({ game, room, keyboard }) {
+  step({ scene, keyboard }) {
     let canJump = false;
-    if (this.y + (this.height / 2) > room.height + 1) {
+    if (this.y + (this.height / 2) > scene.height + 1) {
       this.vspeed = 0;
       this.gravity = 0;
       canJump = true;
@@ -40,7 +40,7 @@ export default class Player extends Actor {
     if (keyboard.pressed('Space') && canJump) this.vspeed = -10;
 
     if (keyboard.pressed('Escape')) {
-      game.set_scene(1);
+      screen.set_scene(1);
     }
   }
 }

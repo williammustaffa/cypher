@@ -1,0 +1,1 @@
+export interface ConstructorFor<T> extends Function { new (...args: any[]): T; }

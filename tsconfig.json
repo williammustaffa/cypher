@@ -8,13 +8,15 @@
     "module": "es6",
     "target": "es5",
     "allowJs": true,
+    "baseUrl": "./",
     "paths": {
-      "@core/*": ["./core/*"],
-      "@actors/*": ["./src/actors/*"],
-      "@scenes/*": ["./src/scenes/*"],
-      "@sounds/*": ["./src/sounds/*"],
-      "@sprites/*": ["./src/sprites/*"]
+      "@core/*": ["core/*"],
+      "@actors/*": ["src/actors/*"],
+      "@scenes/*": ["src/scenes/*"],
+      "@sounds/*": ["src/sounds/*"],
+      "@sprites/*": ["src/sprites/*"]
     }
   },
-  "include": ["./core/*", "./src/*"]
+  "include": ["core", "src"],
+  "exclude": ["public", "node_modules", "webpack"]
 }

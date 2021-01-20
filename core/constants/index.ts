@@ -1,2 +1,2 @@
-export * from './alignment';
+export * from './alignmentTypes';
 export * from './entityTypes';

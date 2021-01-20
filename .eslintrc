@@ -9,6 +9,7 @@
     "eslint:recommended"
   ],
   "rules" : {
+    "no-unused-vars": "off",
     "keyword-spacing": ["error", {
       "before": true
     }],

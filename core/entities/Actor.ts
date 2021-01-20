@@ -1,10 +1,12 @@
-import { ENTITY_TYPES } from '@core/constants/entityTypes';
-import { IActor, IActorProps, DEFAULT_PROPS } from './Actor.interfaces';
 import uuid from 'uuid';
+import { EntityTypes } from '@core/constants/entityTypes';
 
-export class Actor implements IActor {
-  group_identifier: string = ENTITY_TYPES.ACTOR;
-
+export interface ActorPropsInterface {
+  x: number,
+  y: number,
+  scene: { tools: object }
+}
+export class Actor {
   id: string;
   x: number = 0;
   y: number = 0;
@@ -32,12 +34,14 @@ export class Actor implements IActor {
   private tools: Object;
   private def_width: number;
   private def_height: number;
+  protected group_identifier: EntityTypes = EntityTypes.ACTOR;
 
-  constructor(props: IActorProps = DEFAULT_PROPS) {
+  constructor(props: ActorPropsInterface) {
     this.id = uuid.v4();
     this.x = props.x;
     this.y = props.y;
-    this.tools = props.room.tools;
+
+    this.tools = props.scene.tools;
 
     console.info('[Cypher] New actor created:', this);
   }

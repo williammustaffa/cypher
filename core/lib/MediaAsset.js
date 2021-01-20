@@ -1,4 +1,4 @@
-import { ENTITY_TYPES } from '@core/constants';
+import { EntityTypes } from '@core/constants';
 
 export class MediaAsset {
   /**
@@ -23,17 +23,17 @@ export class MediaAsset {
     if (!this.group_identifier) return false;
 
     // loads image
-    if (this.group_identifier === ENTITY_TYPES.SPRITE) {
+    if (this.group_identifier === EntityTypes.SPRITE) {
       return this.load_image();
     }
 
     // loads background
-    if (this.group_identifier === ENTITY_TYPES.BACKGROUND) {
+    if (this.group_identifier === EntityTypes.BACKGROUND) {
       return this.load_background();
     }
 
     // loads sound
-    if (this.group_identifier === ENTITY_TYPES.SOUND) {
+    if (this.group_identifier === EntityTypes.SOUND) {
       return this.load_sound();
     }
   }
