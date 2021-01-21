@@ -11,12 +11,12 @@
     "baseUrl": "./",
     "paths": {
       "@core/*": ["core/*"],
-      "@actors/*": ["src/actors/*"],
-      "@scenes/*": ["src/scenes/*"],
-      "@sounds/*": ["src/sounds/*"],
-      "@sprites/*": ["src/sprites/*"]
+      "@actors/*": ["demo/actors/*"],
+      "@scenes/*": ["demo/scenes/*"],
+      "@sounds/*": ["demo/sounds/*"],
+      "@sprites/*": ["demo/sprites/*"]
     }
   },
-  "include": ["core", "src"],
-  "exclude": ["public", "node_modules", "webpack"]
+  "include": ["core", "demo"],
+  "exclude": ["dist", "node_modules", "webpack"]
 }

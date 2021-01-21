@@ -1,77 +1,62 @@
 import { EntityTypes } from '@core/constants';
 
-export class MediaAsset {
-  is_ready: boolean = false;
-  has_error: boolean = false;
-  done: Function;
-  fail: Function;
-  src: string;
-  img: HTMLElement;
+export abstract class MediaAsset {
+  isReady: boolean = false;
+  hasError: boolean = false;
+  source: string;
+  DOMElement: HTMLImageElement;
 
-  group_identifier: EntityTypes;
+  protected abstract onSuccess(DOMElement: HTMLImageElement): void;
+  protected abstract onFailure(errorMessage: string): void;
+  protected abstract groupIdentifier: EntityTypes;
 
-  /**
-   * identify the asset type and call loader method
-   */
   load() {
-    if (!this.group_identifier) return false;
-
-    // loads image
-    if (this.group_identifier === EntityTypes.SPRITE) {
-      return this.load_image();
-    }
-
-    // loads background
-    if (this.group_identifier === EntityTypes.BACKGROUND) {
-      return this.load_background();
-    }
-
-    // loads sound
-    if (this.group_identifier === EntityTypes.SOUND) {
-      return this.load_sound();
+    switch (this.groupIdentifier) {
+      case EntityTypes.SPRITE:
+        this.loadImage()
+        break;
+      case EntityTypes.BACKGROUND:
+        this.loadBackground()
+        break;
+      case EntityTypes.SOUND:
+        this.loadSound()
+        break;
+      default:
+        this.onFailure('Asset group identifier was not defined');
     }
   }
 
-  /**
-   * loads an image
-   */
-  load_image() {
-    const img_dom: HTMLImageElement = document.createElement('img');
+  loadImage() {
+    const DOMImage: HTMLImageElement = document.createElement('img');
 
-    img_dom.src = this.src;
+    DOMImage.src = this.source;
 
     /* onLoad event */
-    img_dom.onload = () => {
-      this.is_ready = true;
-
-      if (typeof this.done === 'function') {
-        this.done(img_dom);
-      }
+    DOMImage.onload = () => {
+      this.isReady = true;
+      this.onSuccess(DOMImage);
     };
 
     /* onError event */
-    img_dom.onerror = () => {
-      console.info('Error loading game asset');
-      if (typeof this.fail === 'function') {
-        this.fail('Error loading asset');
-      }
-      this.has_error = true;
+    DOMImage.onerror = () => {
+      this.hasError = true;
+      this.onFailure('Error loading asset');
     }
 
-    this.img = img_dom;
+    this.DOMElement = DOMImage;
   }
 
   /**
    * loads an background
    */
-  load_background() {
+  loadBackground() {
 
   }
 
   /**
    * loads sound
    */
-  load_sound() {
+  loadSound() {
 
   }
 }

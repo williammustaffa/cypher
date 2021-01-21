@@ -1,6 +1,5 @@
 import uuid from 'uuid';
-import { EntityTypes } from '@core/constants';
-import { Actor, Background, Sound, Screen } from '@core/entities';
+import { Actor, Cypher } from '@core/entities';
 import { ConstructorFor } from '@core/interfaces';
 
 export interface InstanceInterface {
@@ -9,95 +8,70 @@ export interface InstanceInterface {
   y: number
 }
 
-export class Scene {
+export abstract class Scene {
   id: string;
-  background: string;
-  instances: InstanceInterface[] = [];
-  active_instances: Actor[] = [];
-  viewports: any[] = [];
-  backgrounds: Background[] = [];
-  sounds: Sound[] = [];
   height: number = 480;
   width: number = 640;
+  background: string;
+  actors: InstanceInterface[] = [];
+  activeActors: Actor[] = [];
+  viewports: any[] = [];
+  engine: Cypher;
 
-  private screen: Screen;
-  protected group_identifier = EntityTypes.SCENE;
-
-  constructor(screen: Screen) {
+  constructor(engine: Cypher) {
     this.id = uuid.v4();
-    this.screen = screen;
-    this.active_instances = [];
+    this.engine = engine;
+    this.activeActors = [];
 
     console.info('[Cypher] New scene created:', this);
   }
 
-  get tools() {
-    return {
-      keyboard: this.screen.keyboard,
-      screen: this.screen,
-      scene: this,
-    }
-  }
-
-  private initialize_instance = (instance: InstanceInterface) => {
+  private initializeActor = (instance: InstanceInterface) => {
     const TargetActor = instance.type;
-    const new_instance = new TargetActor({ x: instance.x, y: instance.y, scene: this });
+    const actorInstance = new TargetActor({ x: instance.x, y: instance.y, engine: this.engine });
 
-    new_instance.inner_create();
+    actorInstance.innerCreate();
 
-    return new_instance;
+    return actorInstance;
   }
 
   create = () => {
-    this.active_instances = this.instances.map(this.initialize_instance);
+    this.activeActors = this.actors.map(this.initializeActor);
   }
 
   step = () => {
-    this.active_instances.map(instance => {
-      instance.inner_step();
-    });
+    this.activeActors.map(actor => actor.innerStep());
   }
 
   draw = () => {
-    this.active_instances.map(instance => {
-      instance.inner_draw();
-    });
+    this.activeActors.map(actor => actor.innerDraw());
   }
 
-  add_viewport(
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    window_x: number,
-    window_y: number,
-    window_w: number,
-    window_h: number
-  ) {
-    this.viewports.push({ x, y, width, height, window_x, window_y, window_w, window_h });
+  protected addViewport(viewportX: number, viewportY: number, viewportWidth: number, viewportHeight: number, windowPositionX: number, windowPositionY: number, windowPositionWidth: number, windowPositionHeight: number) {
+    this.viewports.push({ viewportX, viewportY, viewportWidth, viewportHeight, windowPositionX, windowPositionY, windowPositionWidth, windowPositionHeight });
   }
 
-  add_instance(type: ConstructorFor<Actor>, x: number = 0, y: number = 0) {
-    this.instances.push({ type, x, y });
+  protected addActor(type: ConstructorFor<Actor>, x: number = 0, y: number = 0) {
+    this.actors.push({ type, x, y });
   }
 
-  set_height(height: number) {
+  protected setHeight(height: number) {
     this.height = height;
   }
 
-  set_width(width: number) {
+  protected setWidth(width: number) {
     this.width = width;
   }
 
-  get_height() {
+  protected getHeight() {
     return this.height;
   }
 
-  get_width() {
+  protected getWidth() {
     return this.width;
   }
 
-  set_background(style: string) {
+  protected setBackground(style: string) {
     this.background = style;
   }
 }

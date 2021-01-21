@@ -1,3 +1,5 @@
+import { Sprite } from '@core/entities';
+
 interface SurfacePropsInterface {
   id?: string,
   width?: string,
@@ -12,7 +14,7 @@ export class Surface {
   context: CanvasRenderingContext2D;
 
   constructor(options: SurfacePropsInterface) {
-    this.canvas = this.create_canvas(options);
+    this.canvas = this.createCanvas(options);
     this.context = this.canvas.getContext('2d');
 
     // initial styling
@@ -33,7 +35,7 @@ export class Surface {
     return surface;
   }
 
-  create_canvas(options: SurfacePropsInterface): HTMLCanvasElement {
+  createCanvas(options: SurfacePropsInterface): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
 
     canvas.setAttribute('id', options.id);
@@ -56,5 +58,43 @@ export class Surface {
   update(width: string, height: string) {
     this.canvas.setAttribute('width', width);
     this.canvas.setAttribute('height', height);
+  }
+
+  drawCircle(x: number, y: number, radius: number, outline: boolean): void {
+    this.context.beginPath();
+    this.context.arc(x, y, radius, 0, 2 * Math.PI);
+    if (!outline) {
+      this.context.fill()
+    } else {
+      this.context.stroke();
+    }
+    this.context.closePath();
+  }
+
+  drawLine(x: number, y: number, xx: number, yy: number): void {
+    this.context.beginPath();
+    this.context.moveTo(x, y);
+    this.context.lineTo(xx, yy);
+    this.context.stroke();
+  }
+
+  drawRectangle(x: number, y: number, x2: number, y2: number): void {
+    this.context.fillRect(x, y, x2 - x, y2 - y);
+  }
+
+  drawSetColor(color: string): void {
+    this.context.fillStyle = color;
+  }
+
+  drawSprite(sprite: Sprite, x: number, y: number): void {
+    this.context.drawImage(sprite.DOMElement, x, y);
+  }
+
+  drawText(text: string, x: number, y: number): void {
+    this.context.fillText(text, x, y);
+  }
+
+  setFontStyle(style: string): void {
+    this.context.font = style;
   }
 }

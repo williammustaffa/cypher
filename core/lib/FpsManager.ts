@@ -1,22 +1,22 @@
 export class FpsManager {
   then: number = Date.now();
-  start_time: number = this.then;
+  startTime: number = this.then;
   frameCount: number = 0;
-  should_stop: boolean = false;
+  shouldStop: boolean = false;
   fps: number;
-  current_fps: number;
+  currentFps: number;
   loop: () => void;
 
   constructor(fps: number, loopFn: () => void) {
     this.fps = fps;
     this.loop = loopFn;
-    this.current_fps = 0;
+    this.currentFps = 0;
   }
 
-  inner_loop = () => {
-    if (this.should_stop) return;
+  cycle = () => {
+    if (this.shouldStop) return;
 
-    requestAnimationFrame(this.inner_loop);
+    requestAnimationFrame(this.cycle);
 
     const fps = 1000 / this.fps;
     const now = Date.now();
@@ -27,16 +27,16 @@ export class FpsManager {
       this.then = now - (elapsed % fps);
 
       // fps info
-      const sinceStart = now - this.start_time;
-      this.current_fps = Math.round(1000 / (sinceStart / ++this.frameCount) * 100) / 100;
+      const sinceStart = now - this.startTime;
+      this.currentFps = Math.round(1000 / (sinceStart / ++this.frameCount) * 100) / 100;
     }
   }
 
   stop() {
-    this.should_stop = true;
+    this.shouldStop = true;
   }
 
   play() {
-    this.inner_loop();
+    this.cycle();
   }
 }

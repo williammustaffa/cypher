@@ -7,11 +7,11 @@ const rules = require('./rules');
 const alias = require('./alias');
 
 // Paths
-const SRC_PATH = path.resolve(__dirname, '..', 'src');
-const DIST_PATH = path.resolve(__dirname, '..', 'public', 'build');
+const SRC_PATH = path.resolve(__dirname, '..', 'demo');
+const DIST_PATH = path.resolve(__dirname, '..', 'dist', 'build');
 
 const configs = {
-  entry: path.join(SRC_PATH, 'index.js'),
+  entry: path.join(SRC_PATH, 'index.ts'),
   output: {
     path: DIST_PATH,
     filename: 'bundle.js',

@@ -12,15 +12,15 @@ module.exports = [
     options: {
       useRelativePath: true,
       publicPath: 'build/',
-      name: function(file) {
+      name: function (file) {
         if (process.env.NODE_ENV !== 'production') {
           return 'assets/[path][name].[ext]';
         }
         return 'assets/[sha512:hash:base64:7].[ext]';
-      }
+      },
     },
     exclude: [
-      path.resolve(__dirname, "node_modules"),
+      path.resolve(__dirname, 'node_modules'),
     ],
   },
 ]
