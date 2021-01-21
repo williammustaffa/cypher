@@ -6,17 +6,17 @@ export class Keyboard {
   keyPress: DynamicObject<boolean> = {};
 
   constructor() {
-    window.addEventListener('keydown', this.onkeydown);
-    window.addEventListener('keyup', this.onkeyup);
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
   }
 
-  private onkeydown = (e: KeyboardEvent) => {
+  private onKeyDown = (e: KeyboardEvent) => {
     const code = e.code;
     this.keyPressed[code] = true;
     this.keyPress[code] = true;
   }
 
-  private onkeyup = (e: KeyboardEvent) => {
+  private onKeyUp = (e: KeyboardEvent) => {
     const code = e.code;
     this.keyReleased[code] = true;
     delete this.keyPress[code];

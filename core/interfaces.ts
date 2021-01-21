@@ -1,4 +1,4 @@
-export interface ConstructorFor<T> extends Function {
+export interface ConstructorFor<T> {
   new (...args: any[]): T;
 }
 
