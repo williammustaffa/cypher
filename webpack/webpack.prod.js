@@ -1,5 +1,5 @@
 const path = require('path');
-const common = require('./webpack.common');
+const common = require('./common');
 
 const SRC_PATH = path.resolve(__dirname, '..', 'src');
 const DIST_PATH = path.resolve(__dirname, '..', 'dist');
