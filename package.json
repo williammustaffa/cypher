@@ -27,12 +27,11 @@
   "scripts": {
     "start": "webpack serve --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js",
-    "eslint:core": "eslint -c .eslintrc ./core --cache --fix",
-    "eslint:src": "eslint -c .eslintrc ./src --cache --fix"
+    "eslint": "eslint -c .eslintrc ./src --cache --fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run eslint:core && npm run eslint:src"
+      "pre-commit": "npm run eslint"
     }
   },
   "repository": {

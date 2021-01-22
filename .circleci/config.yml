@@ -33,9 +33,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # Tests
-      - run: npm run eslint:core
-
-      - run: npm run eslint:src
+      - run: npm run eslint
 
       - run: npm run build
 
