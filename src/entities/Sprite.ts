@@ -1,6 +1,6 @@
 import uuid from 'uuid';
-import { EntityTypes, AlignmentTypes } from '@core/constants';
-import { MediaAsset } from '@core/lib';
+import { EntityTypes, AlignmentTypes } from '@src/constants';
+import { MediaAsset } from '@src/lib';
 
 export abstract class Sprite extends MediaAsset {
   id: string;
@@ -14,6 +14,7 @@ export abstract class Sprite extends MediaAsset {
   offsetBottom: number = 0;
   frameWidth: number = 0;
   frameHeight: number = 0;
+  DOMElement: HTMLImageElement;
 
   groupIdentifier: EntityTypes = EntityTypes.SPRITE;
 
@@ -28,7 +29,6 @@ export abstract class Sprite extends MediaAsset {
   }
 
   onSuccess(DOMElement: HTMLImageElement) {
-
     /* onLoad event */
     this.frameWidth = DOMElement.width / this.horizontalFrames;
     this.frameHeight = DOMElement.height / this.verticalFrames;

@@ -1,4 +1,4 @@
-import { DynamicObject } from '@core/interfaces';
+import { DynamicObject } from '@src/interfaces';
 
 export class Keyboard {
   keyPressed: DynamicObject<boolean> = {};

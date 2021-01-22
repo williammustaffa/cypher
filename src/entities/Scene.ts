@@ -1,6 +1,6 @@
 import uuid from 'uuid';
-import { Actor, Cypher } from '@core/entities';
-import { ConstructorFor } from '@core/interfaces';
+import { Actor, Cypher } from '@src/entities';
+import { ConstructorFor } from '@src/interfaces';
 
 export interface InstanceInterface {
   type: ConstructorFor<Actor>,

@@ -1,5 +1,5 @@
 import uuid from 'uuid';
-import { ConstructorFor } from '@core/interfaces';
+import { ConstructorFor } from '@src/interfaces';
 import { Cypher, EngineUtilsInferface } from './Cypher';
 import { Sprite } from './Sprite';
 
@@ -31,9 +31,9 @@ export abstract class Actor {
   sprite: ConstructorFor<Sprite>;
   spriteInstance: Sprite;
 
-  abstract create(utils?: EngineUtilsInferface): void;
-  abstract step(utils?: EngineUtilsInferface): void;
-  abstract draw(utils?: EngineUtilsInferface): void;
+  abstract create(utils: EngineUtilsInferface): void;
+  abstract step(utils: EngineUtilsInferface): void;
+  abstract draw(utils: EngineUtilsInferface): void;
 
   private engine: Cypher;
   private defaultHeight: number;

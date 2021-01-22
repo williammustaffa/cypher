@@ -1,4 +1,4 @@
-import { EntityTypes } from '@core/constants';
+import { EntityTypes } from '@src/constants';
 
 export abstract class Sound {
   volume: number = 100;

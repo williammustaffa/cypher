@@ -1,13 +1,13 @@
 import uuid from 'uuid';
-import { Surface, FpsManager, Keyboard, MediaAsset } from '@core/lib';
-import { Actor, Scene, Sprite } from '@core/entities';
-import { ConstructorFor } from '@core/interfaces';
+import { Surface, FpsManager, Keyboard, MediaAsset } from '@src/lib';
+import { Actor, Scene, Sprite } from '@src/entities';
+import { ConstructorFor } from '@src/interfaces';
 
 export interface CypherPropsInterface {
   debug?: string,
   fps?: number,
   scenes: ConstructorFor<Scene>[],
-  container: string,
+  container: HTMLElement,
 }
 
 export interface EngineUtilsInferface {
@@ -18,22 +18,22 @@ export interface EngineUtilsInferface {
 }
 
 export class Cypher {
-  public id: string;
+  id: string;
+  private height: number = 480;
+  private width: number = 640;
   private keyboard: Keyboard;
   private surface: Surface;
   private scene: Scene;
-  private fps: number = 60;
-  private width: number = 640;
-  private height: number = 480;
-  private container: string = 'body';
-  private scenes: ConstructorFor<Scene>[] = [];
+  private fps: number;
+  private scenes: ConstructorFor<Scene>[];
+  private container: HTMLElement;
   private fpsManager: FpsManager;
 
   constructor(attributes: CypherPropsInterface) {
     this.id = uuid.v4();
     this.fps = attributes.fps || 60;
     this.scenes = attributes.scenes || [];
-    this.container = attributes.container || 'body';
+    this.container = attributes.container || document.querySelector('body');
 
     this.keyboard = new Keyboard();
     this.fpsManager = new FpsManager(this.fps, this.loop);
@@ -80,10 +80,10 @@ export class Cypher {
   }
 
   private createSurface = () => {
-    this.surface = Surface.create({
+    this.surface = new Surface({
       container: this.container,
-      height: this.height.toString(),
-      width: this.width.toString(),
+      height: this.height,
+      width: this.width,
       insert: true,
     });
   }

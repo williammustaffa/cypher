@@ -1,10 +1,10 @@
-import { EntityTypes } from '@core/constants';
+import { EntityTypes } from '@src/constants';
 
 export abstract class MediaAsset {
   isReady: boolean = false;
   hasError: boolean = false;
   source: string;
-  DOMElement: HTMLImageElement;
+  DOMElement: HTMLElement | HTMLImageElement | HTMLSourceElement;
 
   protected abstract onSuccess(DOMElement: HTMLImageElement): void;
   protected abstract onFailure(errorMessage: string): void;

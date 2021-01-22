@@ -1,5 +1,5 @@
-import { AlignmentTypes } from '@core/constants';
-import { Sprite } from '@core/entities';
+import { AlignmentTypes } from '@src/constants';
+import { Sprite } from '@src/entities';
 import source from './src.png';
 
 export default class SprPlayer extends Sprite {

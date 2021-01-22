@@ -1,4 +1,4 @@
-import { Actor, EngineUtilsInferface } from '@core/entities';
+import { Actor, EngineUtilsInferface } from '@src/entities';
 import SprPlayer from '@sprites/SprPlayer';
 
 

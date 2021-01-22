@@ -1,19 +1,27 @@
-import { Sprite } from '@core/entities';
+import uuid from 'uuid';
+import { Sprite } from '@src/entities';
 
 interface SurfacePropsInterface {
   id?: string,
-  width?: string,
-  height?: string,
+  width?: number,
+  height?: number,
   style?: string,
-  container?: string,
+  container?: HTMLElement,
   insert?: boolean
 }
 
 export class Surface {
+  id: string;
+  height: number;
+  width: number;
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
 
   constructor(options: SurfacePropsInterface) {
+    this.id = uuid.v4();
+    this.height = options.height || 480;
+    this.width = options.width || 680;
+
     this.canvas = this.createCanvas(options);
     this.context = this.canvas.getContext('2d');
 
@@ -23,28 +31,16 @@ export class Surface {
     this.context.textBaseline = 'middle';
   }
 
-  static create(options: SurfacePropsInterface) {
-    const surface = new Surface({
-      id: `surface_${Math.random().toString(36).substr(2, 9)}`,
-      container: 'body',
-      width: '640',
-      height: '480',
-      ...options,
-    });
-
-    return surface;
-  }
-
-  createCanvas(options: SurfacePropsInterface): HTMLCanvasElement {
+  private createCanvas(options: SurfacePropsInterface): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
 
-    canvas.setAttribute('id', options.id);
-    canvas.setAttribute('width', options.width);
-    canvas.setAttribute('height', options.height);
+    canvas.setAttribute('id', this.id);
     canvas.setAttribute('style', options.style);
+    canvas.setAttribute('width', String(this.width));
+    canvas.setAttribute('height', String(this.height));
 
     if (options.insert) {
-      const container = document.querySelector(options.container);
+      const container = options.container;
       while (container.firstChild) {
         container.removeChild(container.lastChild);
       }
@@ -53,11 +49,6 @@ export class Surface {
     }
 
     return canvas;
-  }
-
-  update(width: string, height: string) {
-    this.canvas.setAttribute('width', width);
-    this.canvas.setAttribute('height', height);
   }
 
   drawCircle(x: number, y: number, radius: number, outline: boolean): void {

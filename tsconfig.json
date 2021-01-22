@@ -10,13 +10,13 @@
     "allowJs": true,
     "baseUrl": "./",
     "paths": {
-      "@core/*": ["core/*"],
+      "@src/*": ["src/*"],
       "@actors/*": ["demo/actors/*"],
       "@scenes/*": ["demo/scenes/*"],
       "@sounds/*": ["demo/sounds/*"],
       "@sprites/*": ["demo/sprites/*"]
     }
   },
-  "include": ["core", "demo"],
+  "include": ["src", "demo"],
   "exclude": ["dist", "node_modules", "webpack"]
 }
